@@ -16,7 +16,7 @@ function App() {
         <MessageProvider>
           <Navbar />
           <h1>hello world</h1>
-          {/* <FlowMessage
+          <FlowMessage
             content={'Hi there'}
             type={MessageType.text}
             actions={[
@@ -25,10 +25,9 @@ function App() {
                 onClick: async () => {},
               },
             ]}
-          ></FlowMessage> */}
-          {/* <ChatInterface />
-          return (<h1 className="text-3xl font-bold underline">Hello world!</h1>
-          ) */}
+          ></FlowMessage>
+          <ChatInterface />
+
           <ContractProvider>
             {/* <ViewGenerators /> */}
             <MintButton />
