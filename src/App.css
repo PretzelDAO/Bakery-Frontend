@@ -40,3 +40,7 @@
     transform: rotate(360deg);
   }
 }
+
+.mostofscreen {
+  height: 80vh;
+}

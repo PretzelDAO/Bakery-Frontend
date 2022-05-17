@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import { Web3Provider } from './context/Web3Context'
 import { Navbar } from './components/Navbar'
 import { ContractProvider } from './context/ContractContext'
 import { MintButton } from './components/MintButton'
-import styled from 'styled-components'
 import { MessageProvider, MessageType } from './context/MessageContext'
 import { FlowMessage } from './components/FlowComponents/FlowMessage'
 import { ChatInterface } from './components/ChatInterface'
@@ -14,7 +13,7 @@ function App() {
     <div className="bg-yellow-800">
       <Web3Provider>
         <MessageProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           <h1>hello world</h1>
           <FlowMessage
             content={'Hi there'}

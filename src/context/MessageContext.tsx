@@ -5,6 +5,7 @@ import { RelayProvider } from '@opengsn/provider'
 
 import { ethers } from 'ethers'
 import { CONFIG } from '../config'
+// import { connectedMessage } from '../messages/connectedMessage'
 
 enum MessageType {
   text,
@@ -15,7 +16,7 @@ enum MessageType {
 export interface Action {
   // type: MessageType,
   content: String
-  onClick: () => Promise<void>
+  onClick: (context: MessageContext) => Promise<number | void>
 }
 
 class MessageContent {
@@ -38,14 +39,7 @@ interface MessageContext {
 const MessageContext = createContext<MessageContext>({} as MessageContext)
 
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [history, setHistory] = useState([
-    new MessageContent(MessageType.text, 'Hi there, connect a wallet', [
-      {
-        content: 'Connect Metamask',
-        onClick: async () => console.log('clicked me'),
-      },
-    ]),
-  ] as MessageContent[])
+  const [history, setHistory] = useState([] as MessageContent[])
 
   const addMessage = (message: MessageContent) => {
     setHistory(history.concat([message]))
