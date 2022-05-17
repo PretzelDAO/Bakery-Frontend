@@ -1,42 +1,34 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { colors } from '../theme'
-import { isAddress } from 'ethers/lib/utils';
-import { useWeb3 } from '../context/Web3Context';
-
+import { isAddress } from 'ethers/lib/utils'
+import { useWeb3 } from '../context/Web3Context'
 
 export const Navbar = () => {
-
   const { address, loginMetamask, switchToEthereum, isCorrectChain } = useWeb3()
 
   return (
     <Bar>
-      <MenuLink>
-        Test
-      </MenuLink>
-      {
-        address ?
-          <MenuLink>
-            {address}
-          </MenuLink>
-          :
-          <button onClick={() => loginMetamask(false)}>
-            Connect Wallet
-          </button>
-
-      }
-      {isCorrectChain() || <>
-        <MenuLink>wrong chain!</MenuLink>
-        <button onClick={switchToEthereum}>
-          Switch
+      <MenuLink>Test</MenuLink>
+      {address ? (
+        <MenuLink>{address}</MenuLink>
+      ) : (
+        <button
+          onClick={() => loginMetamask(false)}
+          className="bg-red-700 w-36"
+        >
+          Connect Wallet
         </button>
-      </>}
-
-
+      )}
+      {isCorrectChain() || (
+        <>
+          <MenuLink>wrong chain!</MenuLink>
+          <button onClick={switchToEthereum}>Switch</button>
+        </>
+      )}
     </Bar>
   )
 }
-
 
 const Bar = styled.div`
   width: 100%;
@@ -52,7 +44,7 @@ const Bar = styled.div`
     grid-template-columns: 1fr;
     text-align: center;
   }
-`;
+`
 
 const MenuLink = styled.a`
   font-weight: bold;
@@ -67,7 +59,7 @@ const MenuLink = styled.a`
   @media screen and (max-width: 1000px) {
     padding: 10px 0;
   }
-`;
+`
 
 const MenuItem = styled(Link)`
   font-weight: bold;
@@ -81,11 +73,11 @@ const MenuItem = styled(Link)`
   @media screen and (max-width: 1000px) {
     padding: 10px 0;
   }
-`;
+`
 
 const Logo = styled(MenuItem)`
   font-size: 22px;
-`;
+`
 
 const MenuButton = styled.div`
   position: absolute;
@@ -93,7 +85,7 @@ const MenuButton = styled.div`
   color: #fff;
   top: 0;
   right: 0;
-`;
+`
 
 const Menuicon = styled.img`
   width: 35px;
@@ -101,4 +93,4 @@ const Menuicon = styled.img`
   :hover {
     opacity: 0.8;
   }
-`;
+`
