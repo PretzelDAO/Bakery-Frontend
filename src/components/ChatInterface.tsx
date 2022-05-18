@@ -38,7 +38,7 @@ export const ChatInterface = () => {
 
   console.log('Messages:', messageContext.history)
   return (
-    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen">
+    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide">
       <h1>Chat Below!</h1>
       <div className="mb-4 float-left">
         {messageContext.history
@@ -62,9 +62,11 @@ export const ChatInterface = () => {
         <div id="#last" />
       </div>
       <div>
-        {messageContext.history[
-          messageContext.history.length - 1
-        ]?.actions.map((a) => FlowButton(a))}
+        {messageContext.history[messageContext.history.length - 1]?.actions.map(
+          (a) => (
+            <FlowButton action={a}></FlowButton>
+          ),
+        )}
       </div>
     </div>
   )

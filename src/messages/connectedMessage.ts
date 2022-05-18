@@ -10,13 +10,20 @@ import { MessageContent, MessageType } from '../context/MessageContext'
 //   ])
 // }
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 export const connectedMessage: MessageContent = new MessageContent(
   MessageType.text,
   'Yay! you connected yout wallet',
   [
     {
       content: 'Continue',
-      onClick: async (context) => context.addMessage(connectedMessage),
+      onClick: async (context) => {
+        await sleep(2000)
+        return context.addMessage(connectedMessage)
+      },
     },
   ],
 )

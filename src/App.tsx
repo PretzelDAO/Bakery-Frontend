@@ -7,26 +7,21 @@ import { MintButton } from './components/MintButton'
 import { MessageProvider, MessageType } from './context/MessageContext'
 import { FlowMessage } from './components/FlowComponents/FlowMessage'
 import { ChatInterface } from './components/ChatInterface'
+import CSS from 'csstype'
 
 function App() {
+  const bgprops: CSS.Properties = {
+    backgroundImage: "url('/scenes/outside_bakery_1920.gif')",
+  }
+
   return (
-    <div className="bg-yellow-800">
+    <div className="bg-yellow-800 h-screen bg-center" style={bgprops}>
       <Web3Provider>
         <MessageProvider>
           {/* <Navbar /> */}
-          <h1>hello world</h1>
-          <FlowMessage
-            content={'Hi there'}
-            type={MessageType.text}
-            actions={[
-              {
-                content: 'Connect Metamask',
-                onClick: async () => {},
-              },
-            ]}
-          ></FlowMessage>
-          <ChatInterface />
-
+          <div className="flex flex-row justify-end mr-4 ml-2">
+            <ChatInterface />
+          </div>
           <ContractProvider>
             {/* <ViewGenerators /> */}
             <MintButton />
