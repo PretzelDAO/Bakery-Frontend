@@ -21,28 +21,54 @@ export interface Action {
 
 class MessageContent {
   type: MessageType
-  content: any
+  delay: number | null
+  content: any | any[]
   actions: Action[]
 
-  constructor(type: MessageType, content: any, actions: Action[]) {
+  constructor(
+    type: MessageType,
+    content: any,
+    actions?: Action[],
+    delay?: number | null,
+  ) {
     this.type = type
+    this.delay = delay ?? null
     this.content = content
-    this.actions = actions
+    this.actions = actions ?? []
   }
 }
 
 interface MessageContext {
   history: MessageContent[]
-  addMessage: (message: MessageContent) => number
+  addMessage: (message: MessageContent) => Promise<number>
 }
 
 const MessageContext = createContext<MessageContext>({} as MessageContext)
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
 
-  const addMessage = (message: MessageContent) => {
-    setHistory(history.concat([message]))
+  const addMessage = async (message: MessageContent) => {
+    if (message.delay && message.delay != null) {
+      var toAdd: MessageContent[] = []
+      for (let i = 0; i < message.content.length - 1; i++) {
+        const m = message.content[i]
+        console.log('setting content ', message.content, m)
+        toAdd = toAdd.concat([new MessageContent(message.type, m)])
+        setHistory(history.concat(toAdd))
+        await sleep(message.delay ?? 2000)
+      }
+      await sleep(message.delay ?? 2000)
+      toAdd = toAdd.concat([message])
+      setHistory(history.concat(toAdd))
+    } else {
+      console.log('NO DELAY')
+      setHistory(history.concat([message]))
+    }
     return history.length
   }
 
