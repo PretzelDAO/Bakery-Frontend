@@ -7,6 +7,7 @@ import {
 } from '../context/MessageContext'
 import { useWeb3 } from '../context/Web3Context'
 import { connectedMessage } from '../messages/connectedMessage'
+import { sleep } from '../utils/flowutils'
 import { FlowButton } from './FlowComponents/FlowButton'
 import { FlowMessage } from './FlowComponents/FlowMessage'
 
@@ -16,18 +17,26 @@ export const ChatInterface = () => {
 
   useEffect(() => {
     if (messageContext.history.length == 0)
-      messageContext.addMessage(
-        new MessageContent(MessageType.text, 'Hi there, connect a wallet', [
+      messageContext.addMessage({
+        type: MessageType.text,
+        content: 'Hi there, connect a wallet',
+        actions: [
           {
             content: 'Connect Metamask',
             onClick: async (context) => {
               console.log('lol:', context)
               await web3Context.loginMetamask(true)
-              context.addMessage(connectedMessage)
+              const hist = await context.addMessage({
+                content: 'Connecting metamask',
+                type: MessageType.text,
+                sendByUser: true,
+              })
+              await sleep(500)
+              return await context.addMessage(connectedMessage, hist)
             },
           },
-        ]),
-      )
+        ],
+      })
   }, [])
 
   // const messagesEndRef = useRef(null)
@@ -43,7 +52,7 @@ export const ChatInterface = () => {
   return (
     <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide">
       <h1>Chat Below!</h1>
-      <div className="mb-4 float-left">
+      <div className="mb-4 min-w-full px-2">
         {messageContext.history
           ? messageContext.history.map((m) => {
               return (
@@ -65,22 +74,22 @@ export const ChatInterface = () => {
         <div id="#last" />
       </div>
       <div className="mb-40 flex flex-row">
-        {messageContext.history[messageContext.history.length - 1]?.actions.map(
-          (a) => (
-            <Transition
-              appear={true}
-              show={true}
-              enter="transition transform scale ease-linear duration-300 delay-200"
-              enterFrom="opacity-0 -translate-y-2 scale-40"
-              enterTo="opacity-100 translate-y-0 scale-100"
-              leave="transition transform scale ease-linear duration-300 delay-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <FlowButton action={a}></FlowButton>
-            </Transition>
-          ),
-        )}
+        {messageContext.history[
+          messageContext.history.length - 1
+        ]?.actions?.map((a) => (
+          <Transition
+            appear={true}
+            show={true}
+            enter="transition transform scale ease-linear duration-300 delay-200"
+            enterFrom="opacity-0 -translate-y-2 scale-40"
+            enterTo="opacity-100 translate-y-0 scale-100"
+            leave="transition transform scale ease-linear duration-300 delay-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <FlowButton action={a}></FlowButton>
+          </Transition>
+        ))}
       </div>
     </div>
   )

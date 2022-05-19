@@ -16,31 +16,34 @@ enum MessageType {
 export interface Action {
   // type: MessageType,
   content: String
-  onClick: (context: MessageContext) => Promise<number | void>
+  onClick: (context: MessageContext) => Promise<MessageContent[]>
 }
 
-class MessageContent {
+export interface MessageContent {
   type: MessageType
-  delay: number | null
+  delay?: number | null
   content: any | any[]
-  actions: Action[]
-
-  constructor(
-    type: MessageType,
-    content: any,
-    actions?: Action[],
-    delay?: number | null,
-  ) {
-    this.type = type
-    this.delay = delay ?? null
-    this.content = content
-    this.actions = actions ?? []
-  }
+  actions?: Action[]
+  sendByUser?: Boolean
+  // constructor(
+  //   type: MessageType,
+  //   content: any,
+  //   actions?: Action[],
+  //   delay?: number | null,
+  // ) {
+  //   this.type = type
+  //   this.delay = delay ?? null
+  //   this.content = content
+  //   this.actions = actions ?? []
+  // }
 }
 
 interface MessageContext {
   history: MessageContent[]
-  addMessage: (message: MessageContent) => Promise<number>
+  addMessage: (
+    message: MessageContent,
+    alternateHistory?: MessageContent[],
+  ) => Promise<MessageContent[]>
 }
 
 const MessageContext = createContext<MessageContext>({} as MessageContext)
@@ -52,24 +55,27 @@ function sleep(ms: number) {
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
 
-  const addMessage = async (message: MessageContent) => {
+  const addMessage = async (
+    message: MessageContent,
+    alternateHistory?: MessageContent[],
+  ) => {
+    console.log('ADDING MESSAGE', message)
+    let hist = alternateHistory ?? history
     if (message.delay && message.delay != null) {
-      var toAdd: MessageContent[] = []
+      // var toAdd: MessageContent[] = []
       for (let i = 0; i < message.content.length - 1; i++) {
         const m = message.content[i]
         console.log('setting content ', message.content, m)
-        toAdd = toAdd.concat([new MessageContent(message.type, m)])
-        setHistory(history.concat(toAdd))
+        hist = hist.concat([{ type: message.type, content: m }])
+        setHistory(hist)
         await sleep(message.delay ?? 2000)
       }
       await sleep(message.delay ?? 2000)
-      toAdd = toAdd.concat([message])
-      setHistory(history.concat(toAdd))
-    } else {
-      console.log('NO DELAY')
-      setHistory(history.concat([message]))
     }
-    return history.length
+    hist = hist.concat([message])
+    setHistory(hist)
+
+    return hist
   }
 
   return (
@@ -81,4 +87,4 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
 
 const useMessageContext = () => React.useContext(MessageContext)
 
-export { MessageProvider, useMessageContext, MessageContent, MessageType }
+export { MessageProvider, useMessageContext, MessageType }
