@@ -1,4 +1,5 @@
 # State Machine for Messages
+The below diagram shows the flow and connection of message nodes with corresponding inputs (outputs currently not shown). To display the flow chart use a mermaid.js markdown preview extension in VS-Code. 
 
 ::: mermaid
 graph TD;
