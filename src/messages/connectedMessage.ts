@@ -1,4 +1,5 @@
 import { MessageContent, MessageType } from '../context/MessageContext'
+import { LoginState, useWeb3 } from '../context/Web3Context'
 import { sleep } from '../utils/flowutils'
 
 // function messageFromDict(dict: { content: String }) {
@@ -17,7 +18,7 @@ function buildURL() {
   return url_built
 }
 
-// ******************* [Archived] Intro Wallet Connect *******************
+// ******************* Intro Wallet Connect *******************
 export const introMessage: MessageContent = {
   content: [
     'Beep Boop!',
@@ -27,13 +28,45 @@ export const introMessage: MessageContent = {
   actions: [
     {
       content: 'In my Metamask.',
-      onClick: async (context) => {
-        await sleep(500)
-        const newHist = await context.addMessage({
+      onClick: async (context, web3) => {
+        let loginState = LoginState.notInstalled
+        let newHist = await context.addMessage({
           content: 'In my Metamask.',
           type: MessageType.text,
           sendByUser: true,
         })
+        if (web3) {
+          loginState = await web3.loginMetamask(true)
+        }
+        if (loginState == LoginState.notInstalled) {
+          console.log('No metamask')
+          await sleep(200)
+          newHist = await context.addMessage(
+            {
+              content: 'Metamask is not installed, please install it!',
+              type: MessageType.text,
+            },
+            newHist,
+          )
+          await sleep(1000)
+          newHist = await context.addMessage(introMessage, newHist)
+
+          return newHist
+        }
+        if (loginState == LoginState.error) {
+          await sleep(200)
+          newHist = await context.addMessage(
+            {
+              content: 'Metamask could not connect!',
+              type: MessageType.text,
+            },
+            newHist,
+          )
+          await sleep(1000)
+          newHist = await context.addMessage(introMessage, newHist)
+
+          return newHist
+        }
         await sleep(1500)
         // TO-DO
         return context.addMessage(introMessage2, newHist)
@@ -62,17 +95,14 @@ export const introMessage: MessageContent = {
 // TO-DO
 // - Add transition to secret room if second option clicked
 export const introMessage2: MessageContent = {
-  content: [
-    'Boop Boop! You\'re connected now.',
-    'How can I help you today?',
-  ],
+  content: ["Boop Boop! You're connected now.", 'How can I help you today?'],
   actions: [
     {
       content: 'Free Pretzel',
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'I\'d like a free pretzel.',
+          content: "I'd like a free pretzel.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -95,7 +125,7 @@ export const introMessage2: MessageContent = {
       },
     },
     {
-      content: 'No, I\'m good',
+      content: "No, I'm good",
       onClick: async (context) => {
         await sleep(500)
         // TO-DO: Redirect to landing page with "Enter Bakery" sign
@@ -112,7 +142,7 @@ export const introMessage2: MessageContent = {
 // - Add transition to secret room if second option clicked
 export const introMessage3: MessageContent = {
   content: [
-    'I guess you\'re not a big Pretzel fan.',
+    "I guess you're not a big Pretzel fan.",
     'Do you want to look at anything else?',
   ],
   actions: [
@@ -144,7 +174,7 @@ export const introMessage3: MessageContent = {
       },
     },
     {
-      content: 'No, I\'m good',
+      content: "No, I'm good",
       onClick: async (context) => {
         await sleep(500)
         // TO-DO: Redirect to landing page with "Enter Bakery" sign
@@ -163,7 +193,7 @@ export const introMessage3: MessageContent = {
 export const introAfterFreeMessage: MessageContent = {
   content: [
     'Boop Boop! Hope you enjoy those yummy Pretzels.',
-    'I mean, who doesn\'t love Pretzels!',
+    "I mean, who doesn't love Pretzels!",
     'So. Anything else I can do for you?',
   ],
   actions: [
@@ -172,7 +202,7 @@ export const introAfterFreeMessage: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'I\'d like another pretzel.',
+          content: "I'd like another pretzel.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -185,7 +215,7 @@ export const introAfterFreeMessage: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'I\'m curious about the special pretzel.',
+          content: "I'm curious about the special pretzel.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -196,7 +226,7 @@ export const introAfterFreeMessage: MessageContent = {
       },
     },
     {
-      content: 'No, I\'m good',
+      content: "No, I'm good",
       onClick: async (context) => {
         await sleep(500)
         // TO-DO: Redirect to landing page with "Enter Bakery" sign
@@ -213,7 +243,7 @@ export const introAfterFreeMessage: MessageContent = {
 // - Add transition to secret room if second option clicked
 export const introAfterSecretMessage: MessageContent = {
   content: [
-    'And we\'re back!',
+    "And we're back!",
     'Hope you liked those special pretzels.',
     'What else can I do for you?',
   ],
@@ -223,7 +253,7 @@ export const introAfterSecretMessage: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'I\'d like a free pretzel.',
+          content: "I'd like a free pretzel.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -246,7 +276,7 @@ export const introAfterSecretMessage: MessageContent = {
       },
     },
     {
-      content: 'No, I\'m good',
+      content: "No, I'm good",
       onClick: async (context) => {
         await sleep(500)
         // TO-DO: Redirect to landing page with "Enter Bakery" sign
@@ -311,7 +341,7 @@ export const freePretzelMessage1: MessageContent = {
 export const freePretzelMessage2: MessageContent = {
   content: [
     'Delicious choice!',
-    'Since it\'s your first pretzel, it\'s completely free. No gas either.',
+    "Since it's your first pretzel, it's completely free. No gas either.",
     'So, shall I give you your Pretzel?',
   ],
   actions: [
@@ -351,7 +381,7 @@ export const freePretzelMessage2: MessageContent = {
 // ************* Show Pretzel (Frame 79 - Inside Scene) *******************
 // TO-DO:
 // - Display preview image of pretzel in text
-// - add proper Opensea URL here 
+// - add proper Opensea URL here
 // - Get the contract address and build the URL
 // - Structure: opensea.io/asset/<Chain>/<Contract_Address>/<Number>
 export const freePretzelMessage3: MessageContent = {
@@ -371,7 +401,7 @@ export const freePretzelMessage3: MessageContent = {
           sendByUser: true,
         })
         await sleep(500)
-        // TO-DO 
+        // TO-DO
         const url = buildURL()
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -383,7 +413,7 @@ export const freePretzelMessage3: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'No, I\'m good.',
+          content: "No, I'm good.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -402,7 +432,7 @@ export const freePretzelMessage3: MessageContent = {
 export const freePretzelMessage4: MessageContent = {
   content: [
     'I hope you like your Pretzel!',
-    'So, anything else I can do for you?'
+    'So, anything else I can do for you?',
   ],
   actions: [
     {
@@ -423,7 +453,7 @@ export const freePretzelMessage4: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'I\'m curious about the special pretzels.',
+          content: "I'm curious about the special pretzels.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -436,7 +466,7 @@ export const freePretzelMessage4: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'No, I think I\'m done.',
+          content: "No, I think I'm done.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -464,7 +494,7 @@ export const freePretzelMessage5: MessageContent = {
       onClick: async (context) => {
         await sleep(2000)
         const newHist = await context.addMessage({
-          content: 'Yes, I\'ll take another Pretzel!',
+          content: "Yes, I'll take another Pretzel!",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -504,7 +534,7 @@ export const specialPretzelMessage1: MessageContent = {
   content: [
     'Welcome to my secret stash. OOHHHEEEE!',
     'Here I have the finest Pretzels baked by our PretzelDAO.',
-    'They\'re in limited supply, so be quick!',
+    "They're in limited supply, so be quick!",
     'Have a look below and click on the one you like.',
     '(MarketPlace){1/1 Pretels Here}',
   ],
@@ -529,7 +559,7 @@ export const specialPretzelMessage1: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'Actually, I don\'t want to buy one.',
+          content: "Actually, I don't want to buy one.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -552,7 +582,7 @@ export const specialPretzelMessage2: MessageContent = {
   content: [
     'I put your pretzel in your Wallet!',
     '(image){Preview of final bought pretzel)',
-    'Do you want to look at it on Opensea as well?'
+    'Do you want to look at it on Opensea as well?',
   ],
   actions: [
     {
@@ -560,7 +590,7 @@ export const specialPretzelMessage2: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'Yes, let\'s go to Opensea',
+          content: "Yes, let's go to Opensea",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -577,7 +607,7 @@ export const specialPretzelMessage2: MessageContent = {
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'No, I\'m good.',
+          content: "No, I'm good.",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -618,11 +648,11 @@ export const specialPretzelMessage3: MessageContent = {
       },
     },
     {
-      content: 'I\'m done',
+      content: "I'm done",
       onClick: async (context) => {
         await sleep(500)
         const newHist = await context.addMessage({
-          content: 'Let\'s go back. I\'m done.',
+          content: "Let's go back. I'm done.",
           type: MessageType.text,
           sendByUser: true,
         })

@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { Action, useMessageContext } from '../../context/MessageContext'
+import { useWeb3 } from '../../context/Web3Context'
 
 interface FlowButtonProps {
   action: Action
@@ -8,6 +9,7 @@ interface FlowButtonProps {
 export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
   const [loading, setLoading] = useState(false)
   const messageContext = useMessageContext()
+  const web3Context = useWeb3()
   console.log('bottun with', action)
   return (
     <div className="h-20 transition-all">
@@ -16,7 +18,7 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
         onClick={() => {
           setLoading(true)
           action
-            .onClick(messageContext)
+            .onClick(messageContext, web3Context)
             .then(() => setLoading(false))
             .finally(() => setLoading(false))
         }}

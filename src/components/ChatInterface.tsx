@@ -6,76 +6,16 @@ import {
   useMessageContext,
 } from '../context/MessageContext'
 import { useWeb3 } from '../context/Web3Context'
-import { introMessage2 } from '../messages/connectedMessage'
+import { introMessage, introMessage2 } from '../messages/connectedMessage'
 import { sleep } from '../utils/flowutils'
 import { FlowButton } from './FlowComponents/FlowButton'
 import { FlowMessage } from './FlowComponents/FlowMessage'
-
 
 export const ChatInterface = () => {
   const messageContext = useMessageContext()
   const web3Context = useWeb3()
 
-  const introMessage: MessageContent = {
-    content: [
-      'Beep Boop!',
-      'Welcome to the PretzelDAO Pretzery!',
-      'Before you start shopping, let me know where I should put your Pretzels?',
-    ],
-    actions: [
-      {
-        content: 'Metamask',
-        onClick: async (context) => {
-          await sleep(500)
-          console.log('lol:', context)
-          await web3Context.loginMetamask(true)
-          const newHist = await context.addMessage({
-            content: 'Put them into my Metamask.',
-            type: MessageType.text,
-            sendByUser: true,
-          })
-          await sleep(1500)
-          // TO-DO
-          return context.addMessage(introMessage2, newHist)
-        },
-      },
-      {
-        content: 'Wallet Connect',
-        onClick: async (context) => {
-          await sleep(500)
-          console.log('lol wallet connect:', context)
-          // Wallet Connect here
-          const newHist = await context.addMessage({
-            content: 'Put them into my Wallet Connect.',
-            type: MessageType.text,
-            sendByUser: true,
-          })
-          await sleep(1500)
-          // TO-DO
-          return context.addMessage(introMessage2, newHist)
-        },
-      },
-      {
-        content: 'I\'m not sure. Help!',
-        onClick: async (context) => {
-          await sleep(500)
-          console.log('lol wallet connect:', context)
-          // Wallet Connect here
-          const newHist = await context.addMessage({
-            content: 'I\'m not super. Help!',
-            type: MessageType.text,
-            sendByUser: true,
-          })
-          await sleep(1500)
-          // TO-DO
-          // Think about a little helper here
-          return context.addMessage(introMessage2, newHist)
-        },
-      },
-    ],
-    delay: 400,
-    type: MessageType.text,
-  }
+  // const introMessage: MessageContent = introMessage;
 
   useEffect(() => {
     if (messageContext.history.length == 0)
