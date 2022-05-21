@@ -67,8 +67,10 @@ export const introMessage: MessageContent = {
 
           return newHist
         }
+        if (!web3?.isCorrectChain()) {
+          return context.addMessage(changeChainMessage, newHist)
+        }
         await sleep(1500)
-        // TO-DO
         return context.addMessage(introMessage2, newHist)
       },
     },
@@ -84,6 +86,41 @@ export const introMessage: MessageContent = {
         await sleep(1500)
         // TO-DO
         return context.addMessage(introMessage2, newHist)
+      },
+    },
+  ],
+  delay: 400,
+  type: MessageType.text,
+}
+
+// ******************* Chain Swap if wrong *******************
+
+export const changeChainMessage: MessageContent = {
+  content: [
+    'ohh ohh...',
+    'You seem to be on the wrong chain, please swap to ethereum!',
+  ],
+  actions: [
+    {
+      content: 'Change to Ethereum!',
+      onClick: async (context, web3) => {
+        let newHist = await context.addMessage({
+          content: 'In my Metamask.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        await web3?.switchToEthereum()
+        if (!web3?.isCorrectChain()) {
+          return context.addMessage(changeChainMessage, newHist)
+        }
+        // TO-DO
+        return context.addMessage(introMessage2, newHist)
+      },
+    },
+    {
+      content: 'What is a chain?',
+      onClick: async (context) => {
+        return []
       },
     },
   ],

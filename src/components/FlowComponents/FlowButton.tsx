@@ -10,7 +10,6 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
   const [loading, setLoading] = useState(false)
   const messageContext = useMessageContext()
   const web3Context = useWeb3()
-  console.log('bottun with', action)
   return (
     <div className="h-20 transition-all">
       <button

@@ -172,6 +172,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     const chainConfig = CONFIG.DEV ? CONFIG.DEV_CHAIN : CONFIG.MAIN_CHAIN
     const chainId = `0x${Number(chainConfig.ID).toString(16)}`
     const params = [{ chainId }]
+    console.log('Swapping to:', chainId)
 
     try {
       await ethereum?.request({
@@ -214,6 +215,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     const supposedChainId = CONFIG.DEV
       ? CONFIG.DEV_CHAIN.ID
       : CONFIG.MAIN_CHAIN.ID
+    console.log('checking to:', supposedChainId, chainId)
     return supposedChainId === chainId
   }
 

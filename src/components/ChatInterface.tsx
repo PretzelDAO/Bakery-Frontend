@@ -31,7 +31,7 @@ export const ChatInterface = () => {
 
   // useEffect(scrollToBottom, [messageContext.history])
 
-  console.log('Messages:', messageContext.history)
+  // console.log('Messages:', messageContext.history)
   return (
     <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide">
       <h1>Chat Below!</h1>

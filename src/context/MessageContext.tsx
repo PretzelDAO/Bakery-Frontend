@@ -63,7 +63,7 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
     message: MessageContent,
     alternateHistory?: MessageContent[],
   ) => {
-    console.log('ADDING MESSAGE', message)
+    // console.log('ADDING MESSAGE', message)
     let hist = alternateHistory ?? history
     if (message.delay && message.delay != null) {
       // var toAdd: MessageContent[] = []
