@@ -58,7 +58,7 @@ export const introMessage: MessageContent = {
   type: MessageType.text,
 }
 
-// ********************* Intro (Frame 27) *********************
+// ********************* Intro (Frame 27 - Inside Scene) *********************
 // TO-DO
 // - Add transition to secret room if second option clicked
 export const introMessage2: MessageContent = {
@@ -107,7 +107,7 @@ export const introMessage2: MessageContent = {
   type: MessageType.text,
 }
 
-// ****************** Intro After Not Taking Free Pretzel *********************
+// ********* Intro After Not Taking Free Pretzel (Frame 27 - Inside Scene) ********
 // TO-DO
 // - Add transition to secret room if second option clicked
 export const introMessage3: MessageContent = {
@@ -157,7 +157,7 @@ export const introMessage3: MessageContent = {
   type: MessageType.text,
 }
 
-// ********************* Intro After Free Pretzels (Frame 27) *******************
+// ********************* Intro After Free Pretzels (Frame 27 - Inside Scene) *******************
 // TO-DO
 // - Add transition to secret room if second option clicked
 export const introAfterFreeMessage: MessageContent = {
@@ -177,7 +177,7 @@ export const introAfterFreeMessage: MessageContent = {
           sendByUser: true,
         })
         await sleep(500)
-        return context.addMessage(freePretzelMessage2, newHist)
+        return context.addMessage(freePretzelMessage5, newHist)
       },
     },
     {
@@ -208,7 +208,7 @@ export const introAfterFreeMessage: MessageContent = {
   type: MessageType.text,
 }
 
-// ********************* Intro After Secret Room (Frame 27) *********************
+// ********************* Intro After Secret Room (Frame 27 - Inside Scene) *********************
 // TO-DO
 // - Add transition to secret room if second option clicked
 export const introAfterSecretMessage: MessageContent = {
@@ -305,7 +305,7 @@ export const freePretzelMessage1: MessageContent = {
 }
 */
 
-// ************ Execute Mint (Frame 77) ********************
+// ************ Execute Mint (Frame 77 - Inside Scene) ********************
 // TO-DO:
 // - sign via Wallet and execute mint contract
 export const freePretzelMessage2: MessageContent = {
@@ -348,7 +348,7 @@ export const freePretzelMessage2: MessageContent = {
   type: MessageType.text,
 }
 
-// ************* Show Pretzel (Frame 79) *******************
+// ************* Show Pretzel (Frame 79 - Inside Scene) *******************
 // TO-DO:
 // - Display preview image of pretzel in text
 // - add proper Opensea URL here 
@@ -396,7 +396,7 @@ export const freePretzelMessage3: MessageContent = {
   type: MessageType.text,
 }
 
-// *************** Redirect Intro (Frame 80) ***************
+// *************** Redirect Intro (Frame 80 - Inside Scene) ***************
 // TO-DO:
 // - Redirect to landing page with "Enter Bakery" sign
 export const freePretzelMessage4: MessageContent = {
@@ -450,7 +450,7 @@ export const freePretzelMessage4: MessageContent = {
   type: MessageType.text,
 }
 
-// ************** Another Pretzel (Frame 81) ***************
+// ************** Another Pretzel (Frame 81 - Inside Scene) ***************
 // - sign via Wallet and execute mint contract
 export const freePretzelMessage5: MessageContent = {
   content: [
@@ -495,7 +495,7 @@ export const freePretzelMessage5: MessageContent = {
 // *********************************************************
 // ******************** Special Pretzels *******************
 
-// *********** Secret Room Intro (Frame 61) ****************
+// *********** Secret Room Intro (Frame 61 - Secret Scene) ****************
 // TO-DO
 // - Here the idea was to have a direct "shop" of the pretzels in the chat (see Frame 61)
 // - User scrolls through pretzels, clicks on the one they like, and can then mint
@@ -544,7 +544,7 @@ export const specialPretzelMessage1: MessageContent = {
   type: MessageType.text,
 }
 
-// ******************* Show Purchase (Frame 85) **************************
+// ******************* Show Purchase (Frame 85 - Secret Scene) **************************
 // TO-DO:
 // - Display preview of final purchased NFT
 // - Link to Opensea
@@ -590,7 +590,7 @@ export const specialPretzelMessage2: MessageContent = {
   type: MessageType.text,
 }
 
-// ********************* Further Purchase (Frame X) ****************
+// ********************* Further Purchase (Frame X - Secret Scene) ****************
 // TO-DO
 // - Here again the direct "shop" of the pretzels in the chat (see Frame 61)
 // - User scrolls through pretzels, clicks on the one they like, and can then mint
