@@ -24,13 +24,13 @@ export const ChatInterface = () => {
     ],
     actions: [
       {
-        content: 'In my Metamask.',
+        content: 'Metamask',
         onClick: async (context) => {
           await sleep(500)
           console.log('lol:', context)
           await web3Context.loginMetamask(true)
           const newHist = await context.addMessage({
-            content: 'In my Metamask.',
+            content: 'Put them into my Metamask.',
             type: MessageType.text,
             sendByUser: true,
           })
@@ -40,18 +40,35 @@ export const ChatInterface = () => {
         },
       },
       {
-        content: 'In my Wallet Connect.',
+        content: 'Wallet Connect',
         onClick: async (context) => {
           await sleep(500)
           console.log('lol wallet connect:', context)
           // Wallet Connect here
           const newHist = await context.addMessage({
-            content: 'In my Wallet Connect.',
+            content: 'Put them into my Wallet Connect.',
             type: MessageType.text,
             sendByUser: true,
           })
           await sleep(1500)
           // TO-DO
+          return context.addMessage(introMessage2, newHist)
+        },
+      },
+      {
+        content: 'I\'m not sure. Help!',
+        onClick: async (context) => {
+          await sleep(500)
+          console.log('lol wallet connect:', context)
+          // Wallet Connect here
+          const newHist = await context.addMessage({
+            content: 'I\'m not super. Help!',
+            type: MessageType.text,
+            sendByUser: true,
+          })
+          await sleep(1500)
+          // TO-DO
+          // Think about a little helper here
           return context.addMessage(introMessage2, newHist)
         },
       },
