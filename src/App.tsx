@@ -11,7 +11,7 @@ import CSS from 'csstype'
 
 function App() {
   const bgprops: CSS.Properties = {
-    backgroundImage: "url('/scenes/outside_bakery_1920.gif')",
+    backgroundImage: "url('/scenes/bakery_v3_smaller.gif')",
   }
 
   return (
