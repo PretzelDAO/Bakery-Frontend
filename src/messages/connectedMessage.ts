@@ -17,40 +17,6 @@ function buildURL() {
   return url_built
 }
 
-export const connectedMessage: MessageContent = {
-  content: [
-    'Yay! you connected your wallet',
-    'you are literally the best',
-    'we all love you!',
-  ],
-  actions: [
-    {
-      content: 'Continue',
-      onClick: async (context) => {
-        await sleep(500)
-        const newHist = await context.addMessage({
-          content: 'Connecting metamask',
-          type: MessageType.text,
-          sendByUser: true,
-        })
-        await sleep(500)
-        // return context.addMessage(connectedMessage, newHist)
-        return context.addMessage(introMessage)
-      },
-    },
-    {
-      content: 'Continue Anyways',
-      onClick: async (context) => {
-        await sleep(5000)
-        return context.addMessage(connectedMessage)
-        // return context.addMessage(connectedMessage)
-      },
-    },
-  ],
-  delay: 400,
-  type: MessageType.text,
-}
-
 // ******************* Intro Wallet Connect *******************
 export const introMessage: MessageContent = {
   content: [
@@ -221,7 +187,7 @@ export const freePretzelMessage2: MessageContent = {
           sendByUser: true,
         })
         await sleep(500)
-        return context.addMessage(introMessage, newHist)
+        return context.addMessage(introMessage2, newHist)
       },
     },
   ],
@@ -324,7 +290,7 @@ export const freePretzelMessage4: MessageContent = {
         })
         await sleep(500)
         // TO-DO
-        return context.addMessage(connectedMessage, newHist)
+        return context.addMessage(introMessage2, newHist)
       },
     },
   ],

@@ -6,37 +6,63 @@ import {
   useMessageContext,
 } from '../context/MessageContext'
 import { useWeb3 } from '../context/Web3Context'
-import { connectedMessage } from '../messages/connectedMessage'
+import { introMessage2 } from '../messages/connectedMessage'
 import { sleep } from '../utils/flowutils'
 import { FlowButton } from './FlowComponents/FlowButton'
 import { FlowMessage } from './FlowComponents/FlowMessage'
+
 
 export const ChatInterface = () => {
   const messageContext = useMessageContext()
   const web3Context = useWeb3()
 
+  const introMessage: MessageContent = {
+    content: [
+      'Beep Boop!',
+      'Welcome to the PretzelDAO Pretzery!',
+      'Before you start shopping, let me know where I should put your Pretzels?',
+    ],
+    actions: [
+      {
+        content: 'In my Metamask.',
+        onClick: async (context) => {
+          await sleep(500)
+          console.log('lol:', context)
+          await web3Context.loginMetamask(true)
+          const newHist = await context.addMessage({
+            content: 'In my Metamask.',
+            type: MessageType.text,
+            sendByUser: true,
+          })
+          await sleep(1500)
+          // TO-DO
+          return context.addMessage(introMessage2, newHist)
+        },
+      },
+      {
+        content: 'In my Wallet Connect.',
+        onClick: async (context) => {
+          await sleep(500)
+          console.log('lol wallet connect:', context)
+          // Wallet Connect here
+          const newHist = await context.addMessage({
+            content: 'In my Wallet Connect.',
+            type: MessageType.text,
+            sendByUser: true,
+          })
+          await sleep(1500)
+          // TO-DO
+          return context.addMessage(introMessage2, newHist)
+        },
+      },
+    ],
+    delay: 400,
+    type: MessageType.text,
+  }
+
   useEffect(() => {
     if (messageContext.history.length == 0)
-      messageContext.addMessage({
-        type: MessageType.text,
-        content: 'Hi there, connect a wallet',
-        actions: [
-          {
-            content: 'Connect Metamask',
-            onClick: async (context) => {
-              console.log('lol:', context)
-              await web3Context.loginMetamask(true)
-              const hist = await context.addMessage({
-                content: 'Connecting metamask',
-                type: MessageType.text,
-                sendByUser: true,
-              })
-              await sleep(500)
-              return await context.addMessage(connectedMessage, hist)
-            },
-          },
-        ],
-      })
+      messageContext.addMessage(introMessage)
   }, [])
 
   // const messagesEndRef = useRef(null)
