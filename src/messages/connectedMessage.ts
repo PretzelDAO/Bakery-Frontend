@@ -12,7 +12,6 @@ import { sleep } from '../utils/flowutils'
 //   ])
 // }
 
-
 // Build the URL for opening NFT in opensea
 function buildURL() {
   const url_built = 'https://opensea.io/'
@@ -72,6 +71,7 @@ export const introMessage: MessageContent = {
           return context.addMessage(changeChainMessage, newHist)
         }
         await sleep(1500)
+        context.setBackground('inside_bakery.gif')
         return context.addMessage(introMessage2, newHist)
       },
     },
@@ -386,7 +386,6 @@ export const freePretzelMessage2: MessageContent = {
     {
       content: 'Yes',
       onClick: async (context, Web3Context, contractContext) => {
-
         await sleep(2000)
         const newHist = await context.addMessage({
           content: 'Yes, give Pretzel!',
@@ -396,14 +395,10 @@ export const freePretzelMessage2: MessageContent = {
         await sleep(4000)
         // TO-DO
 
-        console.log('trying to mitn now');
-        console.log(contractContext);
-
-
-
+        console.log('trying to mitn now')
+        console.log(contractContext)
 
         await contractContext.mintGaseless()
-
 
         // Mint should happen here
         return context.addMessage(freePretzelMessage3, newHist)
@@ -436,7 +431,7 @@ export const freePretzelMessage2: MessageContent = {
 export const freePretzelMessage3: MessageContent = {
   content: [
     'I put your Pretzel in your wallet!',
-    '(image){Show Pretzel Here}',
+    '/logo192.png',
     'Do you also want to look at your Pretzel on Opensea?',
   ],
   actions: [
@@ -472,7 +467,7 @@ export const freePretzelMessage3: MessageContent = {
     },
   ],
   delay: 400,
-  type: MessageType.text,
+  type: [MessageType.text, MessageType.image, MessageType.text],
 }
 
 // *************** Redirect Intro (Frame 80 - Inside Scene) ***************
@@ -552,7 +547,6 @@ export const freePretzelMessage5: MessageContent = {
         // Mint should happen here
 
         await contractContext.mintSugarPretzel()
-
 
         return context.addMessage(freePretzelMessage3, newHist)
       },

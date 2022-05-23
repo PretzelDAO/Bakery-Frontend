@@ -27,7 +27,7 @@ export interface Action {
 }
 
 export interface MessageContent {
-  type: MessageType
+  type: MessageType | MessageType[]
   delay?: number | null
   content: any | any[]
   actions?: Action[]
@@ -51,6 +51,10 @@ interface MessageContext {
     message: MessageContent,
     alternateHistory?: MessageContent[],
   ) => Promise<MessageContent[]>
+
+  //BG
+  background: string
+  setBackground: (bg: string) => boolean
 }
 
 const MessageContext = createContext<MessageContext>({} as MessageContext)
@@ -61,6 +65,13 @@ function sleep(ms: number) {
 
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
+  const [background, setBackground] = useState('bakery_v3_smaller.gif')
+
+  const setBG = (bg: string) => {
+    if (bg == background) return false
+    setBackground(bg)
+    return true
+  }
 
   const addMessage = async (
     message: MessageContent,
@@ -68,16 +79,22 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     // console.log('ADDING MESSAGE', message)
     let hist = alternateHistory ?? history
+    const multitype = typeof message.type == 'object'
     if (message.delay && message.delay != null) {
       // var toAdd: MessageContent[] = []
       for (let i = 0; i < message.content.length - 1; i++) {
         const m = message.content[i]
         console.log('setting content ', message.content, m)
-        hist = hist.concat([{ type: message.type, content: m }])
+        hist = hist.concat([
+          {
+            type: multitype ? (message.type as MessageType[])[i] : message.type,
+            content: m,
+          },
+        ])
         setHistory(hist)
-        await sleep(message.delay ?? 2000)
+        await sleep(message.delay ?? 100)
       }
-      await sleep(message.delay ?? 2000)
+      await sleep(message.delay ?? 100)
     }
     hist = hist.concat([message])
     setHistory(hist)
@@ -86,7 +103,9 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <MessageContext.Provider value={{ history, addMessage }}>
+    <MessageContext.Provider
+      value={{ history, addMessage, setBackground: setBG, background }}
+    >
       {children}
     </MessageContext.Provider>
   )

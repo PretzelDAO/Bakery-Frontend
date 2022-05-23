@@ -37,11 +37,11 @@ export const ChatInterface = () => {
       <h1>Chat Below!</h1>
       <div className="mb-4 min-w-full px-2">
         {messageContext.history
-          ? messageContext.history.map((m) => {
+          ? messageContext.history.map((m, index) => {
               return (
                 <Transition
                   appear={true}
-                  show={true}
+                  show={index >= messageContext.history.length - 4}
                   enter="transition transform scale ease-linear duration-300 "
                   enterFrom="opacity-0 -translate-y-2 scale-40"
                   enterTo="opacity-100 translate-y-0 scale-100"

@@ -8,26 +8,23 @@ import { MessageProvider, MessageType } from './context/MessageContext'
 import { FlowMessage } from './components/FlowComponents/FlowMessage'
 import { ChatInterface } from './components/ChatInterface'
 import CSS from 'csstype'
+import { BGWrapper } from './components/BGWrapper'
 
 function App() {
-  const bgprops: CSS.Properties = {
-    backgroundImage: "url('/scenes/bakery_v3_smaller.gif')",
-  }
-
   return (
-    <div className="bg-yellow-800 h-screen bg-center" style={bgprops}>
+    <div className="">
       <Web3Provider>
         <ContractProvider>
-
           <MessageProvider>
-            <div className="flex flex-row justify-end mr-4 ml-2">
-              <ChatInterface />
-            </div>
+            <BGWrapper>
+              <div className="flex flex-row justify-end mr-4 ml-2">
+                <ChatInterface />
+              </div>
 
-            {/* <MintButton /> */}
+              {/* <MintButton /> */}
+            </BGWrapper>
           </MessageProvider>
         </ContractProvider>
-
       </Web3Provider>
     </div>
   )
