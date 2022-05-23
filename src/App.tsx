@@ -1,30 +1,36 @@
-import React from 'react';
-import './App.css';
+import React, { useEffect } from 'react'
+import './App.css'
 import { Web3Provider } from './context/Web3Context'
 import { Navbar } from './components/Navbar'
-import { ContractProvider } from './context/ContractContext';
+import { ContractProvider } from './context/ContractContext'
 import { MintButton } from './components/MintButton'
-import styled from 'styled-components';
-
-
+import { MessageProvider, MessageType } from './context/MessageContext'
+import { FlowMessage } from './components/FlowComponents/FlowMessage'
+import { ChatInterface } from './components/ChatInterface'
+import CSS from 'csstype'
 
 function App() {
+  const bgprops: CSS.Properties = {
+    backgroundImage: "url('/scenes/bakery_v3_smaller.gif')",
+  }
+
   return (
-    <Web3Provider>
-      <Navbar />
-      <h1>hello world</h1>
+    <div className="bg-yellow-800 h-screen bg-center" style={bgprops}>
+      <Web3Provider>
+        <ContractProvider>
 
-      <ContractProvider>
-        {/* <ViewGenerators /> */}
-        <MintButton />
-      </ContractProvider>
+          <MessageProvider>
+            <div className="flex flex-row justify-end mr-4 ml-2">
+              <ChatInterface />
+            </div>
 
-    </Web3Provider >
+            {/* <MintButton /> */}
+          </MessageProvider>
+        </ContractProvider>
 
-
-  );
+      </Web3Provider>
+    </div>
+  )
 }
 
-
-
-export default App;
+export default App

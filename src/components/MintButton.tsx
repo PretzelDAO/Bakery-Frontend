@@ -4,8 +4,7 @@ import { useWeb3 } from '../context/Web3Context';
 
 
 export const MintButton = () => {
-  const { mint } = useContract()
-  const { provider } = useWeb3()
+  const { mintGaseless } = useContract()
 
   // provider?.on('block', async (blockNumber) => {
   //     console.log(blockNumber);
@@ -14,7 +13,7 @@ export const MintButton = () => {
   // })
 
   return (
-    <button onClick={mint}>Mint</button>
+    <button onClick={mintGaseless}>Mint</button>
 
 
   )
