@@ -21,7 +21,7 @@ function buildURL() {
 // ******************* Intro Wallet Connect *******************
 export const introMessage: MessageContent = {
   content: [
-    'Beep Boop!',
+    'Beep Boop!\nBeeeep',
     'Welcome to the PretzelDAO Pretzery!',
     'Before you start shopping, let me know where I should put your Pretzels?',
   ],

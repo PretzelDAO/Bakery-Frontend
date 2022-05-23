@@ -16,13 +16,7 @@ function App() {
       <Web3Provider>
         <ContractProvider>
           <MessageProvider>
-            <BGWrapper>
-              <div className="flex flex-row justify-end mr-4 ml-2">
-                <ChatInterface />
-              </div>
-
-              {/* <MintButton /> */}
-            </BGWrapper>
+            <BGWrapper>{/* <MintButton /> */}</BGWrapper>
           </MessageProvider>
         </ContractProvider>
       </Web3Provider>

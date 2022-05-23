@@ -18,10 +18,10 @@ export const FlowMessage = (message: MessageContent) => {
       <div className="my-2">
         <div
           className={`mx-2  ${
-            mtype ? 'rounded-md' : 'rounded-full'
+            mtype ? 'rounded-md' : 'rounded-2xl'
           } w-max px-2 col ${
             message.sendByUser ? 'bg-yellow-200' : 'bg-white'
-          } pb-1 pt-2`}
+          } pb-1 pt-2 shadow-xl drop-shadow-lg whitespace-pre-line`}
         >
           {mtype ? (
             <img src={mcontent} className="w-full mx-2 my-4"></img>

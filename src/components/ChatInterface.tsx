@@ -33,8 +33,8 @@ export const ChatInterface = () => {
 
   // console.log('Messages:', messageContext.history)
   return (
-    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide">
-      <h1>Chat Below!</h1>
+    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide h-full justify-center">
+      {/* <h1>Chat Below!</h1> */}
       <div className="mb-4 min-w-full px-2">
         {messageContext.history
           ? messageContext.history.map((m, index) => {
@@ -56,7 +56,7 @@ export const ChatInterface = () => {
           : 'No Chat'}
         <div id="#last" />
       </div>
-      <div className="mb-40 flex flex-row">
+      <div className=" flex flex-row">
         {messageContext.history[
           messageContext.history.length - 1
         ]?.actions?.map((a) => (

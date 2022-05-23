@@ -45,6 +45,11 @@ export interface MessageContent {
   // }
 }
 
+export enum AppState {
+  welcome,
+  chat,
+}
+
 interface MessageContext {
   history: MessageContent[]
   addMessage: (
@@ -55,6 +60,8 @@ interface MessageContext {
   //BG
   background: string
   setBackground: (bg: string) => boolean
+  appState: AppState
+  setAppState: (newAppState: AppState) => boolean
 }
 
 const MessageContext = createContext<MessageContext>({} as MessageContext)
@@ -66,7 +73,13 @@ function sleep(ms: number) {
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
   const [background, setBackground] = useState('bakery_v3_smaller.gif')
+  const [appState, setAppStateProp] = useState(AppState.welcome)
 
+  const setAppState = (newAppState: AppState) => {
+    if (appState == newAppState) return false
+    setAppStateProp(newAppState)
+    return true
+  }
   const setBG = (bg: string) => {
     if (bg == background) return false
     setBackground(bg)
@@ -104,7 +117,14 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <MessageContext.Provider
-      value={{ history, addMessage, setBackground: setBG, background }}
+      value={{
+        history,
+        addMessage,
+        setBackground: setBG,
+        background,
+        appState,
+        setAppState,
+      }}
     >
       {children}
     </MessageContext.Provider>
