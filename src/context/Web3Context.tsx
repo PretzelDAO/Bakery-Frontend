@@ -28,8 +28,9 @@ export enum LoginState {
 
 export interface IWeb3Context {
   address: string
+  gaselessSigner: ethers.providers.JsonRpcSigner | undefined
   provider: ethers.providers.Web3Provider | undefined
-  signer: ethers.providers.JsonRpcSigner | undefined
+  standardSigner: ethers.providers.JsonRpcSigner | undefined
   chainId: number
   loginMetamask: (autologin: boolean) => Promise<LoginState>
   switchToEthereum: () => void
@@ -53,7 +54,7 @@ export interface IWeb3Context {
 
 // }
 
-// below doesn't work because the RelayProvider gets instantiated with a factory method.
+// wrapper needed because of typescript struggles
 class WrappedRelayProvider extends RelayProvider
   implements ethers.providers.ExternalProvider {
   send(
@@ -76,7 +77,8 @@ const Web3Context = createContext<IWeb3Context>({} as IWeb3Context)
 const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [address, setAddress] = useState('')
   const [provider, setProvider] = useState<ethers.providers.Web3Provider>()
-  const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner>()
+  const [gaselessSigner, setGaselessSigner] = useState<ethers.providers.JsonRpcSigner>()
+  const [standardSigner, setStandardSigner] = useState<ethers.providers.JsonRpcSigner>()
   const [chainId, setChainId] = useState(0)
   const [loggedIn, setLoggedIn] = useState(false)
   const [ethereum, setEthereum] = useState<any>()
@@ -149,7 +151,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       // Handle the new chain.
       // Correctly handling chain changes can be complicated.
       // We recommend reloading the page unless you have good reason not to.
-      window.location.reload()
+      // window.location.reload()
     })
 
     // Subscribe to provider connection
@@ -235,7 +237,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     })
   }, [])
 
-  const setupProvider = async () => {
+  const setupProviders = async () => {
     const relayConfing = {
       paymasterAddress: CONFIG.PAYMASTER_ADDRESS,
       // the two properties below are needed because some public RPCs only support
@@ -249,12 +251,16 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       config: relayConfing,
     }).init()) as WrappedRelayProvider
     const ethersProvider = new ethers.providers.Web3Provider(gsnProvider)
-    setProvider(ethersProvider)
-    setSigner(ethersProvider.getSigner())
+    setGaselessSigner(ethersProvider.getSigner())
+
+    const standardProvider = new ethers.providers.Web3Provider(ethereum)
+    setProvider(standardProvider)
+    setStandardSigner(standardProvider.getSigner())
+
   }
 
   useEffect(() => {
-    if (isCorrectChain()) setupProvider()
+    if (isCorrectChain()) setupProviders()
   }, [chainId])
 
   return (
@@ -262,7 +268,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       value={{
         address,
         provider,
-        signer,
+        gaselessSigner,
+        standardSigner,
         chainId,
         loginMetamask,
         switchToEthereum,
