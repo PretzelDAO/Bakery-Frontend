@@ -242,8 +242,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       paymasterAddress: CONFIG.PAYMASTER_ADDRESS,
       // the two properties below are needed because some public RPCs only support
       // limited historic block lookups
-      relayLookupWindowBlocks: 999,
-      relayRegistrationLookupBlocks: 999,
+      relayLookupWindowBlocks: 99999,
+      relayRegistrationLookupBlocks: 99999,
     }
 
     const gsnProvider = (await RelayProvider.newProvider({

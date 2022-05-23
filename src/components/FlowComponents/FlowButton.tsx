@@ -1,6 +1,8 @@
 import { FC, useState } from 'react'
 import { Action, useMessageContext } from '../../context/MessageContext'
 import { useWeb3 } from '../../context/Web3Context'
+import { useContract } from '../../context/ContractContext';
+
 
 interface FlowButtonProps {
   action: Action
@@ -10,6 +12,8 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
   const [loading, setLoading] = useState(false)
   const messageContext = useMessageContext()
   const web3Context = useWeb3()
+  const contractContext = useContract()
+
   return (
     <div className="h-20 transition-all">
       <button
@@ -17,7 +21,7 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
         onClick={() => {
           setLoading(true)
           action
-            .onClick(messageContext, web3Context)
+            .onClick(messageContext, web3Context, contractContext)
             .then(() => setLoading(false))
             .finally(() => setLoading(false))
         }}

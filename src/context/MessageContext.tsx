@@ -6,6 +6,8 @@ import { RelayProvider } from '@opengsn/provider'
 import { ethers } from 'ethers'
 import { CONFIG } from '../config'
 import { IWeb3Context } from './Web3Context'
+import { IContractContext } from './ContractContext'
+
 // import { connectedMessage } from '../messages/connectedMessage'
 
 enum MessageType {
@@ -18,8 +20,9 @@ export interface Action {
   // type: MessageType,
   content: String
   onClick: (
-    context: MessageContext,
-    web3?: IWeb3Context,
+    messageContext: MessageContext,
+    web3Context: IWeb3Context,
+    contractContext: IContractContext,
   ) => Promise<MessageContent[]>
 }
 

@@ -5,12 +5,12 @@ import contract from './SugarPretzels.json'
 import { useWeb3 } from "./Web3Context";
 
 
-interface IContractContext {
+export interface IContractContext {
     contractRead: ethers.Contract | undefined,
     contractGaselessWrite: ethers.Contract | undefined,
     contractStandardWrite: ethers.Contract | undefined,
-    mintGaseless: () => void,
-    mintSugarPretzel: () => void
+    mintGaseless: () => Promise<void>,
+    mintSugarPretzel: () => Promise<void>,
 }
 
 const ContractContext = createContext<IContractContext>({} as IContractContext);
@@ -31,6 +31,8 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
 
         try {
             const txPending = await contractGaselessWrite?.mintWithoutGas()
+            // const txPending = await contractGaselessWrite?.transferFrom('0x56512613DbF01D92F69dAC490aC9d4C03Fd12c39', '0xB4599439114a6a814218254008ed5c60D0d8049d', '1')
+
             console.log(txPending.hash);
             setTxHash(txPending.hash)
 
@@ -44,6 +46,9 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log(errorMessage);
                 setErrorMessage(errorMessage)
             }
+
+            console.log(error);
+
 
 
         }
@@ -94,7 +99,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('standardSigner set');
 
         if (gaselessSigner === undefined) return
-        setContractStandardWrite(new ethers.Contract(
+        setContractGaselessWrite(new ethers.Contract(
             CONFIG.CONTRACT_ADDRESS,
             contract.abi,
             gaselessSigner

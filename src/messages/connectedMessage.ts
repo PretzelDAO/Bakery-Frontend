@@ -12,6 +12,7 @@ import { sleep } from '../utils/flowutils'
 //   ])
 // }
 
+
 // Build the URL for opening NFT in opensea
 function buildURL() {
   const url_built = 'https://opensea.io/'
@@ -384,7 +385,8 @@ export const freePretzelMessage2: MessageContent = {
   actions: [
     {
       content: 'Yes',
-      onClick: async (context) => {
+      onClick: async (context, Web3Context, contractContext) => {
+
         await sleep(2000)
         const newHist = await context.addMessage({
           content: 'Yes, give Pretzel!',
@@ -393,6 +395,16 @@ export const freePretzelMessage2: MessageContent = {
         })
         await sleep(4000)
         // TO-DO
+
+        console.log('trying to mitn now');
+        console.log(contractContext);
+
+
+
+
+        await contractContext.mintGaseless()
+
+
         // Mint should happen here
         return context.addMessage(freePretzelMessage3, newHist)
       },
@@ -528,7 +540,7 @@ export const freePretzelMessage5: MessageContent = {
   actions: [
     {
       content: 'Yes',
-      onClick: async (context) => {
+      onClick: async (context, web3Context, contractContext) => {
         await sleep(2000)
         const newHist = await context.addMessage({
           content: "Yes, I'll take another Pretzel!",
@@ -538,6 +550,10 @@ export const freePretzelMessage5: MessageContent = {
         await sleep(4000)
         // TO-DO
         // Mint should happen here
+
+        await contractContext.mintSugarPretzel()
+
+
         return context.addMessage(freePretzelMessage3, newHist)
       },
     },

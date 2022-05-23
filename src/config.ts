@@ -1,20 +1,33 @@
-export const CONFIG = {
-    DEV: true,
-    CONTRACT_ADDRESS: '0x6aa4b22f034E5Dda647F02414eca14cf62D5b58a',
-    PAYMASTER_ADDRESS: '0x7aF84AbF3da08D9493769d37c1F61A16A5797710',
-    MAIN_CHAIN: {
+const CHAIN_CONFIG = {
+    polygon: {
         NAME: "Polygon",
         SYMBOL: "Matic",
         ID: 0,
         SCAN_LINK: "",
         RPC_URL: "",
     },
-    DEV_CHAIN: {
+    mumbai: {
         NAME: "Mumbai",
         SYMBOL: "Matic",
         ID: 80001,
         SCAN_LINK: "https://explorer-mumbai.maticvigil.com",
         RPC_URL: "https://rpc-mumbai.maticvigil.com",
     },
+    kovan: {
+        NAME: "Kovan",
+        SYMBOL: "ETH",
+        ID: 42,
+        SCAN_LINK: "https://kovan.etherscan.io",
+        RPC_URL: "https://kovan.infura.io/v3/",
+    }
+}
+
+
+export const CONFIG = {
+    DEV: true,
+    CONTRACT_ADDRESS: '0xf1838fe1459bD63aBb242E528Bc0401AA6105A35',
+    PAYMASTER_ADDRESS: '0x262FafB7cA705f7B7c3C8BFe21A9Aa2b5BaD82C7',
+    MAIN_CHAIN: CHAIN_CONFIG['polygon'],
+    DEV_CHAIN: CHAIN_CONFIG['kovan'],
     GAS_LIMIT: null,
 }

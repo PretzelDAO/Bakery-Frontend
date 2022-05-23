@@ -17,16 +17,17 @@ function App() {
   return (
     <div className="bg-yellow-800 h-screen bg-center" style={bgprops}>
       <Web3Provider>
-        <MessageProvider>
-          {/* <Navbar /> */}
-          <div className="flex flex-row justify-end mr-4 ml-2">
-            <ChatInterface />
-          </div>
-          <ContractProvider>
-            {/* <ViewGenerators /> */}
-            <MintButton />
-          </ContractProvider>
-        </MessageProvider>
+        <ContractProvider>
+
+          <MessageProvider>
+            <div className="flex flex-row justify-end mr-4 ml-2">
+              <ChatInterface />
+            </div>
+
+            {/* <MintButton /> */}
+          </MessageProvider>
+        </ContractProvider>
+
       </Web3Provider>
     </div>
   )
