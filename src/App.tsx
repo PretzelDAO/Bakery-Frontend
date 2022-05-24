@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './App.css'
 import { Web3Provider } from './context/Web3Context'
 import { Navbar } from './components/Navbar'
-import { ContractProvider } from './context/SugarPretzelContext'
+import { SugarPretzelProvider } from './context/SugarPretzelContext'
 import { MintButton } from './components/MintButton'
 import { MessageProvider, MessageType } from './context/MessageContext'
 import { FlowMessage } from './components/FlowComponents/FlowMessage'
@@ -14,11 +14,11 @@ function App() {
   return (
     <div className="">
       <Web3Provider>
-        <ContractProvider>
+        <SugarPretzelProvider>
           <MessageProvider>
             <BGWrapper>{/* <MintButton /> */}</BGWrapper>
           </MessageProvider>
-        </ContractProvider>
+        </SugarPretzelProvider>
       </Web3Provider>
     </div>
   )

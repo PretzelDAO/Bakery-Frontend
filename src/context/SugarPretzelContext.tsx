@@ -33,7 +33,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
   const [blockNumber, setBlockNumber] = useState<Number>()
   const [errorMessage, setErrorMessage] = useState<String>()
 
-  const { provider, gaslessSigner, standardSigner } = useWeb3()
+  const { provider, gaslessSigner, standardSigner, address } = useWeb3()
 
   const mintGasless = async () => {
     console.log(contractGaslessWrite)
@@ -89,6 +89,14 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
     return { mintState: MintState.failure, tokenId: -1 }
   }
 
+  const canMintGasless = async () => {
+    if (contractRead === undefined) return
+
+    const _hasMintedGasless = await contractRead.hasMintedGasless(address)
+
+    return !_hasMintedGasless
+  }
+
   useEffect(() => {
     if (provider === undefined) return
     setContractRead(
@@ -129,6 +137,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
         contractStandardWrite,
         mintGasless,
         mintSugarPretzel,
+        canMintGasless,
       }}
     >
       {children}
@@ -138,4 +147,4 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
 
 const useContract = () => React.useContext(SugarPretzelContext)
 
-export { ContractProvider, useContract }
+export { SugarPretzelProvider, useContract }
