@@ -6,7 +6,7 @@ import {
   useMessageContext,
 } from "../context/MessageContext";
 import { useWeb3 } from "../context/Web3Context";
-import { welcomeMessage, introMessage2 } from "../messages/connectedMessage";
+import { welcomeMessage, mainMenuMessage } from "../messages/connectedMessage";
 import { sleep } from "../utils/flowutils";
 import { FlowButton } from "./FlowComponents/FlowButton";
 import { FlowMessage } from "./FlowComponents/FlowMessage";
