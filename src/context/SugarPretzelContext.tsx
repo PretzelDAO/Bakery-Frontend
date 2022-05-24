@@ -10,13 +10,14 @@ export interface ISugarPretzelContext {
   contractStandardWrite: ethers.Contract | undefined
   mintGasless: () => Promise<void>
   mintSugarPretzel: () => Promise<void>
+  canMintGasless: () => Promise<boolean | undefined>
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
   {} as ISugarPretzelContext
 )
 
-const ContractProvider = ({ children }: { children: React.ReactNode }) => {
+const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   const [contractGaslessWrite, setContractGaslessWrite] =
     useState<ethers.Contract>()
   const [contractStandardWrite, setContractStandardWrite] =
@@ -26,7 +27,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
   const [blockNumber, setBlockNumber] = useState<Number>()
   const [errorMessage, setErrorMessage] = useState<String>()
 
-  const { provider, gaslessSigner, standardSigner } = useWeb3()
+  const { provider, gaslessSigner, standardSigner, address } = useWeb3()
 
   const mintGasless = async () => {
     console.log(contractGaslessWrite)
@@ -58,7 +59,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
     if (contractStandardWrite === undefined) return
 
     try {
-      const txPending = await contractStandardWrite?.mint()
+      const txPending = await contractStandardWrite?.mintStandard()
       console.log(txPending.hash)
       setTxHash(txPending.hash)
 
@@ -73,6 +74,14 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
     return
+  }
+
+  const canMintGasless = async () => {
+    if (contractRead === undefined) return
+
+    const _hasMintedGasless = await contractRead.hasMintedGasless(address)
+
+    return !_hasMintedGasless
   }
 
   useEffect(() => {
@@ -115,6 +124,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
         contractStandardWrite,
         mintGasless,
         mintSugarPretzel,
+        canMintGasless,
       }}
     >
       {children}
@@ -124,4 +134,4 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
 
 const useContract = () => React.useContext(SugarPretzelContext)
 
-export { ContractProvider, useContract }
+export { SugarPretzelProvider, useContract }
