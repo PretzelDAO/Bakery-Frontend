@@ -1,5 +1,4 @@
 import { CONFIG } from '../config';
-import { MintState } from '../context/ContractContext';
 import {
   AppState,
   MessageContent,
@@ -394,6 +393,7 @@ export const firstFreePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         });
+        await sleep(4000);
 
         //TODO if wallet is on wrong network -> changeChainPolygonMessage
 
@@ -402,18 +402,12 @@ export const firstFreePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
 
-        const mintState = await contractContext.mintGaseless();
-        if (mintState == MintState.success) {
-          return context.addMessage(freePretzelMessage2, newHist);
-        } else {
-          return context.addMessage(
-            somethingWentWrongWhileMintingMessage,
-            newHist
-          );
-        }
+        await contractContext.mintGaseless();
+
         // Mint should happen here
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
         //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
+        return context.addMessage(freePretzelMessage2, newHist);
       },
     },
     {
@@ -448,23 +442,15 @@ export const freePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         });
+        await sleep(4000);
 
         console.log('trying to mint now');
         console.log(contractContext);
         // TODO not Gasless Mint
-
-        const mintState = await contractContext.mintSugarPretzel();
-        if (mintState == MintState.success) {
-          return context.addMessage(freePretzelMessage2, newHist);
-        } else {
-          return context.addMessage(
-            somethingWentWrongWhileMintingMessage,
-            newHist
-          );
-        }
-        // await contractContext.mintGaseless();
+        await contractContext.mintGaseless();
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
         //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
+        return context.addMessage(freePretzelMessage2, newHist);
       },
     },
     {
