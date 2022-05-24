@@ -11,7 +11,10 @@ import { sleep } from '../utils/flowutils';
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
   const url_built =
-    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_CONTRACT.address + '/' + tokenid;
+    'https://opensea.io/' +
+    CONFIG.SUGAR_PRETZEL_CONTRACT.address +
+    '/' +
+    tokenid;
   return url_built;
 }
 
@@ -99,13 +102,36 @@ export const connectWalletPolygonMessage: MessageContent = {
           newHist = await context.addMessage(
             {
               content:
-                'Metamask is not installed, please install it! \nYou can find a tutorial here: https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                'Metamask is not installed, please install it! \nYou can find a tutorial below;',
               type: MessageType.text,
+              actions: [
+                {
+                  content: 'Read Tutorial!',
+                  onClick: async (context) => {
+                    const newWindow = window.open(
+                      'https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                      '_blank',
+                      'noopener,noreferrer'
+                    );
+                    if (newWindow) newWindow.opener = null;
+
+                    return [];
+                  },
+                },
+                {
+                  content: 'Another Day!',
+                  onClick: async (context) => {
+                    newHist = await context.addMessage(
+                      mainMenuMessage,
+                      newHist
+                    );
+                    return [];
+                  },
+                },
+              ],
             },
             newHist
           );
-          await sleep(1000);
-          newHist = await context.addMessage(mainMenuMessage, newHist);
 
           return newHist;
         }
@@ -696,7 +722,8 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
           sendByUser: true,
         });
         //TODO Link to Collection on Opensea
-        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_CONTRACT.address;
+        const url =
+          'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_CONTRACT.address;
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         return context.addMessage(mainMenuMessage, newHist);
       },
