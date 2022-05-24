@@ -17,7 +17,7 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
   return (
     <div className="h-20 transition-all">
       <button
-        className="p-3 bg-white transform rounded-md border-2 border-black w-max hover:bg-gray-500 hover:translate-y-1 transition-all hover:cursor-pointer mx-2"
+        className="p-3 bg-white transform rounded-md border-2 border-black w-max hover:bg-gray-400 hover:translate-y-1 transition-all hover:cursor-pointer mx-2"
         onClick={() => {
           setLoading(true)
           action

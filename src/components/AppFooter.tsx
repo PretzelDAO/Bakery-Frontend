@@ -3,7 +3,7 @@ import React from "react";
 export const AppFooter: React.FC = () => {
     return(
     <>
-        <footer className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-transparent mb-3">
+        <footer className="relative flex flex-wrap px-2 py-3 bg-transparent mb-3">
             <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <span className="text-lg sm:text-center text-white">
                     <a href="https://www.notion.so/Datenschutzerkl-rung-PretzelDAO-9a24d1a52198483e8c9cc728c554cb61" className="">

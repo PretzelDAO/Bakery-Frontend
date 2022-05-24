@@ -16,7 +16,7 @@ export const BGWrapper: React.FC = ({ children }) => {
       <AppHeader />
       {children}
       {messageContext.appState == AppState.chat && (
-        <div className="flex flex-row justify-end mr-4 ml-2">
+        <div className="flex h-screen flex-row justify-end mr-4 ml-2">
           <ChatInterface />
         </div>
       )}
