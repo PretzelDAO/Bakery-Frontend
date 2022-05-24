@@ -76,7 +76,7 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
   const [background, setBackground] = useState('bakery_v3_smaller.gif')
   const [appState, setAppStateProp] = useState(AppState.welcome)
-  const [backgroundColor, setBackgroundColor] = useState('ffd4a4')
+  const [backgroundColor, setBackgroundColor] = useState('#ffd4a4')
 
   const setAppState = (newAppState: AppState) => {
     if (appState == newAppState) return false
