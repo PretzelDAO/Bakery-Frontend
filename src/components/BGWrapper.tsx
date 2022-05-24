@@ -8,7 +8,7 @@ import { AppFooter } from './AppFooter'
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   const bgprops: CSS.Properties = {
-    backgroundImage: `url('/scenes/${messageContext.background}')`,
+    backgroundImage: `url('/scenes/scene1.png')`,
     backgroundColor: messageContext.backgroundColor,
   }
   const bgprops2: CSS.Properties = {
