@@ -1,12 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react'
-import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
-import { RelayProvider } from '@opengsn/provider'
+import React, { createContext, useEffect, useState } from 'react';
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { RelayProvider } from '@opengsn/provider';
 
-import { ethers } from 'ethers'
-import { CONFIG } from '../config'
-import { IWeb3Context } from './Web3Context'
-import { IContractContext } from './ContractContext'
+import { ethers } from 'ethers';
+import { CONFIG } from '../config';
+import { IWeb3Context } from './Web3Context';
+import { IContractContext } from './ContractContext';
 
 // import { connectedMessage } from '../messages/connectedMessage'
 
@@ -18,20 +18,20 @@ enum MessageType {
 
 export interface Action {
   // type: MessageType,
-  content: String
+  content: String;
   onClick: (
     messageContext: MessageContext,
     web3Context: IWeb3Context,
-    contractContext: IContractContext,
-  ) => Promise<MessageContent[]>
+    contractContext: IContractContext
+  ) => Promise<MessageContent[]>;
 }
 
 export interface MessageContent {
-  type: MessageType | MessageType[]
-  delay?: number | null
-  content: any | any[]
-  actions?: Action[]
-  sendByUser?: Boolean
+  type: MessageType | MessageType[];
+  delay?: number | null;
+  content: any | any[];
+  actions?: Action[];
+  sendByUser?: Boolean;
   // constructor(
   //   type: MessageType,
   //   content: any,
@@ -51,77 +51,76 @@ export enum AppState {
 }
 
 interface MessageContext {
-  history: MessageContent[]
+  history: MessageContent[];
   addMessage: (
     message: MessageContent,
-    alternateHistory?: MessageContent[],
-  ) => Promise<MessageContent[]>
+    alternateHistory?: MessageContent[]
+  ) => Promise<MessageContent[]>;
 
   //BG
-  background: string
-  setBackground: (bg: string) => boolean
-  appState: AppState
-  setAppState: (newAppState: AppState) => boolean
-  backgroundColor: string
-  setBackgroundColor: (bgColor: string) => boolean
+  background: string;
+  setBackground: (bg: string) => boolean;
+  appState: AppState;
+  setAppState: (newAppState: AppState) => boolean;
+  backgroundColor: string;
+  setBackgroundColor: (bgColor: string) => boolean;
 }
 
-const MessageContext = createContext<MessageContext>({} as MessageContext)
+const MessageContext = createContext<MessageContext>({} as MessageContext);
 
 function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [history, setHistory] = useState([] as MessageContent[])
-  const [background, setBackground] = useState('bakery_v3_smaller.gif')
-  const [appState, setAppStateProp] = useState(AppState.welcome)
-  const [backgroundColor, setBackgroundColor] = useState('#ffd4a4')
+  const [history, setHistory] = useState([] as MessageContent[]);
+  const [background, setBackground] = useState('bakery_v3_smaller.gif');
+  const [appState, setAppStateProp] = useState(AppState.welcome);
+  const [backgroundColor, setBackgroundColor] = useState('#ffd4a4');
 
   const setAppState = (newAppState: AppState) => {
-    if (appState == newAppState) return false
-    setAppStateProp(newAppState)
-    return true
-  }
+    if (appState == newAppState) return false;
+    setAppStateProp(newAppState);
+    return true;
+  };
   const setBG = (bg: string) => {
-    if (bg == background) return false
-    setBackground(bg)
-    return true
-  }
+    if (bg == background) return false;
+    setBackground(bg);
+    return true;
+  };
   const setBGColor = (bgColor: string) => {
-    if (bgColor == backgroundColor) return false
-    setBackgroundColor(bgColor)
-    return true
-  }
+    if (bgColor == backgroundColor) return false;
+    setBackgroundColor(bgColor);
+    return true;
+  };
 
   const addMessage = async (
     message: MessageContent,
-    alternateHistory?: MessageContent[],
+    alternateHistory?: MessageContent[]
   ) => {
     // console.log('ADDING MESSAGE', message)
-    let hist = alternateHistory ?? history
-    const multitype = typeof message.type == 'object'
+    let hist = alternateHistory ?? history;
+    const multitype = typeof message.type == 'object';
     if (message.delay && message.delay != null) {
       // var toAdd: MessageContent[] = []
       for (let i = 0; i < message.content.length - 1; i++) {
-        const m = message.content[i]
-        console.log('setting content ', message.content, m)
+        const m = message.content[i];
+        console.log('setting content ', message.content, m);
         hist = hist.concat([
           {
             type: multitype ? (message.type as MessageType[])[i] : message.type,
             content: m,
           },
-        ])
-        setHistory(hist)
-        await sleep(message.delay ?? 100)
+        ]);
+        setHistory(hist);
+        await sleep(message.delay ?? 100);
       }
-      await sleep(message.delay ?? 100)
     }
-    hist = hist.concat([message])
-    setHistory(hist)
+    hist = hist.concat([message]);
+    setHistory(hist);
 
-    return hist
-  }
+    return hist;
+  };
 
   return (
     <MessageContext.Provider
@@ -138,9 +137,9 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
     </MessageContext.Provider>
-  )
-}
+  );
+};
 
-const useMessageContext = () => React.useContext(MessageContext)
+const useMessageContext = () => React.useContext(MessageContext);
 
-export { MessageProvider, useMessageContext, MessageType }
+export { MessageProvider, useMessageContext, MessageType };
