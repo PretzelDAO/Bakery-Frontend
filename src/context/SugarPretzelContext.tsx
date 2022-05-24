@@ -12,15 +12,15 @@ export interface ISugarPretzelContext {
   mintSugarPretzel: () => Promise<void>
 }
 
-const SugarPretzelContext = createContext<ISugarPretzelContext>({} as ISugarPretzelContext)
+const SugarPretzelContext = createContext<ISugarPretzelContext>(
+  {} as ISugarPretzelContext
+)
 
 const ContractProvider = ({ children }: { children: React.ReactNode }) => {
-  const [contractGaslessWrite, setContractGaslessWrite] = useState<
-    ethers.Contract
-  >()
-  const [contractStandardWrite, setContractStandardWrite] = useState<
-    ethers.Contract
-  >()
+  const [contractGaslessWrite, setContractGaslessWrite] =
+    useState<ethers.Contract>()
+  const [contractStandardWrite, setContractStandardWrite] =
+    useState<ethers.Contract>()
   const [contractRead, setContractRead] = useState<ethers.Contract>()
   const [txHash, setTxHash] = useState<String>()
   const [blockNumber, setBlockNumber] = useState<Number>()
@@ -78,7 +78,11 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (provider === undefined) return
     setContractRead(
-      new ethers.Contract(CONFIG.SUGAR_PRETZEL_CONTRACT.address, contract.abi, provider),
+      new ethers.Contract(
+        CONFIG.SUGAR_PRETZEL_CONTRACT.address,
+        contract.abi,
+        provider
+      )
     )
     console.log('provider set')
 
@@ -87,8 +91,8 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
       new ethers.Contract(
         CONFIG.SUGAR_PRETZEL_CONTRACT.address,
         contract.abi,
-        standardSigner,
-      ),
+        standardSigner
+      )
     )
     console.log('standardSigner set')
 
@@ -97,8 +101,8 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
       new ethers.Contract(
         CONFIG.SUGAR_PRETZEL_CONTRACT.address,
         contract.abi,
-        gaslessSigner,
-      ),
+        gaslessSigner
+      )
     )
     console.log('gaslessSigner set')
   }, [provider, standardSigner, gaslessSigner])
