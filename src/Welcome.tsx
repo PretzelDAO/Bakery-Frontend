@@ -1,8 +1,8 @@
-import CSS from 'csstype'
-import React from 'react'
-import { AppState, useMessageContext } from './context/MessageContext'
+import CSS from "csstype";
+import React from "react";
+import { AppState, useMessageContext } from "./context/MessageContext";
 export const Welcome: React.FC = ({ children }) => {
-  const messageContext = useMessageContext()
+  const messageContext = useMessageContext();
   return (
     <div className="p-4 flex h-screen justify-center items-end">
       <div className="">
@@ -14,5 +14,5 @@ export const Welcome: React.FC = ({ children }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
