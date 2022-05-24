@@ -56,5 +56,9 @@
     "@types/styled-components": "^5.1.18",
     "eslint-plugin-react-hooks": "^4.5.0",
     "react-error-overlay": "6.0.9"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true
   }
 }
