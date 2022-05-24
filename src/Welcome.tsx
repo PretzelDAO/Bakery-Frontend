@@ -4,14 +4,13 @@ import { AppState, useMessageContext } from './context/MessageContext'
 export const Welcome: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   return (
-    <div className="flex flex-col h-full justify-between py-24">
-      <div>Welcome</div>
+    <div className="p-4 flex-grow justify-center">
 
       <button
-        className="bg-white rounded-md"
+        className="text-lg bg-white rounded-md w-40 transform border-2 border-black hover:bg-gray-400 hover:translate-y-1 transition-all hover:cursor-pointer"
         onClick={() => messageContext.setAppState(AppState.chat)}
       >
-        Get Started
+        Enter
       </button>
     </div>
   )

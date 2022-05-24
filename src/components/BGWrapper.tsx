@@ -4,6 +4,7 @@ import { AppState, useMessageContext } from '../context/MessageContext'
 import { Welcome } from '../Welcome'
 import { ChatInterface } from './ChatInterface'
 import { AppHeader } from './AppHeader'
+import { AppFooter } from './AppFooter'
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   const bgprops: CSS.Properties = {
@@ -11,7 +12,7 @@ export const BGWrapper: React.FC = ({ children }) => {
   }
 
   return (
-    <div className="bg-yellow-800 h-screen bg-center" style={bgprops}>
+    <div className="bg-yellow-800 flex flex-col h-screen bg-center" style={bgprops}>
       <AppHeader />
       {children}
       {messageContext.appState == AppState.chat && (
@@ -20,6 +21,7 @@ export const BGWrapper: React.FC = ({ children }) => {
         </div>
       )}
       {messageContext.appState == AppState.welcome && <Welcome></Welcome>}
+      <AppFooter />
     </div>
   )
 }
