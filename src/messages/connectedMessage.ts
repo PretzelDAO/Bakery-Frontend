@@ -1,5 +1,4 @@
 import { CONFIG } from '../config';
-import { MintState } from '../context/ContractContext';
 import {
   AppState,
   MessageContent,
@@ -11,7 +10,7 @@ import { sleep } from '../utils/flowutils';
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
   const url_built =
-    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_ADDRESS + '/' + tokenid;
+    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_CONTRACT.address + '/' + tokenid;
   return url_built;
 }
 
@@ -366,6 +365,7 @@ export const firstFreePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         });
+        await sleep(4000);
 
         //TODO if wallet is on wrong network -> changeChainPolygonMessage
 
@@ -374,18 +374,12 @@ export const firstFreePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
 
-        const mintState = await contractContext.mintGaseless();
-        if (mintState == MintState.success) {
-          return context.addMessage(freePretzelMessage2, newHist);
-        } else {
-          return context.addMessage(
-            somethingWentWrongWhileMintingMessage,
-            newHist
-          );
-        }
+        await contractContext.mintGasless();
+
         // Mint should happen here
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
-        //TODO if user does not sign message -> userDidNotSignTransactionMessage
+        //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
+        return context.addMessage(freePretzelMessage2, newHist);
       },
     },
     {
@@ -417,23 +411,15 @@ export const freePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         });
+        await sleep(4000);
 
         console.log('trying to mint now');
         console.log(contractContext);
         // TODO not Gasless Mint
-
-        const mintState = await contractContext.mintSugarPretzel();
-        if (mintState == MintState.success) {
-          return context.addMessage(freePretzelMessage2, newHist);
-        } else {
-          return context.addMessage(
-            somethingWentWrongWhileMintingMessage,
-            newHist
-          );
-        }
-        // await contractContext.mintGaseless();
+        await contractContext.mintGasless();
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
-        //TODO if user does not sign message -> userDidNotSignTransactionMessage
+        //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
+        return context.addMessage(freePretzelMessage2, newHist);
       },
     },
     {
@@ -628,7 +614,7 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
           sendByUser: true,
         });
         //TODO Link to Collection on Opensea
-        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_ADDRESS;
+        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_CONTRACT.address;
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         return context.addMessage(mainMenuMessage, newHist);
       },

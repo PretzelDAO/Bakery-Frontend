@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Action, useMessageContext } from '../../context/MessageContext'
 import { useWeb3 } from '../../context/Web3Context'
-import { useContract } from '../../context/ContractContext';
+import { useContract } from '../../context/SugarPretzelContext';
 
 
 interface FlowButtonProps {
