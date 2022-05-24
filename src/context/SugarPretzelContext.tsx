@@ -1,21 +1,21 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { CONFIG } from '../config'
-import contract from './SugarPretzels.json'
+import contract from './SugarPretzel.json'
 import { useWeb3 } from './Web3Context'
 
-export interface IContractContext {
+export interface ISugarPretzelContext {
   contractRead: ethers.Contract | undefined
-  contractGaselessWrite: ethers.Contract | undefined
+  contractGaslessWrite: ethers.Contract | undefined
   contractStandardWrite: ethers.Contract | undefined
-  mintGaseless: () => Promise<void>
+  mintGasless: () => Promise<void>
   mintSugarPretzel: () => Promise<void>
 }
 
-const ContractContext = createContext<IContractContext>({} as IContractContext)
+const SugarPretzelContext = createContext<ISugarPretzelContext>({} as ISugarPretzelContext)
 
 const ContractProvider = ({ children }: { children: React.ReactNode }) => {
-  const [contractGaselessWrite, setContractGaselessWrite] = useState<
+  const [contractGaslessWrite, setContractGaslessWrite] = useState<
     ethers.Contract
   >()
   const [contractStandardWrite, setContractStandardWrite] = useState<
@@ -26,15 +26,14 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
   const [blockNumber, setBlockNumber] = useState<Number>()
   const [errorMessage, setErrorMessage] = useState<String>()
 
-  const { provider, gaselessSigner, standardSigner } = useWeb3()
+  const { provider, gaslessSigner, standardSigner } = useWeb3()
 
-  const mintGaseless = async () => {
-    console.log(contractGaselessWrite)
-    if (contractGaselessWrite === undefined) return
+  const mintGasless = async () => {
+    console.log(contractGaslessWrite)
+    if (contractGaslessWrite === undefined) return
 
     try {
-      const txPending = await contractGaselessWrite?.mintWithoutGas()
-      // const txPending = await contractGaselessWrite?.transferFrom('0x56512613DbF01D92F69dAC490aC9d4C03Fd12c39', '0xB4599439114a6a814218254008ed5c60D0d8049d', '1')
+      const txPending = await contractGaslessWrite?.mintGasless()
 
       console.log(txPending.hash)
       setTxHash(txPending.hash)
@@ -93,32 +92,32 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
     )
     console.log('standardSigner set')
 
-    if (gaselessSigner === undefined) return
-    setContractGaselessWrite(
+    if (gaslessSigner === undefined) return
+    setContractGaslessWrite(
       new ethers.Contract(
         CONFIG.SUGAR_PRETZEL_CONTRACT.address,
         contract.abi,
-        gaselessSigner,
+        gaslessSigner,
       ),
     )
-    console.log('gaselessSigner set')
-  }, [provider, standardSigner, gaselessSigner])
+    console.log('gaslessSigner set')
+  }, [provider, standardSigner, gaslessSigner])
 
   return (
-    <ContractContext.Provider
+    <SugarPretzelContext.Provider
       value={{
         contractRead,
-        contractGaselessWrite,
+        contractGaslessWrite,
         contractStandardWrite,
-        mintGaseless,
+        mintGasless,
         mintSugarPretzel,
       }}
     >
       {children}
-    </ContractContext.Provider>
+    </SugarPretzelContext.Provider>
   )
 }
 
-const useContract = () => React.useContext(ContractContext)
+const useContract = () => React.useContext(SugarPretzelContext)
 
 export { ContractProvider, useContract }

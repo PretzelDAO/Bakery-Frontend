@@ -28,7 +28,7 @@ export enum LoginState {
 
 export interface IWeb3Context {
   address: string
-  gaselessSigner: ethers.providers.JsonRpcSigner | undefined
+  gaslessSigner: ethers.providers.JsonRpcSigner | undefined
   provider: ethers.providers.Web3Provider | undefined
   standardSigner: ethers.providers.JsonRpcSigner | undefined
   chainId: number
@@ -79,12 +79,12 @@ const Web3Context = createContext<IWeb3Context>({} as IWeb3Context)
 const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [address, setAddress] = useState('')
   const [provider, setProvider] = useState<ethers.providers.Web3Provider>()
-  const [gaselessSigner, setGaselessSigner] = useState<ethers.providers.JsonRpcSigner>()
+  const [gaslessSigner, setGaslessSigner] = useState<ethers.providers.JsonRpcSigner>()
   const [standardSigner, setStandardSigner] = useState<ethers.providers.JsonRpcSigner>()
   const [currentChainId, setCurrentChainId] = useState(0)
   const [loggedIn, setLoggedIn] = useState(false)
   const [ethereum, setEthereum] = useState<any>()
-  const [targetContract, setTargetContract] = useState('')
+  const [targetContract, setTargetContract] = useState('SUGAR_PRETZEL_CONTRACT')
 
   const loginMetamask = async (autologin: boolean) => {
     // nothing todo if already logged in
@@ -217,7 +217,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     console.log('fn: chain id', currentChainId)
     console.log('what', CONFIG.DEV)
 
-    const correctChain = (CONFIG as { [key: string]: any })[targetContract][CONFIG.DEV ? 'DEV_CHAIN' : 'MAIN_CHAIN']
+    const correctChain = (CONFIG as { [key: string]: any })[targetContract][CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG']
     return correctChain
   }
 
@@ -258,7 +258,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       config: relayConfing,
     }).init()) as WrappedRelayProvider
     const ethersProvider = new ethers.providers.Web3Provider(gsnProvider)
-    setGaselessSigner(ethersProvider.getSigner())
+    setGaslessSigner(ethersProvider.getSigner())
 
     const standardProvider = new ethers.providers.Web3Provider(ethereum)
     setProvider(standardProvider)
@@ -275,7 +275,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       value={{
         address,
         provider,
-        gaselessSigner,
+        gaslessSigner,
         standardSigner,
         chainId: currentChainId,
         targetContract,

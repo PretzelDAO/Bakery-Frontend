@@ -402,7 +402,7 @@ export const firstFreePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
 
-        await contractContext.mintGaseless();
+        await contractContext.mintGasless();
 
         // Mint should happen here
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
@@ -447,7 +447,7 @@ export const freePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
         // TODO not Gasless Mint
-        await contractContext.mintGaseless();
+        await contractContext.mintGasless();
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
         //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
         return context.addMessage(freePretzelMessage2, newHist);
