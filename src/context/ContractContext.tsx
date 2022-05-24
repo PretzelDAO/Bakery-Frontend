@@ -79,14 +79,14 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (provider === undefined) return
     setContractRead(
-      new ethers.Contract(CONFIG.SUGAR_PRETZEL_ADDRESS, contract.abi, provider),
+      new ethers.Contract(CONFIG.SUGAR_PRETZEL_CONTRACT.address, contract.abi, provider),
     )
     console.log('provider set')
 
     if (standardSigner === undefined) return
     setContractStandardWrite(
       new ethers.Contract(
-        CONFIG.SUGAR_PRETZEL_ADDRESS,
+        CONFIG.SUGAR_PRETZEL_CONTRACT.address,
         contract.abi,
         standardSigner,
       ),
@@ -96,7 +96,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
     if (gaselessSigner === undefined) return
     setContractGaselessWrite(
       new ethers.Contract(
-        CONFIG.SUGAR_PRETZEL_ADDRESS,
+        CONFIG.SUGAR_PRETZEL_CONTRACT.address,
         contract.abi,
         gaselessSigner,
       ),

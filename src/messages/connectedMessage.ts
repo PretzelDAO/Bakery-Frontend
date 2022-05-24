@@ -10,7 +10,7 @@ import { sleep } from '../utils/flowutils';
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
   const url_built =
-    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_ADDRESS + '/' + tokenid;
+    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_CONTRACT.address + '/' + tokenid;
   return url_built;
 }
 
@@ -682,7 +682,7 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
           sendByUser: true,
         });
         //TODO Link to Collection on Opensea
-        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_ADDRESS;
+        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_CONTRACT.address;
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         return context.addMessage(mainMenuMessage, newHist);
       },
