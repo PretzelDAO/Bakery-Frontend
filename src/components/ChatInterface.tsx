@@ -1,26 +1,26 @@
-import { Transition } from '@headlessui/react'
-import { useEffect, useRef } from 'react'
+import { Transition } from "@headlessui/react";
+import { useEffect, useRef } from "react";
 import {
   MessageContent,
   MessageType,
   useMessageContext,
-} from '../context/MessageContext'
-import { useWeb3 } from '../context/Web3Context'
-import { introMessage, introMessage2 } from '../messages/connectedMessage'
-import { sleep } from '../utils/flowutils'
-import { FlowButton } from './FlowComponents/FlowButton'
-import { FlowMessage } from './FlowComponents/FlowMessage'
+} from "../context/MessageContext";
+import { useWeb3 } from "../context/Web3Context";
+import { welcomeMessage, mainMenuMessage } from "../messages/connectedMessage";
+import { sleep } from "../utils/flowutils";
+import { FlowButton } from "./FlowComponents/FlowButton";
+import { FlowMessage } from "./FlowComponents/FlowMessage";
 
 export const ChatInterface = () => {
-  const messageContext = useMessageContext()
-  const web3Context = useWeb3()
+  const messageContext = useMessageContext();
+  const web3Context = useWeb3();
 
-  // const introMessage: MessageContent = introMessage;
+  // const welcomeMessage: MessageContent = welcomeMessage;
 
   useEffect(() => {
     if (messageContext.history.length == 0)
-      messageContext.addMessage(introMessage)
-  }, [])
+      messageContext.addMessage(welcomeMessage);
+  }, []);
 
   // const messagesEndRef = useRef(null)
 
@@ -33,15 +33,15 @@ export const ChatInterface = () => {
 
   // console.log('Messages:', messageContext.history)
   return (
-    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide">
-      <h1>Chat Below!</h1>
-      <div className="mb-4 min-w-full px-2">
+    <div className="m-4 mb-3 flex flex-col w-5/12 overflow-y-auto mostofscreen scrollbar-hide h-full justify-center">
+      {/* <h1>Chat Below!</h1> */}
+      <div className="mb-4 px-2">
         {messageContext.history
-          ? messageContext.history.map((m) => {
+          ? messageContext.history.map((m, index) => {
               return (
                 <Transition
                   appear={true}
-                  show={true}
+                  show={index >= messageContext.history.length - 4}
                   enter="transition transform scale ease-linear duration-300 "
                   enterFrom="opacity-0 -translate-y-2 scale-40"
                   enterTo="opacity-100 translate-y-0 scale-100"
@@ -51,12 +51,12 @@ export const ChatInterface = () => {
                 >
                   {FlowMessage(m)}
                 </Transition>
-              )
+              );
             })
-          : 'No Chat'}
+          : "No Chat"}
         <div id="#last" />
       </div>
-      <div className="mb-40 flex flex-row">
+      <div className=" flex flex-row">
         {messageContext.history[
           messageContext.history.length - 1
         ]?.actions?.map((a) => (
@@ -75,5 +75,5 @@ export const ChatInterface = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
