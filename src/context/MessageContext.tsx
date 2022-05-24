@@ -6,7 +6,7 @@ import { RelayProvider } from '@opengsn/provider'
 import { ethers } from 'ethers'
 import { CONFIG } from '../config'
 import { IWeb3Context } from './Web3Context'
-import { IContractContext } from './ContractContext'
+import { ISugarPretzelContext } from './SugarPretzelContext'
 
 // import { connectedMessage } from '../messages/connectedMessage'
 
@@ -22,7 +22,7 @@ export interface Action {
   onClick: (
     messageContext: MessageContext,
     web3Context: IWeb3Context,
-    contractContext: IContractContext,
+    contractContext: ISugarPretzelContext,
   ) => Promise<MessageContent[]>
 }
 

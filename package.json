@@ -58,7 +58,7 @@
     "react-error-overlay": "6.0.9"
   },
   "prettier": {
-    "semi": true,
+    "semi": false,
     "singleQuote": true
   }
 }

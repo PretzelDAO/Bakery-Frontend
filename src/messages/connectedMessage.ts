@@ -10,7 +10,7 @@ import { sleep } from '../utils/flowutils';
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
   const url_built =
-    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_ADDRESS + '/' + tokenid;
+    'https://opensea.io/' + CONFIG.SUGAR_PRETZEL_CONTRACT.address + '/' + tokenid;
   return url_built;
 }
 
@@ -402,7 +402,7 @@ export const firstFreePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
 
-        await contractContext.mintGaseless();
+        await contractContext.mintGasless();
 
         // Mint should happen here
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
@@ -447,7 +447,7 @@ export const freePretzelMessage: MessageContent = {
         console.log('trying to mint now');
         console.log(contractContext);
         // TODO not Gasless Mint
-        await contractContext.mintGaseless();
+        await contractContext.mintGasless();
         //TODO if mint fails -> somethingWentWrongWhileMintingMessage
         //TODO if user does not sign message -> userDidNotSignTransactionFreePretzelMessage
         return context.addMessage(freePretzelMessage2, newHist);
@@ -682,7 +682,7 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
           sendByUser: true,
         });
         //TODO Link to Collection on Opensea
-        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_ADDRESS;
+        const url = 'https://opensea.com/' + CONFIG.GENESIS_PRETZEL_CONTRACT.address;
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         return context.addMessage(mainMenuMessage, newHist);
       },

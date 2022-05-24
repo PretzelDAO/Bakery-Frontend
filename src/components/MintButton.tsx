@@ -1,10 +1,10 @@
-import { useContract } from '../context/ContractContext';
+import { useContract } from '../context/SugarPretzelContext';
 import styled from 'styled-components';
 import { useWeb3 } from '../context/Web3Context';
 
 
 export const MintButton = () => {
-  const { mintGaseless } = useContract()
+  const { mintGasless } = useContract()
 
   // provider?.on('block', async (blockNumber) => {
   //     console.log(blockNumber);
@@ -13,7 +13,7 @@ export const MintButton = () => {
   // })
 
   return (
-    <button onClick={mintGaseless}>Mint</button>
+    <button onClick={mintGasless}>Mint</button>
 
 
   )
