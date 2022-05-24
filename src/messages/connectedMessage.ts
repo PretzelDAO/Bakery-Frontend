@@ -19,13 +19,12 @@ export const welcomeMessage: MessageContent = {
   content: [
     'Beep Boop!',
     'Welcome to the PretzelDAO NFT Bakery!',
-    'If it is your first time here, you can get a free Sugar Pretzel.\nYou can also have a look at our special Pretzels.',
+    'If it is your first time here, you can get a free Sugar Pretzel.\nYou can also have a look at our Special Pretzels.',
   ],
   actions: [
     {
       content: 'Free Pretzel',
       onClick: async (context, web3) => {
-        await sleep(500);
         let address = web3.address;
         let newHist = await context.addMessage({
           content: 'Free Pretzels sounds great!',
@@ -34,43 +33,38 @@ export const welcomeMessage: MessageContent = {
         });
         if (address) {
           console.log('Wallet connected');
-          // if first pretzel change to F´firstFreePretzelMessage. If not first first then change to freePretzelMessage
-          await sleep(500);
+          //TODO if first pretzel change to firstFreePretzelMessage. If not first first then change to freePretzelMessage
           return context.addMessage(firstFreePretzelMessage, newHist);
         } else {
           console.log('Wallet not connected');
-          await sleep(500);
           return context.addMessage(connectWalletPolygonMessage, newHist);
         }
       },
     },
     {
-      content: 'Special Pretzels',
+      content: 'Special Pretzel',
       onClick: async (context, web3) => {
-        await sleep(500);
         let address = web3.address;
         let newHist = await context.addMessage({
-          content: 'Special Pretzels sounds interesting!',
+          content: 'Special Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
         });
         if (address) {
           console.log('Wallet connected');
-          await sleep(500);
           //TODO REDO Background
           context.setBackgroundColor('fff');
           context.setBackground('secret_bakery_scene.gif');
           //TODO if sold out then co to specialPretzelsSoldOutMessage
           return context.addMessage(specialPretzelMessage1, newHist);
         } else {
-          await sleep(500);
           context.setBackground('inside_bakery.gif');
           return context.addMessage(connectWalletEthereumMessage, newHist);
         }
       },
     },
   ],
-  delay: 500,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -94,7 +88,6 @@ export const connectWalletPolygonMessage: MessageContent = {
         }
         if (loginState == LoginState.notInstalled) {
           console.log('No metamask');
-          await sleep(200);
           newHist = await context.addMessage(
             {
               content:
@@ -103,13 +96,11 @@ export const connectWalletPolygonMessage: MessageContent = {
             },
             newHist
           );
-          await sleep(1000);
           newHist = await context.addMessage(mainMenuMessage, newHist);
 
           return newHist;
         }
         if (loginState == LoginState.error) {
-          await sleep(200);
           newHist = await context.addMessage(
             {
               content: 'Metamask could not connect!',
@@ -117,7 +108,6 @@ export const connectWalletPolygonMessage: MessageContent = {
             },
             newHist
           );
-          await sleep(1000);
           newHist = await context.addMessage(mainMenuMessage, newHist);
 
           return newHist;
@@ -125,25 +115,22 @@ export const connectWalletPolygonMessage: MessageContent = {
         if (!web3?.isCorrectChain()) {
           return context.addMessage(changeChainPolygonMessage, newHist);
         }
-        await sleep(1500);
         return context.addMessage(freePretzelMessage, newHist);
       },
     },
     {
       content: 'What is a Wallet?',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'What is a Wallet?',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(1500);
         return context.addMessage(whatIsAWalletMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -167,7 +154,6 @@ export const connectWalletEthereumMessage: MessageContent = {
         }
         if (loginState == LoginState.notInstalled) {
           console.log('No metamask');
-          await sleep(200);
           newHist = await context.addMessage(
             {
               content:
@@ -176,13 +162,11 @@ export const connectWalletEthereumMessage: MessageContent = {
             },
             newHist
           );
-          await sleep(1000);
           newHist = await context.addMessage(mainMenuMessage, newHist);
 
           return newHist;
         }
         if (loginState == LoginState.error) {
-          await sleep(200);
           newHist = await context.addMessage(
             {
               content: 'Metamask could not connect!',
@@ -190,7 +174,6 @@ export const connectWalletEthereumMessage: MessageContent = {
             },
             newHist
           );
-          await sleep(1000);
           newHist = await context.addMessage(mainMenuMessage, newHist);
 
           return newHist;
@@ -198,85 +181,84 @@ export const connectWalletEthereumMessage: MessageContent = {
         if (!web3?.isCorrectChain()) {
           return context.addMessage(changeChainEthereumMessage, newHist);
         }
-        await sleep(1500);
-        return context.addMessage(freePretzelMessage, newHist);
-      },
-    },
-    {
-      content: 'Use Wallet Connect',
-      onClick: async (context) => {
-        await sleep(500);
-        const newHist = await context.addMessage({
-          content: 'Connecting Wallet...',
-          type: MessageType.text,
-          sendByUser: true,
-        });
-        await sleep(1500);
         return context.addMessage(freePretzelMessage, newHist);
       },
     },
     {
       content: 'What is a Wallet?',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'What is a Wallet?',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(1500);
         return context.addMessage(whatIsAWalletMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
 export const whatIsAWalletMessage: MessageContent = {
   //TODO nicer formatting of Link and text.
   content: [
-    'A Wallet is your account on the Blockchain. \nIf you have not used one before, check out this lesson on Wallets: \nhttps://app.banklessacademy.com/lessons/wallet-basics',
+    'A Wallet is your account on the Blockchain. \nIf you have not used one before, check out this lesson on Wallets:',
   ],
   actions: [
     {
-      content: 'Got it!',
+      content: 'Show me!',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
-          content: 'Got it!',
+          content: 'Doing the lesson now.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(1500);
+        const url = 'https://app.banklessacademy.com/lessons/wallet-basics';
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (newWindow) newWindow.opener = null;
+        // TODO return to Polygon or Ethereum
+        return context.addMessage(connectWalletPolygonMessage, newHist);
+      },
+    },
+    {
+      content: 'I know everything!',
+      onClick: async (context) => {
+        const newHist = await context.addMessage({
+          content: 'I know everything.',
+          type: MessageType.text,
+          sendByUser: true,
+        });
         // TODO return to Polygon or Ethereum
         return context.addMessage(connectWalletPolygonMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
 export const whatIsAChainMessage: MessageContent = {
-  content: ['Description of what a Chain is. TODO'],
+  content: [
+    'A Blockchain is a decentralized ledger that lets you store data.\nFor example it stores which NFT belongs to which Wallets.',
+    'At the moment, the most common chain for NFTs is Ethereum.\nHowever, it is also quite expensive.',
+    'For our free Pretzels we therefore use Polygon.',
+  ],
   actions: [
     {
       content: 'Got it!',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'Got it!',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(1500);
         // TODO return to Polygon or Ethereum
         return context.addMessage(connectWalletPolygonMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -286,7 +268,6 @@ export const mainMenuMessage: MessageContent = {
     {
       content: 'Free Pretzel',
       onClick: async (context, web3) => {
-        await sleep(500);
         let address = web3.address;
         let newHist = await context.addMessage({
           content: 'Free Pretzels sounds great!',
@@ -295,11 +276,9 @@ export const mainMenuMessage: MessageContent = {
         });
         if (address) {
           console.log('Wallet connected');
-          await sleep(500);
           return context.addMessage(freePretzelMessage, newHist);
         } else {
           console.log('Wallet not connected');
-          await sleep(500);
           return context.addMessage(connectWalletPolygonMessage, newHist);
         }
       },
@@ -307,7 +286,6 @@ export const mainMenuMessage: MessageContent = {
     {
       content: 'Special Pretzels',
       onClick: async (context, web3) => {
-        await sleep(500);
         let address = web3.address;
         let newHist = await context.addMessage({
           content: 'Special Pretzels sounds interesting!',
@@ -316,11 +294,9 @@ export const mainMenuMessage: MessageContent = {
         });
         if (address) {
           console.log('Wallet connected');
-          await sleep(500);
           //TODO if person has not minted their free pretzel, yet then they should go to firstFreePretzel
-          return context.addMessage(freePretzelMessage, newHist);
+          return context.addMessage(specialPretzelMessage1, newHist);
         } else {
-          await sleep(500);
           return context.addMessage(connectWalletEthereumMessage, newHist);
         }
       },
@@ -328,13 +304,11 @@ export const mainMenuMessage: MessageContent = {
     {
       content: 'Leave Shop',
       onClick: async (context, web3) => {
-        await sleep(500);
         let newHist = await context.addMessage({
           content: 'Thank you so much! See you soon.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(2000);
         context.setAppState(AppState.welcome);
         return [];
       },
@@ -345,17 +319,17 @@ export const mainMenuMessage: MessageContent = {
 };
 
 export const somethingWentWrongWhileMintingMessage: MessageContent = {
-  content: ['Uh oh seams like we are having troubles right now'],
+  content: ['Uh oh, seams like something went wrong.'],
   actions: [
     {
       content: 'Try Again',
       onClick: async (context) => {
-        await sleep(200);
         let newHist = await context.addMessage({
           content: "Ok let's try again.",
           type: MessageType.text,
           sendByUser: true,
         });
+        //TODO return to minting on Polygon or Ethereum
         context.setBackground('inside_bakery.gif');
         return context.addMessage(mainMenuMessage, newHist);
       },
@@ -363,7 +337,6 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
     {
       content: 'Never Mind',
       onClick: async (context) => {
-        await sleep(200);
         let newHist = await context.addMessage({
           content: 'No, I am done.',
           type: MessageType.text,
@@ -374,20 +347,19 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
 export const firstFreePretzelMessage: MessageContent = {
   content: [
     "Since it's your first pretzel, it's completely free. No gas either.",
-    'Here you go, fresh out of the oven',
+    'Are you ready to mint?',
   ],
   actions: [
     {
-      content: 'Claim Pretzel',
+      content: 'Yes',
       onClick: async (context, Web3Context, contractContext) => {
-        await sleep(2000);
         const newHist = await context.addMessage({
           content: 'Yes, give Pretzel!',
           type: MessageType.text,
@@ -411,32 +383,29 @@ export const firstFreePretzelMessage: MessageContent = {
       },
     },
     {
-      content: 'Abort!',
+      content: 'No',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'No, I changed my mind.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         return context.addMessage(mainMenuMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 export const freePretzelMessage: MessageContent = {
   content: [
-    'Since you already have your first Pretzel, you will now have to pay gas yourself.',
+    'Since you already have your first Pretzel,\nyou will now have to pay gas yourself.',
     'Do you still want your Pretzel?',
   ],
   actions: [
     {
       content: 'Yes',
       onClick: async (context, Web3Context, contractContext) => {
-        await sleep(2000);
         const newHist = await context.addMessage({
           content: 'Yes, please!',
           type: MessageType.text,
@@ -456,22 +425,21 @@ export const freePretzelMessage: MessageContent = {
     {
       content: 'No',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'No, I changed my mind.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         return context.addMessage(mainMenuMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
-export const userDidNotSignTransactionFreePretzelMessage: MessageContent = {
+// Not used
+export const userDidNotSignTransactionMessage: MessageContent = {
   content: [
     'In order to mint your Pretzel, you need to sign the Transaction in your Wallet',
   ],
@@ -500,39 +468,7 @@ export const userDidNotSignTransactionFreePretzelMessage: MessageContent = {
       },
     },
   ],
-  delay: 400,
-  type: MessageType.text,
-};
-
-export const userDidNotSignTransactionSpecialPretzelMessage: MessageContent = {
-  content: [
-    'In order to mint your Pretzel, you need to sign the Transaction in your Wallet',
-  ],
-  actions: [
-    {
-      content: 'Try again',
-      onClick: async (context, web3) => {
-        let newHist = await context.addMessage({
-          content: 'Ok, let me try this again!',
-          type: MessageType.text,
-          sendByUser: true,
-        });
-        return context.addMessage(specialPretzelMessage1, newHist);
-      },
-    },
-    {
-      content: 'Abort!',
-      onClick: async (context, web3) => {
-        let newHist = await context.addMessage({
-          content: "I don't want to mint a pretzel!",
-          type: MessageType.text,
-          sendByUser: true,
-        });
-        return context.addMessage(mainMenuMessage, newHist);
-      },
-    },
-  ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -569,7 +505,7 @@ export const changeChainPolygonMessage: MessageContent = {
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -606,7 +542,7 @@ export const changeChainEthereumMessage: MessageContent = {
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -628,13 +564,11 @@ export const freePretzelMessage2: MessageContent = {
     {
       content: 'Yes',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'Yes, let me have a look.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         // TODO correct toke id
         const url = buildURL(1);
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
@@ -645,18 +579,16 @@ export const freePretzelMessage2: MessageContent = {
     {
       content: 'No',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: "No, I'm good.",
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         return context.addMessage(mainMenuMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: [MessageType.text, MessageType.image, MessageType.text],
 };
 
@@ -699,7 +631,7 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -708,44 +640,40 @@ export const specialPretzelMessage1: MessageContent = {
     'Welcome to my secret stash.',
     'Special Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
     'They are all unique and will be revealed on Friday 3rd of June',
-    'You can mint as many as you want. They are 0.1eth each.',
+    'You can mint as many as you want. They are 0.1 eth each.',
   ],
   actions: [
     {
       content: 'Buy Pretzel',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: 'Buy a special pretzel.',
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         // TODO Select how many pretzels you want
         // TODO if wrong chain -> changeChainEthereumMessage
         // TODO Mint
         // TODO if something went wrong -> somethingWentWrongWhileMintingMessage + change background to light szene
-        // TODO if user did not sign -> userDidNotSignTransactionSpecialPretzelMessage
+        // TODO if user did not sign -> userDidNotSignTransactionMessage
         return context.addMessage(specialPretzelMessage2, newHist);
       },
     },
     {
       content: 'Go Back',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: "Actually, I don't want to buy one.",
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         // TODO change background to light scene
         context.setBackground('inside_bakery.gif');
         return context.addMessage(mainMenuMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
 
@@ -762,13 +690,11 @@ export const specialPretzelMessage2: MessageContent = {
     {
       content: 'Take me to Opensea',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: "Yes, let's go to Opensea",
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         // TODO URL change
         const url = buildURL(1);
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
@@ -781,19 +707,17 @@ export const specialPretzelMessage2: MessageContent = {
     {
       content: 'I am good.',
       onClick: async (context) => {
-        await sleep(500);
         const newHist = await context.addMessage({
           content: "No, I'm good.",
           type: MessageType.text,
           sendByUser: true,
         });
-        await sleep(500);
         //TODO return to light scene
         context.setBackground('inside_bakery.gif');
         return context.addMessage(mainMenuMessage, newHist);
       },
     },
   ],
-  delay: 400,
+  delay: 1000,
   type: MessageType.text,
 };
