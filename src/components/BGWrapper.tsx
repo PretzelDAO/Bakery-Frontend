@@ -8,11 +8,11 @@ import { AppFooter } from './AppFooter'
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   const bgprops: CSS.Properties = {
-    backgroundImage: `url('/scenes/scene1.png')`,
-    backgroundColor: messageContext.backgroundColor,
+    backgroundImage: `url('/scenes/secret5.png')`,
+    backgroundColor: '#0e1234',
   }
   const bgprops2: CSS.Properties = {
-    background: `linear-gradient(0.25turn,#00000000,${messageContext.backgroundColor})`,
+    background: `linear-gradient(0.25turn,#00000000,#0e1234)`,
   }
 
   return (
