@@ -8,8 +8,13 @@ export interface ISugarPretzelContext {
   contractRead: ethers.Contract | undefined
   contractGaslessWrite: ethers.Contract | undefined
   contractStandardWrite: ethers.Contract | undefined
-  mintGasless: () => Promise<void>
-  mintSugarPretzel: () => Promise<void>
+  mintGasless: () => Promise<{ mintState: MintState; tokenId: number }>
+  mintSugarPretzel: () => Promise<{ mintState: MintState; tokenId: number }>
+}
+
+export enum MintState {
+  success,
+  failure,
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -17,10 +22,12 @@ const SugarPretzelContext = createContext<ISugarPretzelContext>(
 )
 
 const ContractProvider = ({ children }: { children: React.ReactNode }) => {
-  const [contractGaslessWrite, setContractGaslessWrite] =
-    useState<ethers.Contract>()
-  const [contractStandardWrite, setContractStandardWrite] =
-    useState<ethers.Contract>()
+  const [contractGaslessWrite, setContractGaslessWrite] = useState<
+    ethers.Contract
+  >()
+  const [contractStandardWrite, setContractStandardWrite] = useState<
+    ethers.Contract
+  >()
   const [contractRead, setContractRead] = useState<ethers.Contract>()
   const [txHash, setTxHash] = useState<String>()
   const [blockNumber, setBlockNumber] = useState<Number>()
@@ -30,10 +37,12 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
 
   const mintGasless = async () => {
     console.log(contractGaslessWrite)
-    if (contractGaslessWrite === undefined) return
+    if (contractGaslessWrite === undefined)
+      return { mintState: MintState.failure, tokenId: -1 }
 
     try {
       const txPending = await contractGaslessWrite?.mintGasless()
+      // const txPending = await contractGaselessWrite?.transferFrom('0x56512613DbF01D92F69dAC490aC9d4C03Fd12c39', '0xB4599439114a6a814218254008ed5c60D0d8049d', '1')
 
       console.log(txPending.hash)
       setTxHash(txPending.hash)
@@ -41,6 +50,7 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
       const txMined = await txPending.wait()
       console.log(txMined.blockNumber)
       setBlockNumber(txMined.blockNumber)
+      return { mintState: MintState.success, tokenId: 1 }
     } catch (error) {
       if (error?.code === -32603) {
         const errorMessage = error.data.message.split(': ')[1]
@@ -49,30 +59,34 @@ const ContractProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       console.log(error)
+      return { mintState: MintState.failure, tokenId: -1 }
     }
-    return
+    return { mintState: MintState.failure, tokenId: -1 }
   }
 
   const mintSugarPretzel = async () => {
     console.log(contractStandardWrite)
-    if (contractStandardWrite === undefined) return
+    if (contractStandardWrite === undefined)
+      return { mintState: MintState.failure, tokenId: -1 }
 
     try {
-      const txPending = await contractStandardWrite?.mint()
+      const txPending = await contractStandardWrite?.mintStandard()
       console.log(txPending.hash)
       setTxHash(txPending.hash)
 
       const txMined = await txPending.wait()
-      console.log(txMined.blockNumber)
+      console.log('minted on:', txMined.blockNumber)
       setBlockNumber(txMined.blockNumber)
+      return { mintState: MintState.success, tokenId: 1 }
     } catch (error) {
       if (error?.code === -32603) {
         const errorMessage = error.data.message.split(': ')[1]
         console.log(errorMessage)
         setErrorMessage(errorMessage)
       }
+      return { mintState: MintState.failure, tokenId: -1 }
     }
-    return
+    return { mintState: MintState.failure, tokenId: -1 }
   }
 
   useEffect(() => {
