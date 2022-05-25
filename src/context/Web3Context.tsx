@@ -18,7 +18,7 @@ export interface IWeb3Context {
   chainId: number
   targetContract: string
   loginMetamask: (autologin: boolean) => Promise<LoginState>
-  switchToEthereum: () => void
+  switchToCorrectChain: () => void
   isCorrectChain: () => boolean
   setTargetContract: (targetContract: string) => void
 }
@@ -135,6 +135,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       // Correctly handling chain changes can be complicated.
       // We recommend reloading the page unless you have good reason not to.
       // window.location.reload()
+      setCurrentChainId(Number(chainId))
     })
 
     // Subscribe to provider connection
@@ -153,7 +154,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     return LoginState.success
   }
 
-  const switchToEthereum = async () => {
+  const switchToCorrectChain = async () => {
     const chainConfig = getCorrectChain()
     const chainId = `0x${Number(chainConfig.ID).toString(16)}`
     const params = [{ chainId }]
@@ -195,7 +196,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
 
   const getCorrectChain = () => {
     console.log('fn: chain id', currentChainId)
-    console.log('what', CONFIG.DEV)
+    console.log('dev?', CONFIG.DEV)
 
     const correctChain = (CONFIG as { [key: string]: any })[targetContract][
       CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
@@ -206,7 +207,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const isCorrectChain = () => {
     const correctChain = getCorrectChain()
 
-    console.log('checking to:', currentChainId)
+    console.log('checking to:', correctChain.ID)
     return correctChain.ID === currentChainId
   }
 
@@ -261,7 +262,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         chainId: currentChainId,
         targetContract,
         loginMetamask,
-        switchToEthereum,
+        switchToCorrectChain,
         isCorrectChain,
         setTargetContract,
       }}

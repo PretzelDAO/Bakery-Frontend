@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import { Web3Provider } from './context/Web3Context'
-import { Navbar } from './components/Navbar'
 import { SugarPretzelProvider } from './context/SugarPretzelContext'
 import { MintButton } from './components/MintButton'
 import { MessageProvider, MessageType } from './context/MessageContext'
