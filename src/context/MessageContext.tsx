@@ -64,6 +64,8 @@ interface MessageContext {
   setAppState: (newAppState: AppState) => boolean;
   backgroundColor: string;
   setBackgroundColor: (bgColor: string) => boolean;
+  backgroundColor2: string;
+  setBackgroundColor2: (bgColor: string) => boolean;
 }
 
 const MessageContext = createContext<MessageContext>({} as MessageContext);
@@ -77,6 +79,7 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [background, setBackground] = useState('bakery_v3_smaller.gif');
   const [appState, setAppStateProp] = useState(AppState.welcome);
   const [backgroundColor, setBackgroundColor] = useState('#ffd4a4');
+  const [backgroundColor2, setBackgroundColor2] = useState('transparent');
 
   const setAppState = (newAppState: AppState) => {
     if (appState == newAppState) return false;
@@ -91,6 +94,11 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const setBGColor = (bgColor: string) => {
     if (bgColor == backgroundColor) return false;
     setBackgroundColor(bgColor);
+    return true;
+  };
+  const setBGColor2 = (bgColor2: string) => {
+    if (bgColor2 == backgroundColor) return false;
+    setBackgroundColor2(bgColor2);
     return true;
   };
 
@@ -131,8 +139,10 @@ const MessageProvider = ({ children }: { children: React.ReactNode }) => {
         background,
         appState,
         backgroundColor,
+        backgroundColor2,
         setAppState,
         setBackgroundColor: setBGColor,
+        setBackgroundColor2: setBGColor2,
       }}
     >
       {children}

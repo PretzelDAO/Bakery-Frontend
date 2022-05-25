@@ -15,13 +15,12 @@ export const BGWrapper: React.FC = ({ children }) => {
     background: `linear-gradient(0.25turn,#00000000,${messageContext.backgroundColor})`,
   }
   const bgpropsColor: CSS.Properties = {
-    backgroundColor: `${messageContext.backgroundColor}`,
+    backgroundColor: `${messageContext.backgroundColor2}`,
   }
 
   return (
     <div className="bg-yellow-800 flex flex-col h-screen bg-center" style={bgprops}>
-      <div style={bgpropsColor}>
-      <div className="flex flex-col h-screen bg-center" style={bgprops2}>
+      <div className="flex flex-col h-screen bg-center" style={bgpropsColor}>
         <AppHeader />
         {children}
         {messageContext.appState == AppState.chat && (
@@ -50,7 +49,6 @@ export const BGWrapper: React.FC = ({ children }) => {
         )}
         {messageContext.appState == AppState.welcome && <Welcome></Welcome>}
         <AppFooter />
-      </div>
       </div>
     </div>
   )
