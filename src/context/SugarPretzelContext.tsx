@@ -8,9 +8,9 @@ export interface ISugarPretzelContext {
   contractRead: ethers.Contract | undefined
   contractGaslessWrite: ethers.Contract | undefined
   contractStandardWrite: ethers.Contract | undefined
-  mintGasless: () => Promise<void>
-  mintSugarPretzel: () => Promise<void>
-  canMintGasless: () => Promise<boolean | undefined>
+  mintGasless: () => Promise<number>
+  mintSugarPretzel: () => Promise<number>
+  canMintGasless: () => Promise<boolean>
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -24,66 +24,79 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     useState<ethers.Contract>()
   const [contractRead, setContractRead] = useState<ethers.Contract>()
   const [txHash, setTxHash] = useState<String>()
-  const [blockNumber, setBlockNumber] = useState<Number>()
-  const [errorMessage, setErrorMessage] = useState<String>()
 
   const { provider, gaslessSigner, standardSigner, address } = useWeb3()
 
-  const mintGasless = async () => {
-    console.log(contractGaslessWrite)
-    if (contractGaslessWrite === undefined) return
-
+  const _mint = async (fn: (args: any) => Promise<any>, args: object) => {
     try {
-      const txPending = await contractGaslessWrite?.mintGasless({
-        gasLimit: 300000,
-      })
-
+      const txPending = await fn(args ?? {})
       console.log(txPending.hash)
       setTxHash(txPending.hash)
 
-      const txMined = await txPending.wait()
-      console.log(txMined.blockNumber)
-      setBlockNumber(txMined.blockNumber)
+      const txMinted = await txPending.wait()
+      console.log(txMinted)
+      console.log(txMinted.blockNumber)
+
+      const tokenId = txMinted.events[0].args[2] as ethers.BigNumber
+
+      console.log(tokenId)
+      console.log(tokenId.toNumber())
+      return tokenId.toNumber()
     } catch (error) {
       if (error?.code === -32603) {
         const errorMessage = error.data.message.split(': ')[1]
         console.log(errorMessage)
-        setErrorMessage(errorMessage)
       }
-
-      console.log(error)
+      return -1
     }
-    return
+  }
+
+  const mintGasless = async () => {
+    console.log(contractGaslessWrite)
+    if (contractGaslessWrite === undefined) return -1
+
+    return _mint(contractGaslessWrite.mintGasless, {
+      gasLimit: 300000,
+    })
+
+    // try {
+    //   const txPending = await contractGaslessWrite.mintGasless({
+    //     gasLimit: 300000,
+    //   })
+
+    //   console.log(txPending.hash)
+    //   setTxHash(txPending.hash)
+
+    //   const txMined = await txPending.wait()
+    //   console.log(txMined)
+    // } catch (error) {
+    //   if (error?.code === -32603) {
+    //     const errorMessage = error.data.message.split(': ')[1]
+    //     console.log(errorMessage)
+    //   }
+
+    //   console.log(error)
+    // }
+    // return -1
   }
 
   const mintSugarPretzel = async () => {
     console.log(contractStandardWrite)
-    if (contractStandardWrite === undefined) return
+    if (contractStandardWrite === undefined) return -1
 
-    try {
-      const txPending = await contractStandardWrite?.mintStandard()
-      console.log(txPending.hash)
-      setTxHash(txPending.hash)
-
-      const txMined = await txPending.wait()
-      console.log(txMined.blockNumber)
-      setBlockNumber(txMined.blockNumber)
-    } catch (error) {
-      if (error?.code === -32603) {
-        const errorMessage = error.data.message.split(': ')[1]
-        console.log(errorMessage)
-        setErrorMessage(errorMessage)
-      }
-    }
-    return
+    return _mint(contractStandardWrite.mintStandard, {})
   }
 
   const canMintGasless = async () => {
-    if (contractRead === undefined) return
+    if (contractRead === undefined) return false
 
-    const _hasMintedGasless = await contractRead.hasMintedGasless(address)
-
-    return !_hasMintedGasless
+    try {
+      const hasMintedGasless = await contractRead.hasMintedGasless(address)
+      return !hasMintedGasless
+    } catch (error) {
+      console.log(error)
+      return false
+    }
   }
 
   useEffect(() => {
