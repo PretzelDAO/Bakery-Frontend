@@ -34,7 +34,9 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     if (contractGaslessWrite === undefined) return
 
     try {
-      const txPending = await contractGaslessWrite?.mintGasless()
+      const txPending = await contractGaslessWrite?.mintGasless({
+        gasLimit: 300000,
+      })
 
       console.log(txPending.hash)
       setTxHash(txPending.hash)
