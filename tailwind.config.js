@@ -14,6 +14,7 @@ module.exports = {
       pretzelTeal: '#00e0ac',
       pretzelYellow: '#fcfc62',
       pretzelBabyBlue: '#99e3ff',
+      pretzelChatColor: '#FCAF58',
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],
