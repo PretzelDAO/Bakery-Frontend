@@ -10,7 +10,7 @@ export interface ISugarPretzelContext {
   contractStandardWrite: ethers.Contract | undefined
   mintGasless: () => Promise<void>
   mintSugarPretzel: () => Promise<void>
-  canMintGasless: () => Promise<boolean | undefined>
+  canMintGasless: () => Promise<boolean>
 }
 
 const SugarPretzelContext = createContext<ISugarPretzelContext>(
@@ -79,11 +79,15 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const canMintGasless = async () => {
-    if (contractRead === undefined) return
+    if (contractRead === undefined) return false
 
-    const _hasMintedGasless = await contractRead.hasMintedGasless(address)
-
-    return !_hasMintedGasless
+    try {
+      const hasMintedGasless = await contractRead.hasMintedGasless(address)
+      return !hasMintedGasless
+    } catch (error) {
+      console.log(error)
+      return false
+    }
   }
 
   useEffect(() => {

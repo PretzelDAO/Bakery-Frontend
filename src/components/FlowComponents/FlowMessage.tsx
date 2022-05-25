@@ -1,13 +1,13 @@
-import { Transition } from '@headlessui/react';
-import { MessageContent, MessageType } from '../../context/MessageContext';
-import { FlowButton } from './FlowButton';
+import { Transition } from '@headlessui/react'
+import { MessageContent, MessageType } from '../../context/MessageContext'
+import { FlowButton } from './FlowButton'
 
 export const FlowMessage = (message: MessageContent) => {
-  const mtype = message.type == MessageType.image;
+  const mtype = message.type == MessageType.image
   const mcontent =
     message.delay != null
       ? message.content[message.content.length - 1]
-      : message.content;
+      : message.content
   //TODO Nicer Formatting of Link
 
   return (
@@ -33,5 +33,5 @@ export const FlowMessage = (message: MessageContent) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

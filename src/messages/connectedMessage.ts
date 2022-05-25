@@ -81,11 +81,8 @@ export const welcomeMessage: MessageContent = {
         })
         if (address) {
           console.log('Wallet connected')
-          //const canMintGasless = ISugarPretzelContext.canMintGasless()
-          //TODO @Nick was not able to use function because of this Error: This condition will always return true since this 'Promise<boolean | undefined>' is always defined.  TS2801
-          const canMintGasless = true
-          if (canMintGasless) {
-            //TODO @Nick canMitGasless testing
+          const _canMintGasless = await ISugarPretzelContext.canMintGasless()
+          if (_canMintGasless) {
             return context.addMessage(firstFreePretzelMessage, newHist)
           } else {
             return context.addMessage(freePretzelMessage, newHist)
