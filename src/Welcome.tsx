@@ -11,7 +11,9 @@ export const Welcome: React.FC = ({ children }) => {
           onClick={() => {
             messageContext.setAppState(AppState.chat);
 
-            messageContext.setBackground('inside_bakery.gif');
+            messageContext.setBackground('/scenes/inside_bakery_scene.mp4');
+            messageContext.setBackgroundColor('#ffd4a4');
+            messageContext.setBackgroundColor2('#ffd4a4');
           }}
         >
           Enter

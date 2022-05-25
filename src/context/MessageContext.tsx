@@ -48,6 +48,7 @@ export interface MessageContent {
 export enum AppState {
   welcome,
   chat,
+  secret,
 }
 
 interface MessageContext {
@@ -76,7 +77,7 @@ function sleep(ms: number) {
 
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[]);
-  const [background, setBackground] = useState('bakery_v3_smaller.gif');
+  const [background, setBackground] = useState('outside_bakery_scene.gif');
   const [appState, setAppStateProp] = useState(AppState.welcome);
   const [backgroundColor, setBackgroundColor] = useState('#ffd4a4');
   const [backgroundColor2, setBackgroundColor2] = useState('transparent');

@@ -19,6 +19,14 @@ function buildURL(tokenid: number) {
   return url_built
 }
 
+function changeToInside() {
+  return 
+}
+
+function changeToSecret(){
+  return
+}
+
 // Mint Special Pretzel. Removed this function from specialPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
 function mintSpecialPretzel(
@@ -100,8 +108,11 @@ export const welcomeMessage: MessageContent = {
         if (address) {
           console.log('Wallet connected')
           //TODO @Alex REDO Background
-          context.setBackgroundColor('fff')
-          context.setBackground('secret_bakery_scene.gif')
+          //changeToSecret()
+          context.setBackground('/scenes/secret_bakery_scene.mp4')
+          context.setBackgroundColor('#0e1234')
+          context.setBackgroundColor2('#0e1234')
+          context.setAppState(AppState.secret)
           const soldOut = false
           //TODO @Nick Special Pretzel Sold Out Function
           if (soldOut) {
@@ -110,7 +121,11 @@ export const welcomeMessage: MessageContent = {
             return context.addMessage(specialPretzelMessage1, newHist)
           }
         } else {
-          context.setBackground('inside_bakery.gif')
+          //changeToSecret()
+          context.setBackground('/scenes/inside_bakery_scene.mp4')
+          context.setBackgroundColor('#ffd4a4')
+          context.setBackgroundColor2('#ffd4a4')
+          context.setAppState(AppState.chat)
           return context.addMessage(connectWalletEthereumMessage, newHist)
         }
       },
@@ -376,6 +391,11 @@ export const mainMenuMessage: MessageContent = {
         })
         if (address) {
           console.log('Wallet connected')
+          //changeToSecret()
+          context.setBackground('/scenes/secret_bakery_scene.mp4')
+          context.setBackgroundColor('#0e1234')
+          context.setBackgroundColor2('#0e1234')
+          context.setAppState(AppState.secret)
           return context.addMessage(specialPretzelMessage1, newHist)
         } else {
           return context.addMessage(connectWalletEthereumMessage, newHist)
@@ -666,7 +686,7 @@ export const freePretzelMessage2: MessageContent = {
   content: [
     'Look at this fantastic Pretzel:',
     //TODO @Nick correct image
-    '/logo192.png',
+    '/mock_pretzel_192.png',
     'Do you also want to look at your Pretzel on Opensea?',
   ],
   actions: [
@@ -796,7 +816,11 @@ export const specialPretzelMessage1: MessageContent = {
           sendByUser: true,
         })
         // TODO @Alex change background to light scene
-        context.setBackground('inside_bakery.gif')
+        //changeToInsde()
+        context.setBackground('/scenes/inside_bakery_scene.mp4')
+        context.setBackgroundColor('#ffd4a4')
+        context.setBackgroundColor2('#ffd4a4')
+        context.setAppState(AppState.chat)
         return context.addMessage(mainMenuMessage, newHist)
       },
     },
@@ -828,7 +852,11 @@ export const specialPretzelMessage2: MessageContent = {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
         //TODO @Alex return to light scene
-        context.setBackground('inside_bakery.gif')
+        //changeToInsde()
+        context.setBackground('/scenes/inside_bakery_scene.mp4')
+        context.setBackgroundColor('#ffd4a4')
+        context.setBackgroundColor2('#ffd4a4')
+        context.setAppState(AppState.chat)
         return context.addMessage(mainMenuMessage, newHist)
       },
     },
@@ -841,7 +869,11 @@ export const specialPretzelMessage2: MessageContent = {
           sendByUser: true,
         })
         //TODO @Alex return to light scene
-        context.setBackground('inside_bakery.gif')
+        //changeToInsde()
+        context.setBackground('/scenes/inside_bakery_scene.mp4')
+        context.setBackgroundColor('#ffd4a4')
+        context.setBackgroundColor2('#ffd4a4')
+        context.setAppState(AppState.chat)
         return context.addMessage(mainMenuMessage, newHist)
       },
     },
