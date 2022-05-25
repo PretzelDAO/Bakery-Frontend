@@ -33,7 +33,7 @@ export const ChatInterface = () => {
 
   // console.log('Messages:', messageContext.history)
   return (
-    <div className="m-4 mb-3 flex flex-col w-5/12 overflow-y-auto mostofscreen scrollbar-hide h-full justify-center">
+    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide h-full justify-center">
       {/* <h1>Chat Below!</h1> */}
       <div className="mb-4 px-2">
         {messageContext.history
