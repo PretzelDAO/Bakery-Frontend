@@ -15,7 +15,7 @@ export interface IWeb3Context {
   gaslessSigner: ethers.providers.JsonRpcSigner | undefined
   provider: ethers.providers.Web3Provider | undefined
   standardSigner: ethers.providers.JsonRpcSigner | undefined
-  chainId: number
+  currentChainId: number
   targetContract: string
   loginMetamask: (autologin: boolean) => Promise<LoginState>
   switchToCorrectChain: () => void
@@ -236,12 +236,17 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       relayRegistrationLookupBlocks: 99999,
     }
 
-    const gsnProvider = (await RelayProvider.newProvider({
-      provider: ethereum,
-      config: relayConfing,
-    }).init()) as WrappedRelayProvider
-    const ethersProvider = new ethers.providers.Web3Provider(gsnProvider)
-    setGaslessSigner(ethersProvider.getSigner())
+    try {
+      const gsnProvider = (await RelayProvider.newProvider({
+        provider: ethereum,
+        config: relayConfing,
+      }).init()) as WrappedRelayProvider
+      const ethersProvider = new ethers.providers.Web3Provider(gsnProvider)
+      setGaslessSigner(ethersProvider.getSigner())
+    } catch (error) {
+      console.log(error)
+      console.log('Could not set up gasless signer because on wrong network.')
+    }
 
     const standardProvider = new ethers.providers.Web3Provider(ethereum)
     setProvider(standardProvider)
@@ -259,7 +264,7 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         provider,
         gaslessSigner,
         standardSigner,
-        chainId: currentChainId,
+        currentChainId,
         targetContract,
         loginMetamask,
         switchToCorrectChain,

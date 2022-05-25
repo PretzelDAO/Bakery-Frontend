@@ -53,7 +53,7 @@ export enum AppState {
   secret,
 }
 
-interface MessageContext {
+export interface MessageContext {
   history: MessageContent[]
   addMessage: (
     message: MessageContent,

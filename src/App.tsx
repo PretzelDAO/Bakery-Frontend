@@ -2,11 +2,8 @@ import React, { useEffect } from 'react'
 import './App.css'
 import { Web3Provider } from './context/Web3Context'
 import { SugarPretzelProvider } from './context/SugarPretzelContext'
-import { MintButton } from './components/MintButton'
-import { MessageProvider, MessageType } from './context/MessageContext'
-import { FlowMessage } from './components/FlowComponents/FlowMessage'
-import { ChatInterface } from './components/ChatInterface'
-import CSS from 'csstype'
+import { GenesisPretzelProvider } from './context/GenesisPretzelContext'
+import { MessageProvider } from './context/MessageContext'
 import { BGWrapper } from './components/BGWrapper'
 
 function App() {
@@ -14,9 +11,11 @@ function App() {
     <div className="">
       <Web3Provider>
         <SugarPretzelProvider>
-          <MessageProvider>
-            <BGWrapper>{/* <MintButton /> */}</BGWrapper>
-          </MessageProvider>
+          <GenesisPretzelProvider>
+            <MessageProvider>
+              <BGWrapper>{/* <MintButton /> */}</BGWrapper>
+            </MessageProvider>
+          </GenesisPretzelProvider>
         </SugarPretzelProvider>
       </Web3Provider>
     </div>

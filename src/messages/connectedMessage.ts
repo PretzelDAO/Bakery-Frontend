@@ -6,6 +6,8 @@ import {
 } from '../context/MessageContext'
 import { LoginState } from '../context/Web3Context'
 import { sleep } from '../utils/flowutils'
+import { MessageContext } from '../context/MessageContext'
+import { IGenesisPretzelContext } from '../context/GenesisPretzelContext'
 
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
@@ -27,36 +29,38 @@ function changeToSecret() {
 
 // Mint Special Pretzel. Removed this function from specialPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
-function mintSpecialPretzel(
-  context: any,
-  contractContext: any,
-  numberOfPretzeles: number,
-  newHist: any
+async function mintSpecialPretzel(
+  messageContext: MessageContext,
+  genesisPretzelContext: IGenesisPretzelContext,
+  numberOfPretzels: number,
+  newHist: MessageContent[]
 ) {
   //TODO @Nick what network is wallet on?
   const walletNetwork = 'Ethereum'
-  newHist = context.addMessage({
+  newHist = await messageContext.addMessage({
     content: 'Minting Pretzel(s) now ...',
     type: MessageType.text,
   })
   if (walletNetwork == 'Ethereum') {
     console.log('trying to mint now')
-    console.log(contractContext)
-    // TODO @Nick mint <numberOfPretzels> Pretzel
+    console.log(genesisPretzelContext)
+    const tokenId = await genesisPretzelContext.mint(numberOfPretzels)
 
-    const mintSuccessful = true
-    //TODO @Nick mintSuccessful check
+    const mintSuccessful = tokenId >= 0
     if (!mintSuccessful) {
       console.log('Mint unSuccessful')
-      return context.addMessage(somethingWentWrongWhileMintingMessage, newHist)
+      return messageContext.addMessage(
+        somethingWentWrongWhileMintingMessage,
+        newHist
+      )
     } else {
       console.log('Mint successful')
       //TODO @Johannes, this failes
-      return context.addMessage(specialPretzelMessage2, newHist)
+      return await messageContext.addMessage(specialPretzelMessage2, newHist)
     }
   } else {
     console.log('wrong chain')
-    return context.addMessage(changeChainEthereumMessage, newHist)
+    return messageContext.addMessage(changeChainEthereumMessage, newHist)
   }
 }
 
@@ -814,35 +818,65 @@ export const specialPretzelMessage1: MessageContent = {
   actions: [
     {
       content: '1',
-      onClick: async (context, contractContext) => {
-        let newHist = await context.addMessage({
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
+        let newHist = await messageContext.addMessage({
           content: '1 is fine, thx!',
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(context, contractContext, 1, newHist)
+        return mintSpecialPretzel(
+          messageContext,
+          genesisPretzelContext,
+          1,
+          newHist
+        )
       },
     },
     {
       content: '2',
-      onClick: async (context, contractContext) => {
-        let newHist = await context.addMessage({
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
+        let newHist = await messageContext.addMessage({
           content: 'I am having 2, please.',
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(context, contractContext, 2, newHist)
+        return mintSpecialPretzel(
+          messageContext,
+          genesisPretzelContext,
+          2,
+          newHist
+        )
       },
     },
     {
       content: '3',
-      onClick: async (context, contractContext) => {
-        let newHist = await context.addMessage({
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
+        let newHist = await messageContext.addMessage({
           content: 'I am having 3, please!',
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(context, contractContext, 3, newHist)
+        return mintSpecialPretzel(
+          messageContext,
+          genesisPretzelContext,
+          3,
+          newHist
+        )
       },
     },
     {
