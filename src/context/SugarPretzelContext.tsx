@@ -58,26 +58,6 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     return _mint(contractGaslessWrite.mintGasless, {
       gasLimit: 300000,
     })
-
-    // try {
-    //   const txPending = await contractGaslessWrite.mintGasless({
-    //     gasLimit: 300000,
-    //   })
-
-    //   console.log(txPending.hash)
-    //   setTxHash(txPending.hash)
-
-    //   const txMined = await txPending.wait()
-    //   console.log(txMined)
-    // } catch (error) {
-    //   if (error?.code === -32603) {
-    //     const errorMessage = error.data.message.split(': ')[1]
-    //     console.log(errorMessage)
-    //   }
-
-    //   console.log(error)
-    // }
-    // return -1
   }
 
   const mintSugarPretzel = async () => {
