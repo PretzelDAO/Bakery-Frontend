@@ -100,6 +100,6 @@ const GenesisPretzelProvider = ({
   )
 }
 
-const useContract = () => React.useContext(GenesisPretzelContext)
+const useGenesisPretzelContract = () => React.useContext(GenesisPretzelContext)
 
-export { GenesisPretzelProvider, useContract }
+export { GenesisPretzelProvider, useGenesisPretzelContract }
