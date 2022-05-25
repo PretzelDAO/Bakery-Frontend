@@ -45,6 +45,7 @@ function mintSpecialPretzel(
       return context.addMessage(somethingWentWrongWhileMintingMessage, newHist)
     } else {
       console.log('Mint successful')
+      //TODO @Johannes, this failes
       return context.addMessage(specialPretzelMessage2, newHist)
     }
   } else {
