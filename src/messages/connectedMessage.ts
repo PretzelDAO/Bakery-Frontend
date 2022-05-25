@@ -523,8 +523,11 @@ export const firstFreePretzelMessage: MessageContent = {
               newHist
             )
           } else {
+            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/'+tokenId)
+            const datajson = await data.json()
+            console.log("RESPONSE:",datajson)
             newHist = await messageContext.addMessage({
-              content: CONFIG.BACKEND_URL + '/bakery/' + tokenId,
+              content: datajson?.image,
               type: MessageType.image,
               sendByUser: true,
             })
@@ -580,8 +583,11 @@ export const freePretzelMessage: MessageContent = {
               newHist
             )
           } else {
+            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/'+tokenId)
+            const datajson = await data.json()
+            console.log("RESPONSE:",datajson)
             newHist = await messageContext.addMessage({
-              content: CONFIG.BACKEND_URL + '/bakery/' + tokenId,
+              content: datajson?.image,
               type: MessageType.image,
               sendByUser: true,
             })
@@ -759,7 +765,7 @@ export const freePretzelMessage2: MessageContent = {
     },
   ],
   delay: 1000,
-  type: [MessageType.text, MessageType.image, MessageType.text],
+  type: [MessageType.text, MessageType.text],
 }
 
 // *********************************************************
