@@ -411,6 +411,9 @@ export const mainMenuMessage: MessageContent = {
           sendByUser: true,
         })
         context.setAppState(AppState.welcome)
+        context.setBackground('outside_bakery_scene.gif')
+        context.setBackgroundColor('transparent')
+        context.setBackgroundColor2('transparent')
         return []
       },
     },
@@ -686,7 +689,7 @@ export const freePretzelMessage2: MessageContent = {
   content: [
     'Look at this fantastic Pretzel:',
     //TODO @Nick correct image
-    '/mock_pretzel_192.png',
+    '/mock_pretzel_170.png',
     'Do you also want to look at your Pretzel on Opensea?',
   ],
   actions: [

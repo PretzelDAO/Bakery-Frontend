@@ -32,7 +32,7 @@ export const BGWrapper: React.FC = ({ children }) => {
                   autoPlay
                   loop
                   muted
-                  className="absolute object-fit w-3/5 z-0"
+                  className="absolute object-fit w-7/12 z-0"
                 >
                   <source
                     src='/scenes/inside_bakery_scene.mp4'
@@ -56,7 +56,7 @@ export const BGWrapper: React.FC = ({ children }) => {
                   autoPlay
                   loop
                   muted
-                  className="absolute object-fit w-3/5 z-0"
+                  className="absolute object-fit w-7/12 z-0"
                 >
                   <source
                     src='/scenes/secret_bakery_scene.mp4'
