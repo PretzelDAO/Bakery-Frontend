@@ -1,24 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react'
-import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import { RelayProvider } from '@opengsn/provider'
 
 import { ethers } from 'ethers'
 import { CONFIG } from '../config'
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: 'INFURA_ID', // required
-    },
-  },
-}
-const web3Modal = new Web3Modal({
-  // network: "mainnet", // optional
-  // cacheProvider: true, // optional
-  providerOptions, // required
-})
 
 export enum LoginState {
   success,
@@ -57,11 +41,13 @@ export interface IWeb3Context {
 // }
 
 // wrapper needed because of typescript struggles
-class WrappedRelayProvider extends RelayProvider
-  implements ethers.providers.ExternalProvider {
+class WrappedRelayProvider
+  extends RelayProvider
+  implements ethers.providers.ExternalProvider
+{
   send(
     request: { method: string; params?: Array<any> },
-    callback: (error: any, response: any) => void | undefined,
+    callback: (error: any, response: any) => void | undefined
   ): void {
     super.send(
       {
@@ -69,7 +55,7 @@ class WrappedRelayProvider extends RelayProvider
         method: request.method,
         params: request.params ?? [],
       },
-      callback,
+      callback
     )
   }
 }
@@ -79,8 +65,10 @@ const Web3Context = createContext<IWeb3Context>({} as IWeb3Context)
 const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [address, setAddress] = useState('')
   const [provider, setProvider] = useState<ethers.providers.Web3Provider>()
-  const [gaslessSigner, setGaslessSigner] = useState<ethers.providers.JsonRpcSigner>()
-  const [standardSigner, setStandardSigner] = useState<ethers.providers.JsonRpcSigner>()
+  const [gaslessSigner, setGaslessSigner] =
+    useState<ethers.providers.JsonRpcSigner>()
+  const [standardSigner, setStandardSigner] =
+    useState<ethers.providers.JsonRpcSigner>()
   const [currentChainId, setCurrentChainId] = useState(0)
   const [loggedIn, setLoggedIn] = useState(false)
   const [ethereum, setEthereum] = useState<any>()
@@ -93,19 +81,11 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     console.log(autologin)
 
     let ethereum
-    if (autologin) {
-      ethereum = (window as any).ethereum
-    } else {
-      try {
-        ethereum = await web3Modal.connect()
-      } catch (error) {
-        // modal closed by user
-        console.log(error)
-      }
-      if (!ethereum) {
-        console.error('MetaMask not installed')
-        return LoginState.notInstalled
-      }
+
+    ethereum = (window as any).ethereum
+    if (!ethereum) {
+      console.error('MetaMask not installed')
+      return LoginState.notInstalled
     }
 
     setEthereum(ethereum)
@@ -217,7 +197,9 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     console.log('fn: chain id', currentChainId)
     console.log('what', CONFIG.DEV)
 
-    const correctChain = (CONFIG as { [key: string]: any })[targetContract][CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG']
+    const correctChain = (CONFIG as { [key: string]: any })[targetContract][
+      CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
+    ]
     return correctChain
   }
 
@@ -263,7 +245,6 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     const standardProvider = new ethers.providers.Web3Provider(ethereum)
     setProvider(standardProvider)
     setStandardSigner(standardProvider.getSigner())
-
   }
 
   useEffect(() => {
