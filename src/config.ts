@@ -50,4 +50,5 @@ export const CONFIG = {
   },
   PAYMASTER_CONTRACT: { address: '0x7126647DD1191C13EAd3e79bDdcdfdfb17fBc852' },
   GAS_LIMIT: null,
+  BACKEND_URL: "https://bakery-metdata.onrender.com"
 };

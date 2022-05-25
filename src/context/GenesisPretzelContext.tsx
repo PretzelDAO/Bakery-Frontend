@@ -24,12 +24,14 @@ const GenesisPretzelProvider = ({
   const [contractRead, setContractRead] = useState<ethers.Contract>()
   const [txHash, setTxHash] = useState<String>()
 
-  const { provider, standardSigner, address } = useWeb3()
+  const { provider, standardSigner, address, currentChainId } = useWeb3()
 
   const mint = async (quantity: number) => {
     if (contractWrite === undefined) return -1
     try {
-      const txPending = await contractWrite.mint(quantity)
+      const txPending = await contractWrite.mint(quantity, {
+        value: ethers.utils.parseUnits(String(quantity * 0.1), 'ether'),
+      })
       console.log(txPending.hash)
       setTxHash(txPending.hash)
 
@@ -53,10 +55,13 @@ const GenesisPretzelProvider = ({
 
   const isSoldOut = async () => {
     if (contractRead === undefined) return true
+    console.log(contractRead)
 
     try {
       const totalSupply = await contractRead.totalSupply()
       const maxSupply = await contractRead.MAX_SUPPLY()
+      console.log('max sup', maxSupply)
+
       return totalSupply === maxSupply
     } catch (error) {
       console.log(error)
@@ -65,6 +70,8 @@ const GenesisPretzelProvider = ({
   }
 
   useEffect(() => {
+    console.log('TRYING TO SETUP SPECIAL PRETZEL CONTRACTS')
+
     if (provider === undefined) return
     setContractRead(
       new ethers.Contract(
@@ -84,13 +91,13 @@ const GenesisPretzelProvider = ({
       )
     )
     console.log('standardSigner set')
-  }, [provider, standardSigner])
+  }, [provider, standardSigner, currentChainId])
 
   return (
     <GenesisPretzelContext.Provider
       value={{
         contractRead,
-        contractWrite: contractWrite,
+        contractWrite,
         mint,
         isSoldOut,
       }}
@@ -100,6 +107,6 @@ const GenesisPretzelProvider = ({
   )
 }
 
-const useContract = () => React.useContext(GenesisPretzelContext)
+const useGenesisPretzelContract = () => React.useContext(GenesisPretzelContext)
 
-export { GenesisPretzelProvider, useContract }
+export { GenesisPretzelProvider, useGenesisPretzelContract }

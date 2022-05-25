@@ -127,6 +127,6 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-const useContract = () => React.useContext(SugarPretzelContext)
+const useSugarPretzelContract = () => React.useContext(SugarPretzelContext)
 
-export { SugarPretzelProvider, useContract }
+export { SugarPretzelProvider, useSugarPretzelContract }
