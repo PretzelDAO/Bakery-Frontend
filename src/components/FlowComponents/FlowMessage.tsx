@@ -21,7 +21,7 @@ export const FlowMessage = (message: MessageContent) => {
           className={`mx-2  ${
             mtype ? 'rounded-md' : 'rounded-2xl'
           } w-max px-2 col ${
-            message.sendByUser ? 'bg-yellow-200' : 'bg-white'
+            message.sendByUser ? 'bg-pretzelChatColor' : 'bg-white'
           } pb-1 pt-2 shadow-xl drop-shadow-lg whitespace-pre-line`}
         >
           {mtype ? (
