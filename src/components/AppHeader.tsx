@@ -5,7 +5,7 @@ export const AppHeader: React.FC = ({children}) => {
     const messageContext = useMessageContext()
     return(
     <>
-        <header className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-transparent mb-3">
+        <header className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-transparent ">
             <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                     <button

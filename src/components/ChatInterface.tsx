@@ -26,9 +26,9 @@ export const ChatInterface = () => {
 
   // console.log('Messages:', messageContext.history)
   return (
-    <div className="m-4 mb-3 flex flex-col overflow-y-auto mostofscreen scrollbar-hide h-full justify-center">
+    <div className="m-4 mb-3 flex flex-col overflow-y-auto  scrollbar-hide h-full justify-center overflow-visible">
       {/* <h1>Chat Below!</h1> */}
-      <div className="mb-4 px-2">
+      <div className="mb-4 px-2 overflow-visible">
         {messageContext.history
           ? messageContext.history.map((m, index) => {
               return (
