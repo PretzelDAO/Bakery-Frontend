@@ -35,9 +35,9 @@ function changeToSecret(messageContext: any) {
 
 function changeToOutside(messageContext: any) {
   messageContext.setAppState(AppState.welcome)
-  messageContext.setBackground('outside_bakery_scene.gif')
-  messageContext.setBackgroundColor('transparent')
-  messageContext.setBackgroundColor2('transparent')
+  messageContext.setBackground('outside_bakery_scene.webm')
+  messageContext.setBackgroundColor('#ffd4a4')
+  messageContext.setBackgroundColor2('#ffd4a4')
 }
 // Mint Genesis Pretzel. Removed this function from genesisPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
@@ -155,7 +155,8 @@ export const welcomeMessage: MessageContent = {
           changeToSecret(messageContext)
           return messageContext.addMessage(
             connectWalletEthereumMessage,
-            newHist
+            //clears hist
+            []
           )
         }
       },
@@ -215,7 +216,7 @@ export const mainMenuMessage: MessageContent = {
           content: 'Genesis Pretzels sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
-        })
+        },[])
         changeToSecret(messageContext)
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
@@ -226,7 +227,8 @@ export const mainMenuMessage: MessageContent = {
           if (!web3Context.isCorrectChain()) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
-              newHist
+              //clears hist
+              []
             )
           }
           const soldOut = await genesisPretzelContext.isSoldOut()
@@ -633,6 +635,8 @@ export const firstFreePretzelMessage: MessageContent = {
           console.log('trying to mint now')
           console.log(contractContext)
 
+          const tokenIdPromise = await contractContext.mintGasless()
+          sleep(2000)
           newHist = await messageContext.addMessage(
             {
               content: [
@@ -646,8 +650,8 @@ export const firstFreePretzelMessage: MessageContent = {
             },
             newHist
           )
+          const tokenId = await tokenIdPromise
           //TODO @Johannes spinning wheel?
-          const tokenId = await contractContext.mintGasless()
           const mintSuccessful = tokenId >= 0
           if (!mintSuccessful) {
             console.log('Mint unSuccessful')
@@ -716,6 +720,11 @@ export const freePretzelMessage: MessageContent = {
         if (web3Context.isCorrectChain()) {
           console.log('trying to mint now')
           console.log(sugarPretzelContext)
+          
+
+          const tokenIdPromise = sugarPretzelContext.mintSugarPretzel()
+
+          await sleep(4000)
           newHist = await messageContext.addMessage(
             {
               content: [
@@ -729,8 +738,12 @@ export const freePretzelMessage: MessageContent = {
             },
             newHist
           )
+          console.log("awaiting id")
+          const tokenId = await tokenIdPromise
+          console.log("got id",tokenId)
+
+
           //TODO @Johannes spinning wheel?
-          const tokenId = await sugarPretzelContext.mintSugarPretzel()
 
           const mintSuccessful = tokenId >= 0
           if (!mintSuccessful) {
@@ -740,8 +753,10 @@ export const freePretzelMessage: MessageContent = {
               newHist
             )
           } else {
+            console.log("fetching ",tokenId)
             const data = await fetch(CONFIG.BACKEND_URL + '/bakery/' + tokenId)
             const datajson = await data.json()
+            console.log("adding image for ",datajson)
             newHist = await messageContext.addMessage(
               {
                 content: 'Look at this fantastic Pretzel:',

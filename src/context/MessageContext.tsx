@@ -73,13 +73,22 @@ function sleep(ms: number) {
 
 const MessageProvider = ({ children }: { children: React.ReactNode }) => {
   const [history, setHistory] = useState([] as MessageContent[])
-  const [background, setBackground] = useState('outside_bakery_scene.gif')
+  const [background, setBackground] = useState('outside_bakery_scene.webm')
   const [appState, setAppStateProp] = useState(AppState.welcome)
   const [backgroundColor, setBackgroundColor] = useState('#ffd4a4')
   const [backgroundColor2, setBackgroundColor2] = useState('transparent')
 
   const setAppState = (newAppState: AppState) => {
-    if (appState === newAppState) return false
+    console.log("new state:",newAppState)
+    if (appState == newAppState) {
+      console.log("App state not change")
+      return false}
+    if(newAppState==AppState.welcome){
+      //clean history
+      setHistory([]);
+      console.log("resetting")
+      
+    }
     setAppStateProp(newAppState)
     return true
   }

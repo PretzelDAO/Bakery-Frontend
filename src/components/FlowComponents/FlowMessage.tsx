@@ -24,7 +24,7 @@ export const FlowMessage = (message: MessageContent) => {
           } pb-1 shadow-xl drop-shadow-lg whitespace-pre-line`}
         >
           {isImagetype ? (
-            <img src={mcontent} className="w-32"></img>
+            <img src={mcontent} className="w-32 rounded-md"></img>
           ) : (
             mcontent
           )}
