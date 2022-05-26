@@ -733,8 +733,8 @@ export const firstFreePretzelMessage: MessageContent = {
           console.log('trying to mint now')
           console.log(contractContext)
 
-          const tokenIdPromise = await contractContext.mintGasless()
-          sleep(2000)
+          const tokenIdPromise = contractContext.mintGasless()
+          sleep(4000)
           newHist = await messageContext.addMessage(
             {
               content: [
