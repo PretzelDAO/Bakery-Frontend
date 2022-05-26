@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import './App.css'
 import { Web3Provider } from './context/Web3Context'
 import { SugarPretzelProvider } from './context/SugarPretzelContext'

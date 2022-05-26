@@ -6,7 +6,7 @@ import {
 } from '../context/MessageContext'
 import { LoginState } from '../context/Web3Context'
 import { sleep } from '../utils/flowutils'
-import { MessageContext } from '../context/MessageContext'
+import { IMessageContext } from '../context/MessageContext'
 import { IGenesisPretzelContext } from '../context/GenesisPretzelContext'
 
 // Build the URL for opening NFT in opensea
@@ -30,7 +30,7 @@ function changeToSecret() {
 // Mint Special Pretzel. Removed this function from specialPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
 async function mintSpecialPretzel(
-  messageContext: MessageContext,
+  messageContext: IMessageContext,
   genesisPretzelContext: IGenesisPretzelContext,
   numberOfPretzels: number,
   newHist: MessageContent[]
@@ -523,8 +523,11 @@ export const firstFreePretzelMessage: MessageContent = {
               newHist
             )
           } else {
+            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/'+tokenId)
+            const datajson = await data.json()
+            console.log("RESPONSE:",datajson)
             newHist = await messageContext.addMessage({
-              content: CONFIG.BACKEND_URL + '/bakery/' + tokenId,
+              content: datajson?.image,
               type: MessageType.image,
               sendByUser: true,
             })
@@ -580,8 +583,11 @@ export const freePretzelMessage: MessageContent = {
               newHist
             )
           } else {
+            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/'+tokenId)
+            const datajson = await data.json()
+            console.log("RESPONSE:",datajson)
             newHist = await messageContext.addMessage({
-              content: CONFIG.BACKEND_URL + '/bakery/' + tokenId,
+              content: datajson?.image,
               type: MessageType.image,
               sendByUser: true,
             })
@@ -759,7 +765,7 @@ export const freePretzelMessage2: MessageContent = {
     },
   ],
   delay: 1000,
-  type: [MessageType.text, MessageType.image, MessageType.text],
+  type: [MessageType.text, MessageType.text],
 }
 
 // *********************************************************
