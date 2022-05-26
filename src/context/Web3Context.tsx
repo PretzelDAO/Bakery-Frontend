@@ -249,8 +249,9 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       paymasterAddress: CONFIG.PAYMASTER_CONTRACT.address,
       // the two properties below are needed because some public RPCs only support
       // limited historic block lookups
-      relayLookupWindowBlocks: 99999,
-      relayRegistrationLookupBlocks: 99999,
+      // on polygon gotta be below 10.000
+      relayLookupWindowBlocks: 9999,
+      relayRegistrationLookupBlocks: 9999,
     }
 
     try {
