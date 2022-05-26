@@ -76,7 +76,7 @@ async function mintSpecialPretzel(
   }
 }
 
-// ******************* Intro Wallet Connect *******************
+// ******************* Menu Message Nodes *******************
 export const welcomeMessage: MessageContent = {
   content: [
     'Beep Boop!',
@@ -159,6 +159,87 @@ export const welcomeMessage: MessageContent = {
   delay: 1000,
   type: MessageType.text,
 }
+
+export const mainMenuMessage: MessageContent = {
+  content: ['What else can I do for you?'],
+  actions: [
+    {
+      content: 'Free Pretzels',
+      onClick: async (context, web3, ISugarPretzelContext) => {
+        let address = web3.address
+        let newHist = await context.addMessage({
+          content: 'Free Pretzels sounds great!',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+
+        web3.setTargetContract('SUGAR_PRETZEL_CONTRACT')
+        console.log('ON CHAIN:', web3.targetContract)
+        if (address) {
+          console.log('Wallet connected')
+          if (!web3.isCorrectChain()) {
+            return context.addMessage(changeChainPolygonMessage, newHist)
+          }
+          const canMintGasless = await ISugarPretzelContext.canMintGasless()
+          if (canMintGasless) {
+            return context.addMessage(firstFreePretzelMessage, newHist)
+          } else {
+            return context.addMessage(freePretzelMessage, newHist)
+          }
+        } else {
+          console.log('Wallet not connected')
+          return context.addMessage(connectWalletPolygonMessage, newHist)
+        }
+      },
+    },
+    {
+      content: 'Special Pretzels',
+      onClick: async (context, web3, _, genesisPretzelContext) => {
+        let address = web3.address
+        let newHist = await context.addMessage({
+          content: 'Special Pretzels sounds interesting!',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        changeToSecret(context)
+        web3.setTargetContract('GENESIS_PRETZEL_CONTRACT')
+        console.log('ON CHAIN:', web3.targetContract)
+
+        if (address) {
+          console.log('Wallet connected')
+          changeToSecret(context)
+          if (!web3.isCorrectChain()) {
+            return context.addMessage(changeChainEthereumMessage, newHist)
+          }
+          const soldOut = await genesisPretzelContext.isSoldOut()
+          if (soldOut) {
+            return context.addMessage(specialPretzelsSoldOutMessage, newHist)
+          } else {
+            return context.addMessage(specialPretzelMessage1, newHist)
+          }
+        } else {
+          return context.addMessage(connectWalletEthereumMessage, newHist)
+        }
+      },
+    },
+    {
+      content: 'Leave Shop',
+      onClick: async (context, web3) => {
+        let newHist = await context.addMessage({
+          content: 'Thank you so much! See you soon.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        changeToOutside(context)
+        return []
+      },
+    },
+  ],
+  delay: 1000,
+  type: MessageType.text,
+}
+
+// ******************* Content Helper *******************
 
 export const whatIsAWalletMessage: MessageContent = {
   content: [
@@ -244,80 +325,6 @@ export const whatIsAChainMessage: MessageContent = {
         } else {
           return messageContext.addMessage(changeChainPolygonMessage2, newHist)
         }
-      },
-    },
-  ],
-  delay: 1000,
-  type: MessageType.text,
-}
-
-export const mainMenuMessage: MessageContent = {
-  content: ['What else can I do for you?'],
-  actions: [
-    {
-      content: 'Free Pretzels',
-      onClick: async (context, web3, ISugarPretzelContext) => {
-        let address = web3.address
-        let newHist = await context.addMessage({
-          content: 'Free Pretzels sounds great!',
-          type: MessageType.text,
-          sendByUser: true,
-        })
-
-        web3.setTargetContract('SUGAR_PRETZEL_CONTRACT')
-        console.log('ON CHAIN:', web3.targetContract)
-        if (address) {
-          console.log('Wallet connected')
-          if (!web3.isCorrectChain()) {
-            return context.addMessage(changeChainPolygonMessage, newHist)
-          }
-          const canMintGasless = await ISugarPretzelContext.canMintGasless()
-          if (canMintGasless) {
-            return context.addMessage(firstFreePretzelMessage, newHist)
-          } else {
-            return context.addMessage(freePretzelMessage, newHist)
-          }
-        } else {
-          console.log('Wallet not connected')
-          return context.addMessage(connectWalletPolygonMessage, newHist)
-        }
-      },
-    },
-    {
-      content: 'Special Pretzels',
-      onClick: async (context, web3) => {
-        let address = web3.address
-        let newHist = await context.addMessage({
-          content: 'Special Pretzels sounds interesting!',
-          type: MessageType.text,
-          sendByUser: true,
-        })
-        changeToSecret(context)
-        web3.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        console.log('ON CHAIN:', web3.targetContract)
-
-        if (address) {
-          console.log('Wallet connected')
-          changeToSecret(context)
-          if (!web3.isCorrectChain()) {
-            return context.addMessage(changeChainEthereumMessage, newHist)
-          }
-          return context.addMessage(specialPretzelMessage1, newHist)
-        } else {
-          return context.addMessage(connectWalletEthereumMessage, newHist)
-        }
-      },
-    },
-    {
-      content: 'Leave Shop',
-      onClick: async (context, web3) => {
-        let newHist = await context.addMessage({
-          content: 'Thank you so much! See you soon.',
-          type: MessageType.text,
-          sendByUser: true,
-        })
-        changeToOutside(context)
-        return []
       },
     },
   ],
@@ -595,7 +602,7 @@ export const firstFreePretzelMessage: MessageContent = {
               content: [
                 'While we are baking, let me tell you a bit about Sugar Pretzels',
                 'Which pretzel and topping you get is completely randomized.\nHowever, some traits are less common.\nIf you get toppings in the PretzelDAO CI colors, you were especially lucky!',
-                'As for the Background color, we are looking at the weather data in Munich in the last day.\nThe Background will depend on the temperature and the amount of rain.',
+                'As for the background color, we are looking at the weather data in Munich in the last day.\nThe background will depend on the temperature and the amount of rain.',
                 'Now let us wait for the Pretzel...',
               ],
               delay: 2000,
@@ -678,7 +685,7 @@ export const freePretzelMessage: MessageContent = {
               content: [
                 'While we are baking, let me tell you a bit about Sugar Pretzels',
                 'Which pretzel and topping you get is completely randomized.\nHowever, some traits are less common.\nIf you get toppings in the PretzelDAO CI colors, you were especially lucky!',
-                'As for the Background color, we are looking at the weather data in Munich in the last day.\nThe Background will depend on the temperature and the amount of rain.',
+                'As for the background color, we are looking at the weather data in Munich in the last day.\nThe background will depend on the temperature and the amount of rain.',
                 'Now let us wait for the Pretzel...',
               ],
               delay: 2000,
@@ -784,7 +791,7 @@ export const connectWalletEthereumMessage: MessageContent = {
   actions: [
     {
       content: 'Connect Metamask',
-      onClick: async (context, web3, ISugarPretzelContext) => {
+      onClick: async (context, web3, _, genesisPretzelContext) => {
         let loginState = LoginState.notInstalled
         let newHist = await context.addMessage({
           content: 'Connecting Metamask...',
@@ -822,12 +829,13 @@ export const connectWalletEthereumMessage: MessageContent = {
         }
         if (!web3?.isCorrectChain()) {
           return context.addMessage(changeChainEthereumMessage, newHist)
-        }
-        const _canMintGasless = await ISugarPretzelContext.canMintGasless()
-        if (_canMintGasless) {
-          return context.addMessage(firstFreePretzelMessage, newHist)
         } else {
-          return context.addMessage(freePretzelMessage, newHist)
+          const soldOut = await genesisPretzelContext.isSoldOut()
+          if (soldOut) {
+            return context.addMessage(specialPretzelsSoldOutMessage, newHist)
+          } else {
+            return context.addMessage(specialPretzelMessage1, newHist)
+          }
         }
       },
     },
@@ -934,7 +942,12 @@ export const changeChainEthereumMessage: MessageContent = {
   actions: [
     {
       content: 'Change to Ethereum!',
-      onClick: async (messageContext, web3Context) => {
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
         let newHist = await messageContext.addMessage({
           content: 'In my Metamask.',
           type: MessageType.text,
@@ -945,7 +958,15 @@ export const changeChainEthereumMessage: MessageContent = {
         if (!web3Context.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
-        return messageContext.addMessage(specialPretzelMessage1, newHist)
+        const soldOut = await genesisPretzelContext.isSoldOut()
+        if (soldOut) {
+          return messageContext.addMessage(
+            specialPretzelsSoldOutMessage,
+            newHist
+          )
+        } else {
+          return messageContext.addMessage(specialPretzelMessage1, newHist)
+        }
       },
     },
     {
@@ -981,7 +1002,12 @@ export const changeChainEthereumMessage2: MessageContent = {
   actions: [
     {
       content: 'Change to Ethereum!',
-      onClick: async (messageContext, web3Context) => {
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
         let newHist = await messageContext.addMessage({
           content: 'Change to Ethereum!',
           type: MessageType.text,
@@ -992,7 +1018,15 @@ export const changeChainEthereumMessage2: MessageContent = {
         if (!web3Context.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
-        return messageContext.addMessage(specialPretzelMessage1, newHist)
+        const soldOut = await genesisPretzelContext.isSoldOut()
+        if (soldOut) {
+          return messageContext.addMessage(
+            specialPretzelsSoldOutMessage,
+            newHist
+          )
+        } else {
+          return messageContext.addMessage(specialPretzelMessage1, newHist)
+        }
       },
     },
     {
