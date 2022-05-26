@@ -96,7 +96,12 @@ export const welcomeMessage: MessageContent = {
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
         if (address) {
           console.log('Wallet connected')
-          if (!web3Context.isCorrectChain()) {
+          console.log(
+            '-----------------------------------',
+            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
+            '------------'
+          )
+          if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
           const _canMintGasless = await ISugarPretzelContext.canMintGasless()
@@ -177,7 +182,12 @@ export const mainMenuMessage: MessageContent = {
         console.log('ON CHAIN:', web3Context.targetContract)
         if (address) {
           console.log('Wallet connected')
-          if (!web3Context.isCorrectChain()) {
+          console.log(
+            '-----------------------------------',
+            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
+            '------------'
+          )
+          if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
           const canMintGasless = await ISugarPretzelContext.canMintGasless()
