@@ -34,7 +34,7 @@ const CHAIN_CONFIG = {
     SCAN_LINK: 'https://rinkeby.etherscan.io',
     RPC_URL: 'https://rinkeby.infura.io/v3/',
   },
-};
+}
 
 export const CONFIG = {
   DEV: true,
@@ -44,11 +44,11 @@ export const CONFIG = {
     MAIN_CONFIG: CHAIN_CONFIG['mainnet'],
   },
   SUGAR_PRETZEL_CONTRACT: {
-    address: '0x729ffA252F7Aad9DB163b8Ad032d020865b0EC3d',
-    DEV_CONFIG: CHAIN_CONFIG['kovan'],
-    MAIN_CONFIG: CHAIN_CONFIG['polygon']
+    address: '0xbb542c33014Ea667166361213e94135daB695D9c',
+    DEV_CONFIG: CHAIN_CONFIG['polygon'],
+    MAIN_CONFIG: CHAIN_CONFIG['polygon'],
   },
   PAYMASTER_CONTRACT: { address: '0x7126647DD1191C13EAd3e79bDdcdfdfb17fBc852' },
   GAS_LIMIT: null,
-  BACKEND_URL: "https://bakery-metdata.onrender.com"
-};
+  BACKEND_URL: 'https://bakery-metdata.onrender.com',
+}
