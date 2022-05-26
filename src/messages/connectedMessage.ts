@@ -87,19 +87,22 @@ export const welcomeMessage: MessageContent = {
     {
       content: 'Free Pretzel',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Free Pretzels sounds great!',
           type: MessageType.text,
           sendByUser: true,
         })
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
-          console.log(
-            '-----------------------------------',
-            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
-            '------------'
+          newHist = await messageContext.addMessage(
+            {
+              content:
+                'Your wallet is already connected.\nYour address: ' +
+                web3Context.address,
+              type: MessageType.text,
+            },
+            newHist
           )
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
@@ -124,7 +127,6 @@ export const welcomeMessage: MessageContent = {
         _,
         genesisPretzelContext
       ) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
@@ -132,9 +134,18 @@ export const welcomeMessage: MessageContent = {
         })
         //TODO: WE NEED TO ADD AN EXTRA MESSAGE FOR STRATE UPDATE
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
+          newHist = await messageContext.addMessage(
+            {
+              content:
+                'Your wallet is already connected.\nYour address: ' +
+                web3Context.address,
+              type: MessageType.text,
+            },
+            newHist
+          )
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
@@ -171,7 +182,6 @@ export const mainMenuMessage: MessageContent = {
     {
       content: 'Free Pretzels',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Free Pretzels sounds great!',
           type: MessageType.text,
@@ -180,13 +190,8 @@ export const mainMenuMessage: MessageContent = {
 
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
-          console.log(
-            '-----------------------------------',
-            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
-            '------------'
-          )
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
@@ -210,7 +215,6 @@ export const mainMenuMessage: MessageContent = {
         _,
         genesisPretzelContext
       ) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Genesis Pretzels sounds interesting!',
           type: MessageType.text,
@@ -220,7 +224,7 @@ export const mainMenuMessage: MessageContent = {
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
 
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
           if (!web3Context.isCorrectChain()) {
@@ -412,6 +416,15 @@ export const connectWalletPolygonMessage: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
@@ -494,6 +507,15 @@ export const connectWalletPolygonMessage2: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
@@ -523,7 +545,8 @@ export const connectWalletPolygonMessage2: MessageContent = {
 
 export const changeChainPolygonMessage: MessageContent = {
   content: [
-    'Your Wallet is connected! But we need to change the Chain to Polygon.',
+    'Your Wallet is connected!',
+    'But we need to change the Chain to Polygon.',
   ],
   actions: [
     {
@@ -871,6 +894,15 @@ export const connectWalletEthereumMessage: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         } else {
@@ -958,6 +990,15 @@ export const connectWalletEthereumMessage2: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
