@@ -6,7 +6,7 @@ import {
 } from '../context/MessageContext'
 import { LoginState } from '../context/Web3Context'
 import { sleep } from '../utils/flowutils'
-import { MessageContext } from '../context/MessageContext'
+import { IMessageContext } from '../context/MessageContext'
 import { IGenesisPretzelContext } from '../context/GenesisPretzelContext'
 
 // Build the URL for opening NFT in opensea
@@ -30,7 +30,7 @@ function changeToSecret() {
 // Mint Special Pretzel. Removed this function from specialPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
 async function mintSpecialPretzel(
-  messageContext: MessageContext,
+  messageContext: IMessageContext,
   genesisPretzelContext: IGenesisPretzelContext,
   numberOfPretzels: number,
   newHist: MessageContent[]

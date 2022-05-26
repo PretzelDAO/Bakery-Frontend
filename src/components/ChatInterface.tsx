@@ -1,26 +1,19 @@
-import { Transition } from "@headlessui/react";
-import { useEffect, useRef } from "react";
-import {
-  MessageContent,
-  MessageType,
-  useMessageContext,
-} from "../context/MessageContext";
-import { useWeb3 } from "../context/Web3Context";
-import { welcomeMessage, mainMenuMessage } from "../messages/connectedMessage";
-import { sleep } from "../utils/flowutils";
-import { FlowButton } from "./FlowComponents/FlowButton";
-import { FlowMessage } from "./FlowComponents/FlowMessage";
+import { Transition } from '@headlessui/react'
+import { useEffect } from 'react'
+import { useMessageContext } from '../context/MessageContext'
+import { welcomeMessage } from '../messages/connectedMessage'
+import { FlowButton } from './FlowComponents/FlowButton'
+import { FlowMessage } from './FlowComponents/FlowMessage'
 
 export const ChatInterface = () => {
-  const messageContext = useMessageContext();
-  const web3Context = useWeb3();
+  const messageContext = useMessageContext()
 
   // const welcomeMessage: MessageContent = welcomeMessage;
 
   useEffect(() => {
-    if (messageContext.history.length == 0)
-      messageContext.addMessage(welcomeMessage);
-  }, []);
+    if (messageContext.history.length === 0)
+      messageContext.addMessage(welcomeMessage)
+  }, [messageContext])
 
   // const messagesEndRef = useRef(null)
 
@@ -41,6 +34,7 @@ export const ChatInterface = () => {
               return (
                 <Transition
                   appear={true}
+                  key={index}
                   show={index >= messageContext.history.length - 4}
                   enter="transition transform scale ease-linear duration-300 "
                   enterFrom="opacity-0 -translate-y-2 scale-40"
@@ -51,9 +45,9 @@ export const ChatInterface = () => {
                 >
                   {FlowMessage(m)}
                 </Transition>
-              );
+              )
             })
-          : "No Chat"}
+          : 'No Chat'}
         <div id="#last" />
       </div>
       <div className=" flex flex-row">
@@ -75,5 +69,5 @@ export const ChatInterface = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
