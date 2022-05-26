@@ -8,6 +8,7 @@ import { LoginState } from '../context/Web3Context'
 import { sleep } from '../utils/flowutils'
 import { IMessageContext } from '../context/MessageContext'
 import { IGenesisPretzelContext } from '../context/GenesisPretzelContext'
+import { reduceEachTrailingCommentRange } from 'typescript'
 
 // Build the URL for opening NFT in opensea
 function buildURL(tokenid: number) {
@@ -132,7 +133,6 @@ export const welcomeMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        //TODO: WE NEED TO ADD AN EXTRA MESSAGE FOR STRATE UPDATE
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
         if (web3Context.address) {
           console.log('Wallet connected')
@@ -149,19 +149,15 @@ export const welcomeMessage: MessageContent = {
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
-              newHist
+              //clears hist
+              []
             )
           }
-
-          const soldOut = await genesisPretzelContext.isSoldOut()
-          if (soldOut) {
-            return messageContext.addMessage(
-              genesisPretzelsSoldOutMessage,
-              newHist
-            )
-          } else {
-            return messageContext.addMessage(genesisPretzelMessage1, newHist)
-          }
+          return messageContext.addMessage(
+            checkSoldOutMessage,
+            //clears hist
+            []
+          )
         } else {
           changeToSecret(messageContext)
           return messageContext.addMessage(
@@ -169,6 +165,47 @@ export const welcomeMessage: MessageContent = {
             //clears hist
             []
           )
+        }
+      },
+    },
+  ],
+  delay: 1000,
+  type: MessageType.text,
+}
+
+export const checkSoldOutMessage: MessageContent = {
+  content: ['Welcome to my secret room.', 'Let me quickly check may stash...'],
+  actions: [
+    {
+      content: 'Ok',
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
+        let newHist = await messageContext.addMessage({
+          content: 'Ok',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const soldOut = await genesisPretzelContext.isSoldOut()
+        let address = web3Context.address
+
+        if (soldOut) {
+          return messageContext.addMessage(
+            genesisPretzelsSoldOutMessage,
+            newHist
+          )
+        } else {
+          newHist = await messageContext.addMessage(
+            {
+              content: 'We still have Genesis Pretzels on stock',
+              type: MessageType.text,
+            },
+            newHist
+          )
+          return messageContext.addMessage(genesisPretzelMessage1, newHist)
         }
       },
     },
@@ -209,7 +246,7 @@ export const mainMenuMessage: MessageContent = {
       },
     },
     {
-      content: 'Genesis Pretzels',
+      content: 'Genesis Pretzel',
       onClick: async (
         messageContext,
         web3Context,
@@ -217,37 +254,34 @@ export const mainMenuMessage: MessageContent = {
         genesisPretzelContext
       ) => {
         let newHist = await messageContext.addMessage({
-          content: 'Genesis Pretzels sounds interesting!',
+          content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
-        },[])
-        changeToSecret(messageContext)
+        })
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
 
         if (web3Context.address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
-          if (!web3Context.isCorrectChain()) {
+          if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
               //clears hist
               []
             )
           }
-          const soldOut = await genesisPretzelContext.isSoldOut()
-          if (soldOut) {
-            return messageContext.addMessage(
-              genesisPretzelsSoldOutMessage,
-              newHist
-            )
-          } else {
-            return messageContext.addMessage(genesisPretzelMessage1, newHist)
-          }
+          return messageContext.addMessage(
+            checkSoldOutMessage,
+            //clears hist
+            []
+          )
         } else {
+          changeToSecret(messageContext)
           return messageContext.addMessage(
             connectWalletEthereumMessage,
-            newHist
+            //clears hist
+            []
           )
         }
       },
@@ -963,15 +997,7 @@ export const connectWalletEthereumMessage: MessageContent = {
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         } else {
-          const soldOut = await genesisPretzelContext.isSoldOut()
-          if (soldOut) {
-            return messageContext.addMessage(
-              genesisPretzelsSoldOutMessage,
-              newHist
-            )
-          } else {
-            return messageContext.addMessage(genesisPretzelMessage1, newHist)
-          }
+          return messageContext.addMessage(checkSoldOutMessage, newHist)
         }
       },
     },
@@ -1106,15 +1132,7 @@ export const changeChainEthereumMessage: MessageContent = {
         if (!switchSuccess) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
-        const soldOut = await genesisPretzelContext.isSoldOut()
-        if (soldOut) {
-          return messageContext.addMessage(
-            genesisPretzelsSoldOutMessage,
-            newHist
-          )
-        } else {
-          return messageContext.addMessage(genesisPretzelMessage1, newHist)
-        }
+        return messageContext.addMessage(checkSoldOutMessage, newHist)
       },
     },
     {
@@ -1166,15 +1184,7 @@ export const changeChainEthereumMessage2: MessageContent = {
         if (!switchSuccess) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
-        const soldOut = await genesisPretzelContext.isSoldOut()
-        if (soldOut) {
-          return messageContext.addMessage(
-            genesisPretzelsSoldOutMessage,
-            newHist
-          )
-        } else {
-          return messageContext.addMessage(genesisPretzelMessage1, newHist)
-        }
+        return messageContext.addMessage(checkSoldOutMessage, newHist)
       },
     },
     {
@@ -1236,7 +1246,6 @@ export const genesisPretzelsSoldOutMessage: MessageContent = {
 
 export const genesisPretzelMessage1: MessageContent = {
   content: [
-    'Welcome to my secret stash.',
     'Genesis Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
     'They are all unique and will be revealed on Friday 3rd of June.',
     'You can mint as many as you want. They are 0.1 eth each.',
