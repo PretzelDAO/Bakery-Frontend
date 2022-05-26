@@ -91,7 +91,7 @@ const GenesisPretzelProvider = ({
       )
     )
     console.log('standardSigner set')
-  }, [provider, standardSigner, currentChainId])
+  }, [provider, standardSigner])
 
   return (
     <GenesisPretzelContext.Provider

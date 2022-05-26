@@ -207,17 +207,14 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     console.log('fn: chain id', currentChainId)
     console.log('dev?', CONFIG.DEV)
 
-    if (manualTargetContract) {
-      const correctChain = (CONFIG as { [key: string]: any })[
-        manualTargetContract
-      ][CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG']
-      return correctChain
-    } else {
-      const correctChain = (CONFIG as { [key: string]: any })[targetContract][
+    if (manualTargetContract)
+      return (CONFIG as { [key: string]: any })[manualTargetContract][
         CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
       ]
-      return correctChain
-    }
+
+    return (CONFIG as { [key: string]: any })[targetContract][
+      CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
+    ]
   }
 
   const isCorrectChain = (manualTargetContract?: string) => {
