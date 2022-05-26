@@ -88,19 +88,22 @@ export const welcomeMessage: MessageContent = {
     {
       content: 'Free Pretzel',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Free Pretzels sounds great!',
           type: MessageType.text,
           sendByUser: true,
         })
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
-          console.log(
-            '-----------------------------------',
-            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
-            '------------'
+          newHist = await messageContext.addMessage(
+            {
+              content:
+                'Your wallet is already connected.\nYour address: ' +
+                web3Context.address,
+              type: MessageType.text,
+            },
+            newHist
           )
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
@@ -125,16 +128,24 @@ export const welcomeMessage: MessageContent = {
         _,
         genesisPretzelContext
       ) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
         })
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
+          newHist = await messageContext.addMessage(
+            {
+              content:
+                'Your wallet is already connected.\nYour address: ' +
+                web3Context.address,
+              type: MessageType.text,
+            },
+            newHist
+          )
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
@@ -209,7 +220,6 @@ export const mainMenuMessage: MessageContent = {
     {
       content: 'Free Pretzels',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Free Pretzels sounds great!',
           type: MessageType.text,
@@ -218,13 +228,8 @@ export const mainMenuMessage: MessageContent = {
 
         web3Context.setTargetContract('SUGAR_PRETZEL_CONTRACT')
         console.log('ON CHAIN:', web3Context.targetContract)
-        if (address) {
+        if (web3Context.address) {
           console.log('Wallet connected')
-          console.log(
-            '-----------------------------------',
-            web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'),
-            '------------'
-          )
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
@@ -248,14 +253,15 @@ export const mainMenuMessage: MessageContent = {
         _,
         genesisPretzelContext
       ) => {
-        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
         })
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        if (address) {
+        console.log('ON CHAIN:', web3Context.targetContract)
+
+        if (web3Context.address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
           if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
@@ -446,6 +452,15 @@ export const connectWalletPolygonMessage: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
@@ -528,6 +543,15 @@ export const connectWalletPolygonMessage2: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
@@ -557,7 +581,8 @@ export const connectWalletPolygonMessage2: MessageContent = {
 
 export const changeChainPolygonMessage: MessageContent = {
   content: [
-    'Your Wallet is connected! But we need to change the Chain to Polygon.',
+    'Your Wallet is connected!',
+    'But we need to change the Chain to Polygon.',
   ],
   actions: [
     {
@@ -748,18 +773,7 @@ export const firstFreePretzelMessage: MessageContent = {
           },
           newHist
         )
-        return messageContext.addMessage(connectWalletPolygonMessage2, newHist)
-        if (web3Context.targetContract == 'GENESIS_PRETZEL_CONTRACT') {
-          return messageContext.addMessage(
-            connectWalletEthereumMessage2,
-            newHist
-          )
-        } else {
-          return messageContext.addMessage(
-            connectWalletPolygonMessage2,
-            newHist
-          )
-        }
+        return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
   ],
@@ -852,6 +866,28 @@ export const freePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
+        return messageContext.addMessage(mainMenuMessage, newHist)
+      },
+    },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
@@ -949,6 +985,15 @@ export const connectWalletEthereumMessage: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         } else {
@@ -1028,6 +1073,15 @@ export const connectWalletEthereumMessage2: MessageContent = {
 
           return newHist
         }
+        //TODO @Nick web3Context.address seams to not update quickly enough. Can not post it.
+        // newHist = await messageContext.addMessage(
+        //   {
+        //     content:
+        //       'You connected the following address:\n' + web3Context.address,
+        //     type: MessageType.text,
+        //   },
+        //   newHist
+        // )
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
@@ -1259,6 +1313,29 @@ export const genesisPretzelMessage1: MessageContent = {
           3,
           newHist
         )
+      },
+    },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        changeToInside(messageContext)
+        return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
     {
