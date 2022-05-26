@@ -54,12 +54,10 @@ export const BGWrapper: React.FC = ({ children }) => {
           <Transition className="flex h-full flex-row justify-end mr-4 ml-2" appear={true}
           key={"bg"}
           show={messageContext.appState == AppState.chat }
-          enter={`transition transform scale ease-linear duration-300 delay-200`}
+          enter={`transition transform scale ease-linear duration-2000 delay-500`}
           enterFrom="opacity-0 -translate-y-4 "
           enterTo="opacity-100 translate-y-0"
-          leave="transition transform scale ease-linear duration-0  "
-          leaveFrom="opacity-100 "
-          leaveTo="opacity-0">
+          >
             
             <div className="container mx-auto flex flex-row p-4">
               <div className="container z-0 flex flex-row justify-start items-center">
