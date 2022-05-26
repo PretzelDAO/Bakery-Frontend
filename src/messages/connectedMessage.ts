@@ -36,8 +36,8 @@ function changeToSecret(messageContext: any) {
 function changeToOutside(messageContext: any) {
   messageContext.setAppState(AppState.welcome)
   messageContext.setBackground('outside_bakery_scene.webm')
-  messageContext.setBackgroundColor('transparent')
-  messageContext.setBackgroundColor2('transparent')
+  messageContext.setBackgroundColor('#ffd4a4')
+  messageContext.setBackgroundColor2('#ffd4a4')
 }
 // Mint Genesis Pretzel. Removed this function from genesisPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
