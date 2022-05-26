@@ -19,7 +19,7 @@ export interface IWeb3Context {
   targetContract: string
   loginMetamask: (autologin: boolean) => Promise<LoginState>
   switchToCorrectChain: () => Promise<boolean>
-  isCorrectChain: () => boolean
+  isCorrectChain: (manualTargetContract?: string) => boolean
   setTargetContract: (targetContract: string) => void
 }
 
@@ -203,18 +203,25 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const getCorrectChain = () => {
+  const getCorrectChain = (manualTargetContract?: string) => {
     console.log('fn: chain id', currentChainId)
     console.log('dev?', CONFIG.DEV)
 
-    const correctChain = (CONFIG as { [key: string]: any })[targetContract][
-      CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
-    ]
-    return correctChain
+    if (manualTargetContract) {
+      const correctChain = (CONFIG as { [key: string]: any })[
+        manualTargetContract
+      ][CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG']
+      return correctChain
+    } else {
+      const correctChain = (CONFIG as { [key: string]: any })[targetContract][
+        CONFIG.DEV ? 'DEV_CONFIG' : 'MAIN_CONFIG'
+      ]
+      return correctChain
+    }
   }
 
-  const isCorrectChain = () => {
-    const correctChain = getCorrectChain()
+  const isCorrectChain = (manualTargetContract?: string) => {
+    const correctChain = getCorrectChain(manualTargetContract)
 
     console.log('checking to:', correctChain.ID)
     return correctChain.ID === currentChainId
