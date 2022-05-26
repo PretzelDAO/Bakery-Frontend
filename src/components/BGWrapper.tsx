@@ -34,11 +34,11 @@ export const BGWrapper: React.FC = ({ children }) => {
                   autoPlay
                   loop
                   muted
-                  className="absolute object-fit w-3/5 z-0"
+                  className="absolute object-fit w-3/5 z-0 overflow-hidden"
                 >
                   <source
-                    src="/scenes/inside_bakery_scene.mp4"
-                    type="video/mp4"
+                    src="/scenes/inside_bakery_a.webm"
+                    type="video/webm"
                   />
                 </video>
               </div>
