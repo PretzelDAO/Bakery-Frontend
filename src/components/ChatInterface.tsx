@@ -53,8 +53,9 @@ export const ChatInterface = () => {
       <div className=" flex flex-row">
         {messageContext.history[
           messageContext.history.length - 1
-        ]?.actions?.map((a) => (
+        ]?.actions?.map((a, index) => (
           <Transition
+            key={index}
             appear={true}
             show={true}
             enter="transition transform scale ease-linear duration-300 delay-200"

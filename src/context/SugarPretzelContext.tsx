@@ -68,6 +68,8 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const canMintGasless = async () => {
+    console.log('cant check gasless mint because no contract')
+
     if (contractRead === undefined) return false
 
     try {
