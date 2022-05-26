@@ -130,34 +130,69 @@ export const welcomeMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        //TODO: WE NEED TO ADD AN EXTRA MESSAGE FOR STRATE UPDATE
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        if (address) {
-          console.log('Wallet connected')
-          changeToSecret(messageContext)
-          if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
-            return messageContext.addMessage(
-              changeChainEthereumMessage,
-              newHist
-            )
-          }
+        changeToSecret(messageContext)
 
-          const soldOut = await genesisPretzelContext.isSoldOut()
-          if (soldOut) {
+        return messageContext.addMessage(
+          checkSoldOutMessage,
+          //clears hist
+          []
+        )
+      },
+    },
+  ],
+  delay: 1000,
+  type: MessageType.text,
+}
+
+export const checkSoldOutMessage: MessageContent = {
+  content: ['Welcome to my secret stash.', 'Let me quickly check may stash...'],
+  actions: [
+    {
+      content: 'Ok',
+      onClick: async (
+        messageContext,
+        web3Context,
+        _,
+        genesisPretzelContext
+      ) => {
+        let newHist = await messageContext.addMessage({
+          content: 'Ok',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const soldOut = await genesisPretzelContext.isSoldOut()
+        let address = web3Context.address
+
+        if (soldOut) {
+          return messageContext.addMessage(
+            genesisPretzelsSoldOutMessage,
+            newHist
+          )
+        } else {
+          newHist = await messageContext.addMessage(
+            {
+              content: 'We still have Genesis Pretzels on stock',
+              type: MessageType.text,
+            },
+            newHist
+          )
+          if (address) {
+            console.log('Wallet connected')
+            if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
+              return messageContext.addMessage(
+                changeChainEthereumMessage,
+                newHist
+              )
+            } else {
+              return messageContext.addMessage(genesisPretzelMessage1, newHist)
+            }
+          } else {
             return messageContext.addMessage(
-              genesisPretzelsSoldOutMessage,
+              connectWalletEthereumMessage,
               newHist
             )
-          } else {
-            return messageContext.addMessage(genesisPretzelMessage1, newHist)
           }
-        } else {
-          changeToSecret(messageContext)
-          return messageContext.addMessage(
-            connectWalletEthereumMessage,
-            //clears hist
-            []
-          )
         }
       },
     },
@@ -204,7 +239,7 @@ export const mainMenuMessage: MessageContent = {
       },
     },
     {
-      content: 'Genesis Pretzels',
+      content: 'Genesis Pretzel',
       onClick: async (
         messageContext,
         web3Context,
@@ -213,39 +248,18 @@ export const mainMenuMessage: MessageContent = {
       ) => {
         let address = web3Context.address
         let newHist = await messageContext.addMessage({
-          content: 'Genesis Pretzels sounds interesting!',
+          content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
-        },[])
-        changeToSecret(messageContext)
+        })
         web3Context.setTargetContract('GENESIS_PRETZEL_CONTRACT')
-        console.log('ON CHAIN:', web3Context.targetContract)
+        changeToSecret(messageContext)
 
-        if (address) {
-          console.log('Wallet connected')
-          changeToSecret(messageContext)
-          if (!web3Context.isCorrectChain()) {
-            return messageContext.addMessage(
-              changeChainEthereumMessage,
-              //clears hist
-              []
-            )
-          }
-          const soldOut = await genesisPretzelContext.isSoldOut()
-          if (soldOut) {
-            return messageContext.addMessage(
-              genesisPretzelsSoldOutMessage,
-              newHist
-            )
-          } else {
-            return messageContext.addMessage(genesisPretzelMessage1, newHist)
-          }
-        } else {
-          return messageContext.addMessage(
-            connectWalletEthereumMessage,
-            newHist
-          )
-        }
+        return messageContext.addMessage(
+          checkSoldOutMessage,
+          //clears hist
+          []
+        )
       },
     },
     {
@@ -697,6 +711,39 @@ export const firstFreePretzelMessage: MessageContent = {
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        return messageContext.addMessage(connectWalletPolygonMessage2, newHist)
+        if (web3Context.targetContract == 'GENESIS_PRETZEL_CONTRACT') {
+          return messageContext.addMessage(
+            connectWalletEthereumMessage2,
+            newHist
+          )
+        } else {
+          return messageContext.addMessage(
+            connectWalletPolygonMessage2,
+            newHist
+          )
+        }
+      },
+    },
   ],
   delay: 1000,
   type: MessageType.text,
@@ -720,7 +767,6 @@ export const freePretzelMessage: MessageContent = {
         if (web3Context.isCorrectChain()) {
           console.log('trying to mint now')
           console.log(sugarPretzelContext)
-          
 
           const tokenIdPromise = sugarPretzelContext.mintSugarPretzel()
 
@@ -738,10 +784,9 @@ export const freePretzelMessage: MessageContent = {
             },
             newHist
           )
-          console.log("awaiting id")
+          console.log('awaiting id')
           const tokenId = await tokenIdPromise
-          console.log("got id",tokenId)
-
+          console.log('got id', tokenId)
 
           //TODO @Johannes spinning wheel?
 
@@ -753,10 +798,10 @@ export const freePretzelMessage: MessageContent = {
               newHist
             )
           } else {
-            console.log("fetching ",tokenId)
+            console.log('fetching ', tokenId)
             const data = await fetch(CONFIG.BACKEND_URL + '/bakery/' + tokenId)
             const datajson = await data.json()
-            console.log("adding image for ",datajson)
+            console.log('adding image for ', datajson)
             newHist = await messageContext.addMessage(
               {
                 content: 'Look at this fantastic Pretzel:',
@@ -1153,7 +1198,6 @@ export const genesisPretzelsSoldOutMessage: MessageContent = {
 
 export const genesisPretzelMessage1: MessageContent = {
   content: [
-    'Welcome to my secret stash.',
     'Genesis Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
     'They are all unique and will be revealed on Friday 3rd of June.',
     'You can mint as many as you want. They are 0.1 eth each.',
