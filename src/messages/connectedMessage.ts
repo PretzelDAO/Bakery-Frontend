@@ -720,6 +720,28 @@ export const firstFreePretzelMessage: MessageContent = {
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        return messageContext.addMessage(mainMenuMessage, newHist)
+      },
+    },
   ],
   delay: 1000,
   type: MessageType.text,
@@ -743,7 +765,6 @@ export const freePretzelMessage: MessageContent = {
         if (web3Context.isCorrectChain()) {
           console.log('trying to mint now')
           console.log(sugarPretzelContext)
-          
 
           const tokenIdPromise = sugarPretzelContext.mintSugarPretzel()
 
@@ -761,10 +782,9 @@ export const freePretzelMessage: MessageContent = {
             },
             newHist
           )
-          console.log("awaiting id")
+          console.log('awaiting id')
           const tokenId = await tokenIdPromise
-          console.log("got id",tokenId)
-
+          console.log('got id', tokenId)
 
           //TODO @Johannes spinning wheel?
 
@@ -776,10 +796,10 @@ export const freePretzelMessage: MessageContent = {
               newHist
             )
           } else {
-            console.log("fetching ",tokenId)
+            console.log('fetching ', tokenId)
             const data = await fetch(CONFIG.BACKEND_URL + '/bakery/' + tokenId)
             const datajson = await data.json()
-            console.log("adding image for ",datajson)
+            console.log('adding image for ', datajson)
             newHist = await messageContext.addMessage(
               {
                 content: 'Look at this fantastic Pretzel:',
@@ -812,6 +832,28 @@ export const freePretzelMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
+        return messageContext.addMessage(mainMenuMessage, newHist)
+      },
+    },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
@@ -1262,6 +1304,29 @@ export const genesisPretzelMessage1: MessageContent = {
           3,
           newHist
         )
+      },
+    },
+    {
+      content: 'Link to FAQ',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I would like to learn more.',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Sure, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        changeToInside(messageContext)
+        return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
     {
