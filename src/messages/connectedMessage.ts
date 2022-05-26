@@ -378,12 +378,15 @@ export const connectWalletPolygonMessage: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it! \nYou can find a tutorial here: https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
               type: MessageType.text,
             },
             newHist
           )
-          newHist = await messageContext.addMessage(mainMenuMessage, newHist)
+          newHist = await messageContext.addMessage(
+            whatIsAWalletMessage,
+            newHist
+          )
 
           return newHist
         }
@@ -457,12 +460,15 @@ export const connectWalletPolygonMessage2: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it! \nYou can find a tutorial here: https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
               type: MessageType.text,
             },
             newHist
           )
-          newHist = await messageContext.addMessage(mainMenuMessage, newHist)
+          newHist = await messageContext.addMessage(
+            whatIsAWalletMessage,
+            newHist
+          )
 
           return newHist
         }
@@ -831,12 +837,15 @@ export const connectWalletEthereumMessage: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it! \nYou can find a tutorial here: https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
               type: MessageType.text,
             },
             newHist
           )
-          newHist = await messageContext.addMessage(mainMenuMessage, newHist)
+          newHist = await messageContext.addMessage(
+            whatIsAWalletMessage,
+            newHist
+          )
 
           return newHist
         }
@@ -915,12 +924,15 @@ export const connectWalletEthereumMessage2: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it! \nYou can find a tutorial here: https://metamask.zendesk.com/hc/en-us/articles/360015489531-Getting-started-with-MetaMask',
+                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
               type: MessageType.text,
             },
             newHist
           )
-          newHist = await messageContext.addMessage(mainMenuMessage, newHist)
+          newHist = await messageContext.addMessage(
+            whatIsAWalletMessage,
+            newHist
+          )
 
           return newHist
         }
