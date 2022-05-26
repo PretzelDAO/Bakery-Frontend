@@ -2,9 +2,9 @@ const CHAIN_CONFIG = {
   polygon: {
     NAME: 'Polygon',
     SYMBOL: 'Matic',
-    ID: 0,
-    SCAN_LINK: '',
-    RPC_URL: '',
+    ID: 137,
+    SCAN_LINK: 'https://polygonscan.com',
+    RPC_URL: 'https://polygon-rpc.com/',
   },
   mumbai: {
     NAME: 'Mumbai',
