@@ -39,9 +39,9 @@ function changeToOutside(messageContext: any) {
   messageContext.setBackgroundColor('transparent')
   messageContext.setBackgroundColor2('transparent')
 }
-// Mint Special Pretzel. Removed this function from specialPretzelMessage1 to have less double code for different number of Pretzels
+// Mint Genesis Pretzel. Removed this function from genesisPretzelMessage1 to have less double code for different number of Pretzels
 //TODO @Johannes please review this function, I have almost no clue, what I am doing
-async function mintSpecialPretzel(
+async function mintGenesisPretzel(
   messageContext: IMessageContext,
   genesisPretzelContext: IGenesisPretzelContext,
   numberOfPretzels: number,
@@ -68,7 +68,7 @@ async function mintSpecialPretzel(
     } else {
       console.log('Mint successful')
       //TODO @Johannes, this fails
-      return await messageContext.addMessage(specialPretzelMessage2, newHist)
+      return await messageContext.addMessage(genesisPretzelMessage2, newHist)
     }
   } else {
     console.log('wrong chain')
@@ -81,7 +81,7 @@ export const welcomeMessage: MessageContent = {
   content: [
     'Beep Boop!',
     'Welcome to the PretzelDAO NFT Bakery!',
-    'If it is your first time here, you can get a free Sugar Pretzel.\nYou can also have a look at our Special Pretzels.',
+    'If it is your first time here, you can get a free Sugar Pretzel.\nYou can also have a look at our special Genesis Pretzels.',
   ],
   actions: [
     {
@@ -112,7 +112,7 @@ export const welcomeMessage: MessageContent = {
       },
     },
     {
-      content: 'Special Pretzel',
+      content: 'Genesis Pretzel',
       onClick: async (
         messageContext,
         web3Context,
@@ -121,7 +121,7 @@ export const welcomeMessage: MessageContent = {
       ) => {
         let address = web3Context.address
         let newHist = await messageContext.addMessage({
-          content: 'Special Pretzel sounds interesting!',
+          content: 'Genesis Pretzel sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -140,11 +140,11 @@ export const welcomeMessage: MessageContent = {
           const soldOut = await genesisPretzelContext.isSoldOut()
           if (soldOut) {
             return messageContext.addMessage(
-              specialPretzelsSoldOutMessage,
+              genesisPretzelsSoldOutMessage,
               newHist
             )
           } else {
-            return messageContext.addMessage(specialPretzelMessage1, newHist)
+            return messageContext.addMessage(genesisPretzelMessage1, newHist)
           }
         } else {
           changeToSecret(messageContext)
@@ -193,11 +193,11 @@ export const mainMenuMessage: MessageContent = {
       },
     },
     {
-      content: 'Special Pretzels',
+      content: 'Genesis Pretzels',
       onClick: async (context, web3, _, genesisPretzelContext) => {
         let address = web3.address
         let newHist = await context.addMessage({
-          content: 'Special Pretzels sounds interesting!',
+          content: 'Genesis Pretzels sounds interesting!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -213,9 +213,9 @@ export const mainMenuMessage: MessageContent = {
           }
           const soldOut = await genesisPretzelContext.isSoldOut()
           if (soldOut) {
-            return context.addMessage(specialPretzelsSoldOutMessage, newHist)
+            return context.addMessage(genesisPretzelsSoldOutMessage, newHist)
           } else {
-            return context.addMessage(specialPretzelMessage1, newHist)
+            return context.addMessage(genesisPretzelMessage1, newHist)
           }
         } else {
           return context.addMessage(connectWalletEthereumMessage, newHist)
@@ -308,7 +308,7 @@ export const whatIsAChainMessage: MessageContent = {
   content: [
     'A blockchain is a decentralized ledger that lets you store data.\nFor example it stores which NFT belongs to which Wallet.',
     'At the moment, the most common chain for NFTs is Ethereum.\nHowever, it is also quite expensive.',
-    'For our Sugar Pretzels we therefore use Polygon.\nAnd our Special Pretzels are on Ethereum',
+    'For our Sugar Pretzels we therefore use Polygon.\nAnd our Genesis Pretzels are on Ethereum',
   ],
   actions: [
     {
@@ -781,11 +781,11 @@ export const freePretzelMessage2: MessageContent = {
 }
 
 // *********************************************************
-// ******************** Special Pretzels Minting *******************
+// ******************** Genesis Pretzels Minting *******************
 
 export const connectWalletEthereumMessage: MessageContent = {
   content: [
-    'Special Pretzels are stored on the Ethereum blockchain.',
+    'Genesis Pretzels are stored on the Ethereum blockchain.',
     'In order to mint them, you need to connect your wallet.',
   ],
   actions: [
@@ -832,9 +832,9 @@ export const connectWalletEthereumMessage: MessageContent = {
         } else {
           const soldOut = await genesisPretzelContext.isSoldOut()
           if (soldOut) {
-            return context.addMessage(specialPretzelsSoldOutMessage, newHist)
+            return context.addMessage(genesisPretzelsSoldOutMessage, newHist)
           } else {
-            return context.addMessage(specialPretzelMessage1, newHist)
+            return context.addMessage(genesisPretzelMessage1, newHist)
           }
         }
       },
@@ -949,7 +949,7 @@ export const changeChainEthereumMessage: MessageContent = {
         genesisPretzelContext
       ) => {
         let newHist = await messageContext.addMessage({
-          content: 'In my Metamask.',
+          content: 'Changing to Ethereum.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -961,11 +961,11 @@ export const changeChainEthereumMessage: MessageContent = {
         const soldOut = await genesisPretzelContext.isSoldOut()
         if (soldOut) {
           return messageContext.addMessage(
-            specialPretzelsSoldOutMessage,
+            genesisPretzelsSoldOutMessage,
             newHist
           )
         } else {
-          return messageContext.addMessage(specialPretzelMessage1, newHist)
+          return messageContext.addMessage(genesisPretzelMessage1, newHist)
         }
       },
     },
@@ -1021,11 +1021,11 @@ export const changeChainEthereumMessage2: MessageContent = {
         const soldOut = await genesisPretzelContext.isSoldOut()
         if (soldOut) {
           return messageContext.addMessage(
-            specialPretzelsSoldOutMessage,
+            genesisPretzelsSoldOutMessage,
             newHist
           )
         } else {
-          return messageContext.addMessage(specialPretzelMessage1, newHist)
+          return messageContext.addMessage(genesisPretzelMessage1, newHist)
         }
       },
     },
@@ -1046,9 +1046,9 @@ export const changeChainEthereumMessage2: MessageContent = {
   type: MessageType.text,
 }
 
-export const specialPretzelsSoldOutMessage: MessageContent = {
+export const genesisPretzelsSoldOutMessage: MessageContent = {
   content: [
-    'Oh no, we are already out of Special Pretzels.',
+    'Oh no, we are already out of Genesis Pretzels.',
     'Have a look at Opensea to buy some on the secondary market',
   ],
   actions: [
@@ -1086,10 +1086,10 @@ export const specialPretzelsSoldOutMessage: MessageContent = {
   type: MessageType.text,
 }
 
-export const specialPretzelMessage1: MessageContent = {
+export const genesisPretzelMessage1: MessageContent = {
   content: [
     'Welcome to my secret stash.',
-    'Special Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
+    'Genesis Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
     'They are all unique and will be revealed on Friday 3rd of June.',
     'You can mint as many as you want. They are 0.1 eth each.',
     'If you want several, minting in bulk is cheaper. How many do you want?',
@@ -1108,7 +1108,7 @@ export const specialPretzelMessage1: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(
+        return mintGenesisPretzel(
           messageContext,
           genesisPretzelContext,
           1,
@@ -1129,7 +1129,7 @@ export const specialPretzelMessage1: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(
+        return mintGenesisPretzel(
           messageContext,
           genesisPretzelContext,
           2,
@@ -1150,7 +1150,7 @@ export const specialPretzelMessage1: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        return mintSpecialPretzel(
+        return mintGenesisPretzel(
           messageContext,
           genesisPretzelContext,
           3,
@@ -1175,7 +1175,7 @@ export const specialPretzelMessage1: MessageContent = {
   type: MessageType.text,
 }
 
-export const specialPretzelMessage2: MessageContent = {
+export const genesisPretzelMessage2: MessageContent = {
   content: [
     'I put your pretzel(s) in your Wallet!',
     'You can have a look at the preview on Opensea. \nBut they will only be revealed on Friday 3rd of June.',
@@ -1222,7 +1222,7 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
   content: ['Uh oh, seams like something went wrong.'],
   actions: [
     {
-      content: 'Try Again',
+      content: 'Try again',
       onClick: async (context, web3) => {
         let newHist = await context.addMessage({
           content: "Ok let's try again.",
@@ -1232,20 +1232,20 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
         if (web3.targetContract == 'GENESIS_PRETZEL_CONTRACT') {
           return context.addMessage(connectWalletEthereumMessage, newHist)
         } else {
-          context.setBackground('inside_bakery.gif')
+          changeToInside(context)
           return context.addMessage(connectWalletPolygonMessage, newHist)
         }
       },
     },
     {
-      content: 'Never Mind',
+      content: 'Never mind',
       onClick: async (context) => {
         let newHist = await context.addMessage({
-          content: 'No, I am done.',
+          content: 'Never mind.',
           type: MessageType.text,
           sendByUser: true,
         })
-        context.setBackground('inside_bakery.gif')
+        changeToInside(context)
         return context.addMessage(mainMenuMessage, newHist)
       },
     },

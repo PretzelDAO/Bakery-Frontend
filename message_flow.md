@@ -11,16 +11,16 @@ landing_page-- Enter --> welcomeMessage;
     welcomeMessage-- Free Pretzel & Wallet Connected & Mint Gasless, yet -->firstFreePretzelMessage;
     welcomeMessage-- Free Pretzel & Wallet Connected & No mint Gasless -->freePretzelMessage;
     welcomeMessage-- Free Pretzel & Wallet not Connected -->connectWalletPolygonMessage;
-    welcomeMessage-- Genesis Pretzel & Not sold out & Wallet Connected -->specialPretzelMessage1;
+    welcomeMessage-- Genesis Pretzel & Not sold out & Wallet Connected -->genesisPretzelMessage1;
     welcomeMessage-- Genesis Pretzel & Not sold out & Wallet not Connected -->connectWalletEthereumMessage;
-    welcomeMessage-- Genesis Pretzel & Sold Out --> specialPretzelsSoldOutMessage;
+    welcomeMessage-- Genesis Pretzel & Sold Out --> genesisPretzelsSoldOutMessage;
 
     mainMenuMessage-- Free Pretzel & Wallet Connected & Mint Gasless, yet -->firstFreePretzelMessage;
     mainMenuMessage-- Free Pretzel & Wallet Connected & No mint Gasless -->freePretzelMessage;
     mainMenuMessage-- Free Pretzel & Wallet not Connected -->connectWalletPolygonMessage;
-    mainMenuMessage-- Genesis Pretzel & Not sold out & Wallet Connected -->specialPretzelMessage1;
+    mainMenuMessage-- Genesis Pretzel & Not sold out & Wallet Connected --> genesisPretzelMessage1;
     mainMenuMessage-- Genesis Pretzel & Not sold out & Wallet not Connected -->connectWalletEthereumMessage;
-    mainMenuMessage-- Genesis Pretzel & Sold Out --> specialPretzelsSoldOutMessage;
+    mainMenuMessage-- Genesis Pretzel & Sold Out --> genesisPretzelsSoldOutMessage;
     mainMenuMessage-- Leave Shop --> landing_page;
 
     %%%%%%%%%%%%%%%%%%%%%%
@@ -72,38 +72,38 @@ landing_page-- Enter --> welcomeMessage;
 
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %% Special Pretzel Minting Experience Nodes
-    specialPretzelMessage1-- 1 --> specialPretzelMessage2;
-    specialPretzelMessage1-- 2 --> specialPretzelMessage2;
-    specialPretzelMessage1-- 3 --> specialPretzelMessage2;
-    specialPretzelMessage1-- Go Back --> mainMenuMessage;
+    %% Genesis Pretzel Minting Experience Nodes
+    genesisPretzelMessage1-- 1 --> genesisPretzelMessage2;
+    genesisPretzelMessage1-- 2 --> genesisPretzelMessage2;
+    genesisPretzelMessage1-- 3 --> genesisPretzelMessage2;
+    genesisPretzelMessage1-- Go Back --> mainMenuMessage;
 
-    specialPretzelMessage2-- Take me to Opensea --> mainMenuMessage;
-    specialPretzelMessage2-- I am good --> mainMenuMessage;
+    genesisPretzelMessage2-- Take me to Opensea --> mainMenuMessage;
+    genesisPretzelMessage2-- I am good --> mainMenuMessage;
 
-    specialPretzelsSoldOutMessage-- View on Opensea -->mainMenuMessage;
-    specialPretzelsSoldOutMessage-- I am good -->mainMenuMessage;
+    genesisPretzelsSoldOutMessage-- View on Opensea -->mainMenuMessage;
+    genesisPretzelsSoldOutMessage-- I am good -->mainMenuMessage;
 
     connectWalletEthereumMessage-- Connect Metamask & No Metamask -->mainMenuMessage;
     connectWalletEthereumMessage-- Connect Metamask & Not Ethereum Network -->changeChainEthereumMessage;
-    connectWalletEthereumMessage-- Connect Metamask & Success & Not sold out -->specialPretzelMessage1;
-    connectWalletEthereumMessage-- Connect Metamask & Success & Not sold -->specialPretzelsSoldOutMessage;
+    connectWalletEthereumMessage-- Connect Metamask & Success & Not sold out -->genesisPretzelMessage1;
+    connectWalletEthereumMessage-- Connect Metamask & Success & Not sold -->genesisPretzelsSoldOutMessage;
     connectWalletEthereumMessage-- What is a Wallet? -->whatIsAWalletMessage;
     connectWalletEthereumMessage-- Got Back -->mainMenuMessage;
 
     connectWalletEthereumMessage2-- Connect Metamask & No Metamask -->mainMenuMessage;
     connectWalletEthereumMessage2-- Connect Metamask & Not Ethereum Network -->changeChainEthereumMessage;
-    connectWalletEthereumMessage2-- Connect Metamask & Success & Not sold out -->specialPretzelMessage1;
-    connectWalletEthereumMessage2-- Connect Metamask & Success & Not sold -->specialPretzelsSoldOutMessage;
+    connectWalletEthereumMessage2-- Connect Metamask & Success & Not sold out -->genesisPretzelMessage1;
+    connectWalletEthereumMessage2-- Connect Metamask & Success & Not sold -->genesisPretzelsSoldOutMessage;
     connectWalletEthereumMessage2-- Got Back -->mainMenuMessage;
 
-    changeChainEthereumMessage-- Change to Ethereum! & Not sold out -->specialPretzelMessage1;
-    changeChainEthereumMessage-- Change to Ethereum! & Sold out -->specialPretzelsSoldOutMessage;
+    changeChainEthereumMessage-- Change to Ethereum! & Not sold out -->genesisPretzelMessage1;
+    changeChainEthereumMessage-- Change to Ethereum! & Sold out -->genesisPretzelsSoldOutMessage;
     changeChainEthereumMessage-- What is a Chain? -->whatIsAChainMessage;
     changeChainEthereumMessage-- Got Back -->mainMenuMessage;
 
-    changeChainEthereumMessage2-- Change to Ethereum! & Not sold out -->specialPretzelMessage1;
-    changeChainEthereumMessage2-- Change to Ethereum! & Sold out -->specialPretzelsSoldOutMessage;
+    changeChainEthereumMessage2-- Change to Ethereum! & Not sold out -->genesisPretzelMessage1;
+    changeChainEthereumMessage2-- Change to Ethereum! & Sold out -->genesisPretzelsSoldOutMessage;
     changeChainEthereumMessage2-- Got Back -->mainMenuMessage;
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
