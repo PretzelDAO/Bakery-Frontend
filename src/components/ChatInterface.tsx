@@ -36,12 +36,12 @@ export const ChatInterface = () => {
                   appear={true}
                   key={index}
                   show={index >= messageContext.history.length - 4}
-                  enter="transition transform scale ease-linear duration-300 "
-                  enterFrom="opacity-0 -translate-y-2 scale-40"
+                  enter={`transition transform scale ease-linear duration-300 delay-${(index+1)*300}`}
+                  enterFrom="opacity-0 -translate-y-5 scale-y-0"
                   enterTo="opacity-100 translate-y-0 scale-100"
-                  leave="transition-opacity ease-linear duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
+                  leave="transition transform scale ease-linear duration-300  "
+                  leaveFrom="opacity-100 translate-y-0 scale-y-100"
+                  leaveTo="opacity-0 -translate-y-10 scale-y-80"
                 >
                   {FlowMessage(m)}
                 </Transition>
@@ -50,7 +50,7 @@ export const ChatInterface = () => {
           : 'No Chat'}
         <div id="#last" />
       </div>
-      <div className=" flex flex-row">
+      <div className=" flex flex-row overflow-visible">
         {messageContext.history[
           messageContext.history.length - 1
         ]?.actions?.map((a, index) => (
@@ -64,6 +64,7 @@ export const ChatInterface = () => {
             leave="transition transform scale ease-linear duration-300 delay-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
+            className="overflow-visible"
           >
             <FlowButton action={a}></FlowButton>
           </Transition>
