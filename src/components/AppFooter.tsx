@@ -30,10 +30,7 @@ export const AppFooter: React.FC = () => {
                 />
               </svg>
             </a>
-            <a
-              href="https://www.notion.so/Datenschutzerkl-rung-PretzelDAO-9a24d1a52198483e8c9cc728c554cb61"
-              className=""
-            >
+            <a href="https://www.linkedin.com/company/pretzeldao" className="">
               <svg
                 className="w-6 h-6"
                 fill="white"
