@@ -135,7 +135,7 @@ export const welcomeMessage: MessageContent = {
         if (address) {
           console.log('Wallet connected')
           changeToSecret(messageContext)
-          if (!web3Context.isCorrectChain()) {
+          if (!web3Context.isCorrectChain('GENESIS_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(
               changeChainEthereumMessage,
               newHist
@@ -535,8 +535,8 @@ export const changeChainPolygonMessage: MessageContent = {
           sendByUser: true,
         })
         //TODO @Nick @Johannes fix because not reliable!
-        await web3Context.switchToCorrectChain()
-        if (!web3Context.isCorrectChain()) {
+        const switchSuccess = await web3Context.switchToCorrectChain()
+        if (!switchSuccess) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
         const _canMintGasless = await ISugarPretzelContext.canMintGasless()
@@ -586,8 +586,8 @@ export const changeChainPolygonMessage2: MessageContent = {
           sendByUser: true,
         })
         //TODO @Nick @Johannes fix because not reliable!
-        await web3Context.switchToCorrectChain()
-        if (!web3Context.isCorrectChain()) {
+        const switchSuccess = await web3Context.switchToCorrectChain()
+        if (!switchSuccess) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
         const _canMintGasless = await ISugarPretzelContext.canMintGasless()
@@ -1004,8 +1004,8 @@ export const changeChainEthereumMessage: MessageContent = {
           sendByUser: true,
         })
         //TODO @Nick @Johannes check
-        await web3Context.switchToCorrectChain()
-        if (!web3Context.isCorrectChain()) {
+        const switchSuccess = await web3Context.switchToCorrectChain()
+        if (!switchSuccess) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
         const soldOut = await genesisPretzelContext.isSoldOut()
@@ -1064,8 +1064,8 @@ export const changeChainEthereumMessage2: MessageContent = {
           sendByUser: true,
         })
         //TODO @Nick @Johannes check this seams to be buggy.
-        await web3Context.switchToCorrectChain()
-        if (!web3Context.isCorrectChain()) {
+        const switchSuccess = await web3Context.switchToCorrectChain()
+        if (!switchSuccess) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
         const soldOut = await genesisPretzelContext.isSoldOut()
