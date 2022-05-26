@@ -200,7 +200,7 @@ export const mainMenuMessage: MessageContent = {
         _,
         genesisPretzelContext
       ) => {
-        let address = web3.address
+        let address = web3Context.address
         let newHist = await messageContext.addMessage({
           content: 'Genesis Pretzels sounds interesting!',
           type: MessageType.text,
@@ -545,7 +545,7 @@ export const changeChainPolygonMessage: MessageContent = {
     {
       content: 'Go back',
       onClick: async (messageContext) => {
-        const newHist = await context.addMessage({
+        const newHist = await messageContext.addMessage({
           content: 'I do not want a Pretzel',
           type: MessageType.text,
           sendByUser: true,
