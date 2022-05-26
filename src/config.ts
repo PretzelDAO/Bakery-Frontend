@@ -48,7 +48,7 @@ export const CONFIG = {
     DEV_CONFIG: CHAIN_CONFIG['polygon'],
     MAIN_CONFIG: CHAIN_CONFIG['polygon'],
   },
-  PAYMASTER_CONTRACT: { address: '0x7126647DD1191C13EAd3e79bDdcdfdfb17fBc852' },
+  PAYMASTER_CONTRACT: { address: '0x51CD28C89EB7B4620AE9beB3dcCA53b8501768e2' },
   GAS_LIMIT: null,
   BACKEND_URL: 'https://bakery-metdata.onrender.com',
 }
