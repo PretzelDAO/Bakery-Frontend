@@ -18,7 +18,7 @@ export interface IWeb3Context {
   currentChainId: number
   targetContract: string
   loginMetamask: (autologin: boolean) => Promise<LoginState>
-  switchToCorrectChain: () => void
+  switchToCorrectChain: () => Promise<boolean>
   isCorrectChain: () => boolean
   setTargetContract: (targetContract: string) => void
 }
@@ -112,6 +112,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       //   }
       // })
 
+      console.log('requesting chain id!!!')
+
       await ethereum
         .request({ method: 'eth_chainId' })
         .then((result: string) => {
@@ -165,6 +167,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         method: 'wallet_switchEthereumChain',
         params,
       })
+      setCurrentChainId(chainConfig.ID)
+      return true
     } catch (switchError) {
       // option to add a chain
       // This error code indicates that the chain has not been added to MetaMask.
@@ -186,11 +190,16 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
               },
             ],
           })
+          setCurrentChainId(chainConfig.ID)
+          return true
         } catch (addError) {
           // handle "add" error
+          console.log(addError)
+          return false
         }
       }
       // handle other "switch" errors
+      return false
     }
   }
 
@@ -228,6 +237,10 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   const setupProviders = async () => {
+    const standardProvider = new ethers.providers.Web3Provider(ethereum)
+    setProvider(standardProvider)
+    setStandardSigner(standardProvider.getSigner())
+
     const relayConfing = {
       paymasterAddress: CONFIG.PAYMASTER_CONTRACT.address,
       // the two properties below are needed because some public RPCs only support
@@ -244,18 +257,14 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       const ethersProvider = new ethers.providers.Web3Provider(gsnProvider)
       setGaslessSigner(ethersProvider.getSigner())
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       console.log('Could not set up gasless signer because on wrong network.')
     }
-
-    const standardProvider = new ethers.providers.Web3Provider(ethereum)
-    setProvider(standardProvider)
-    setStandardSigner(standardProvider.getSigner())
   }
 
   useEffect(() => {
-    if (isCorrectChain()) setupProviders()
-  }, [currentChainId])
+    if (ethereum) setupProviders()
+  }, [ethereum, currentChainId])
 
   return (
     <Web3Context.Provider
