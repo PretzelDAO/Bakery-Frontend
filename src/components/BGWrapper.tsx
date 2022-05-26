@@ -5,10 +5,11 @@ import { Welcome } from '../Welcome'
 import { ChatInterface } from './ChatInterface'
 import { AppHeader } from './AppHeader'
 import { AppFooter } from './AppFooter'
+import { Transition } from '@headlessui/react'
 export const BGWrapper: React.FC = ({ children }) => {
   const messageContext = useMessageContext()
   const bgprops: CSS.Properties = {
-    backgroundImage: `url('/scenes/${messageContext.background}')`,
+    // backgroundImage: `url('/scenes/${messageContext.background}')`,
     backgroundColor: messageContext.backgroundColor,
   }
   const bgprops2: CSS.Properties = {
@@ -23,13 +24,45 @@ export const BGWrapper: React.FC = ({ children }) => {
       className="bg-yellow-800 flex flex-col h-screen bg-center overflow-hidden"
       style={bgprops}
     >
+      
+      <Transition
+      appear={true}
+      key={"bg"}
+      show={messageContext.appState == AppState.welcome }
+      enter={`transition transform scale ease-linear duration-1600 delay-200`}
+      enterFrom="opacity-0 -translate-y-10 "
+      enterTo="opacity-100 translate-y-0"
+      leave="transition transform scale ease-linear duration-800  "
+      leaveFrom="opacity-100 translate-x-0 scale-y-100"
+      leaveTo="opacity-0 -translate-x-5 scale-y-120"
+    >
+      <video
+                  autoPlay
+                  loop
+                  muted
+                  className="absolute object-fit h-screen w-screen"
+                >
+                  <source
+                    src="/scenes/outside_bakery_scene.webm"
+                    type="video/webm"
+                  />
+                </video></Transition>
       <div className="flex flex-col h-screen bg-center" style={bgpropsColor}>
         <AppHeader />
         {children}
-        {messageContext.appState === AppState.chat && (
-          <div className="flex h-full flex-row justify-end mr-4 ml-2">
+        
+          <Transition className="flex h-full flex-row justify-end mr-4 ml-2" appear={true}
+          key={"bg"}
+          show={messageContext.appState == AppState.chat }
+          enter={`transition transform scale ease-linear duration-300 delay-200`}
+          enterFrom="opacity-0 -translate-y-4 "
+          enterTo="opacity-100 translate-y-0"
+          leave="transition transform scale ease-linear duration-0  "
+          leaveFrom="opacity-100 "
+          leaveTo="opacity-0">
+            
             <div className="container mx-auto flex flex-row p-4">
-              <div className="container z-0 flex flex-row justify-start">
+              <div className="container z-0 flex flex-row justify-start items-center">
                 <video
                   autoPlay
                   loop
@@ -37,8 +70,8 @@ export const BGWrapper: React.FC = ({ children }) => {
                   className="absolute object-fit w-3/5 z-0"
                 >
                   <source
-                    src="/scenes/inside_bakery_scene.mp4"
-                    type="video/mp4"
+                    src="/scenes/inside_bakery_scene.webm"
+                    type="video/webm"
                   />
                 </video>
               </div>
@@ -51,12 +84,12 @@ export const BGWrapper: React.FC = ({ children }) => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          </Transition>
+        
         {messageContext.appState === AppState.secret && (
           <div className="flex h-screen flex-row justify-end mr-4 ml-2">
             <div className="container mx-auto flex flex-row p-4">
-              <div className="container z-0 flex flex-row justify-start">
+              <div className="container z-0 flex flex-row justify-start items-center">
                 <video
                   autoPlay
                   loop
@@ -64,8 +97,8 @@ export const BGWrapper: React.FC = ({ children }) => {
                   className="absolute object-fit w-3/5 z-0"
                 >
                   <source
-                    src="/scenes/secret_bakery_scene.mp4"
-                    type="video/mp4"
+                    src="/scenes/secret_bakery_scene.webm"
+                    type="video/webm"
                   />
                 </video>
               </div>

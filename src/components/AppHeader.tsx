@@ -12,9 +12,9 @@ export const AppHeader: React.FC = ({ children }) => {
               className="leading-relaxed inline-block mr-4 py-2 whitespace-nowrap"
               onClick={() => {
                 messageContext.setAppState(AppState.welcome)
-                messageContext.setBackground('outside_bakery_scene.gif')
-                messageContext.setBackgroundColor('transparent')
-                messageContext.setBackgroundColor2('transparent')
+                messageContext.setBackground('outside_bakery_scene.webm')
+                messageContext.setBackgroundColor('#ffd4a4')
+                messageContext.setBackgroundColor2('#ffd4a4')
               }}
             >
               <svg

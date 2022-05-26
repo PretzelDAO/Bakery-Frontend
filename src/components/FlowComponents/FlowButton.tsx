@@ -16,9 +16,9 @@ export const FlowButton: FC<FlowButtonProps> = ({ action }) => {
   const genesisPretzelContext = useGenesisPretzelContract()
 
   return (
-    <div className="h-20 transition-all">
+    <div className="h-20 transition-all overflow-visible">
       <button
-        className="p-3 bg-white transform rounded-md border-2 border-black w-max hover:bg-gray-400 hover:translate-y-1 transition-all hover:cursor-pointer mx-2"
+        className="p-3 bg-white transform rounded-md border-2 border-black w-max hover:bg-gray-400 hover:translate-y-1 transition-all hover:cursor-pointer mx-2 overflow-visible"
         onClick={() => {
           setLoading(true)
           action
