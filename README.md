@@ -37,15 +37,31 @@ To learn more about us, the project, and what this all means, check out our [FAQ
 
 _WIP: more details coming soon_
 
-For the rest: This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Details on the Contracts
 
 The repository for the Smart Contracts can be found [here](https://github.com/PretzelDAO/Token-Contracts/tree/main/contracts/SugarPretzels).
 
-### How to run
+### Specification
 
-Work in progress
+- Pretzel should be stored in an abstract representation on-chain
+- The pretzels get generated based on 4 random words received from the ChainLink VRF
+- Weather data is stored in the contract via the ChainLink AccuWeather oracle
+- The weather data determines the background of the pretzel
+- Gasless minting via OpenGSN
+- Restrict the minting via OpenGSN to one time
+- The weather data shall get updated every 12h by a ChainLink keeper
+- Sugar Pretzels is an open edition, free mint NFT collection
+
+### Metadata
+
+The metadata is generated and uploaded to IPFS via our backend service [here](https://github.com/PretzelDAO/Bakery-Metadata)
+
+### Specification
+
+- backend reads the abstract pretzel representation from the smart contract
+- generate image and metadata based on it
+- upload to IPFS
+- on request redirect to IPFS
 
 ## Our Beautiful Frontend
 
