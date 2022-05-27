@@ -722,7 +722,9 @@ export const firstFreePretzelMessage: MessageContent = {
               newHist
             )
           } else {
-            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/' + tokenId)
+            const data = await fetch(
+              CONFIG.BACKEND_URL + '/sugarpretzel/' + tokenId
+            )
             const datajson = await data.json()
             newHist = await messageContext.addMessage(
               {
@@ -836,7 +838,9 @@ export const freePretzelMessage: MessageContent = {
             )
           } else {
             console.log('fetching ', tokenId)
-            const data = await fetch(CONFIG.BACKEND_URL + '/bakery/' + tokenId)
+            const data = await fetch(
+              CONFIG.BACKEND_URL + '/sugarpretzel/' + tokenId
+            )
             const datajson = await data.json()
             console.log('adding image for ', datajson)
             newHist = await messageContext.addMessage(

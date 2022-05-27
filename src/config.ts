@@ -50,5 +50,5 @@ export const CONFIG = {
   },
   PAYMASTER_CONTRACT: { address: '0x51CD28C89EB7B4620AE9beB3dcCA53b8501768e2' },
   GAS_LIMIT: null,
-  BACKEND_URL: 'https://bakery-metdata.onrender.com',
+  BACKEND_URL: 'https://metadata.pretzeldao.com',
 }
