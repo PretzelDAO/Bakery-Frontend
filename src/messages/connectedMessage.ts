@@ -177,7 +177,7 @@ export const checkSoldOutMessage: MessageContent = {
   content: ['Welcome to my secret room.', 'Let me quickly check may stash...'],
   actions: [
     {
-      content: 'Ok',
+      content: "Yes, I'm excited!",
       onClick: async (
         messageContext,
         web3Context,
@@ -185,7 +185,7 @@ export const checkSoldOutMessage: MessageContent = {
         genesisPretzelContext
       ) => {
         let newHist = await messageContext.addMessage({
-          content: 'Ok',
+          content: "Yes, I'm excited!",
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1469,17 +1469,17 @@ export const recheckChainPolygonMessage: MessageContent = {
         }
       },
     },
-    {
-      content: 'Never',
-      onClick: async (messageContext) => {
-        const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel',
-          type: MessageType.text,
-          sendByUser: true,
-        })
-        return messageContext.addMessage(mainMenuMessage, newHist)
-      },
-    },
+    // {
+    //   content: 'Never',
+    //   onClick: async (messageContext) => {
+    //     const newHist = await messageContext.addMessage({
+    //       content: 'I do not want a Pretzel',
+    //       type: MessageType.text,
+    //       sendByUser: true,
+    //     })
+    //     return messageContext.addMessage(mainMenuMessage, newHist)
+    //   },
+    // },
   ],
   delay: 1000,
   type: MessageType.text,
