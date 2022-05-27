@@ -52,7 +52,7 @@ The repository for the Smart Contracts can be found [here](https://github.com/Pr
 - The weather data shall get updated every 12h by a ChainLink keeper
 - Sugar Pretzels is an open edition, free mint NFT collection
 
-### Metadata
+## Metadata
 
 The metadata is generated and uploaded to IPFS via our backend service [here](https://github.com/PretzelDAO/Bakery-Metadata)
 
