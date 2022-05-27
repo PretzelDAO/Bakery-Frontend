@@ -37,9 +37,9 @@ const CHAIN_CONFIG = {
 }
 
 export const CONFIG = {
-  DEV: true,
+  DEV: false,
   GENESIS_PRETZEL_CONTRACT: {
-    address: '0x7472e6fC5b459B90a5aD2A61F5ad3D4AdcB544ba',
+    address: '0x2b98AD929Ee80d23902d27d1A9A9549D4b067448',
     DEV_CONFIG: CHAIN_CONFIG['rinkeby'],
     MAIN_CONFIG: CHAIN_CONFIG['mainnet'],
   },
