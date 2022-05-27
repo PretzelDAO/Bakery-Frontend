@@ -596,8 +596,11 @@ export const changeChainPolygonMessage: MessageContent = {
         //TODO @Nick @Johannes fix because not reliable!
         const switchSuccess = await web3Context.switchToCorrectChain()
         if (!switchSuccess) {
-          return messageContext.addMessage(changeChainPolygonMessage, newHist)
+          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
+        } else {
+          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
         }
+        // TODO change back
         const _canMintGasless = await ISugarPretzelContext.canMintGasless()
         if (_canMintGasless) {
           return messageContext.addMessage(firstFreePretzelMessage, newHist)
@@ -647,8 +650,11 @@ export const changeChainPolygonMessage2: MessageContent = {
         //TODO @Nick @Johannes fix because not reliable!
         const switchSuccess = await web3Context.switchToCorrectChain()
         if (!switchSuccess) {
-          return messageContext.addMessage(changeChainPolygonMessage, newHist)
+          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
+        } else {
+          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
         }
+        // todo fix back
         const _canMintGasless = await ISugarPretzelContext.canMintGasless()
         if (_canMintGasless) {
           return messageContext.addMessage(firstFreePretzelMessage, newHist)
@@ -1429,6 +1435,48 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
           sendByUser: true,
         })
         changeToInside(messageContext)
+        return messageContext.addMessage(mainMenuMessage, newHist)
+      },
+    },
+  ],
+  delay: 1000,
+  type: MessageType.text,
+}
+
+// ==========================================
+export const recheckChainPolygonMessage: MessageContent = {
+  content: ['I will check again if the chain is correct.'],
+  actions: [
+    {
+      content: 'OK!',
+      onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
+        let newHist = await messageContext.addMessage({
+          content: 'Changing to Polygon',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        //TODO @Nick @Johannes fix because not reliable!
+        //always introduce the second message fro context updates
+        const rightChain = web3Context.isCorrectChain()
+        if (!rightChain) {
+          return messageContext.addMessage(changeChainPolygonMessage, newHist)
+        }
+        const _canMintGasless = await ISugarPretzelContext.canMintGasless()
+        if (_canMintGasless) {
+          return messageContext.addMessage(firstFreePretzelMessage, newHist)
+        } else {
+          return messageContext.addMessage(freePretzelMessage, newHist)
+        }
+      },
+    },
+    {
+      content: 'Never',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: 'I do not want a Pretzel',
+          type: MessageType.text,
+          sendByUser: true,
+        })
         return messageContext.addMessage(mainMenuMessage, newHist)
       },
     },
