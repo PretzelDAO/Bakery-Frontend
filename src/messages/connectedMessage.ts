@@ -11,12 +11,11 @@ import { IGenesisPretzelContext } from '../context/GenesisPretzelContext'
 import { reduceEachTrailingCommentRange } from 'typescript'
 
 // Build the URL for opening NFT in opensea
-function buildURL(tokenid: number) {
-  const url_built =
-    'https://opensea.io/' +
-    CONFIG.SUGAR_PRETZEL_CONTRACT.address +
-    '/' +
-    tokenid
+function buildURL(tokenId: number, collection: string) {
+  // const url_built = `https://opensea.io/collection/${collection}/${tokenId}`
+  // TODO NIck fix
+  const url_built = `https://opensea.io/collection/${collection}/`
+
   return url_built
 }
 
@@ -914,7 +913,7 @@ export const freePretzelMessage2: MessageContent = {
           sendByUser: true,
         })
         // TODO @Nick think about way to store last token mint
-        const url = buildURL(1)
+        const url = buildURL(1, 'sugarpretzel')
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
         return messageContext.addMessage(mainMenuMessage, newHist)
@@ -1225,9 +1224,7 @@ export const genesisPretzelsSoldOutMessage: MessageContent = {
           sendByUser: true,
         })
         //TODO Nick not sure if this link works .... OS added their route structure
-        const url =
-          'https://opensea.com/assets/ethereum/' +
-          CONFIG.GENESIS_PRETZEL_CONTRACT.address
+        const url = buildURL(1, 'genesispretzel')
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         changeToInside(messageContext)
         return messageContext.addMessage(mainMenuMessage, newHist)
@@ -1377,7 +1374,7 @@ export const genesisPretzelMessage2: MessageContent = {
         })
         // TODO @Nick think about how to store tken id
         //TODO @Johannes Link to Opensea
-        const url = buildURL(1)
+        const url = buildURL(1, 'genesispretzel')
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
         changeToInside(messageContext)
