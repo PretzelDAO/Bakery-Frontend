@@ -250,8 +250,8 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       // the two properties below are needed because some public RPCs only support
       // limited historic block lookups
       // on polygon gotta be below 10.000
-      relayLookupWindowBlocks: 9999,
-      relayRegistrationLookupBlocks: 9999,
+      relayLookupWindowBlocks: 5000,
+      relayRegistrationLookupBlocks: 5000,
     }
 
     try {
