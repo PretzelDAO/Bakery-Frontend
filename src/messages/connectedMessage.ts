@@ -790,7 +790,7 @@ export const freePretzelMessage: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content: [
-                'While we are baking, let me tell you a bit about Sugar Pretzels',
+                'While we are baking, let me tell you a bit about Sugar Pretzels.',
                 'Which pretzel and topping you get is completely randomized.\nHowever, some traits are less common.\nIf you get toppings in the PretzelDAO CI colors, you were especially lucky!',
                 'As for the background color, we are looking at the weather data in Munich in the last day.\nThe background will depend on the temperature and the amount of rain.',
                 'Now let us wait for the Pretzel...',
@@ -1406,6 +1406,8 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
         } else {
           changeToInside(messageContext)
           if (web3Context.address) {
+            console.log(web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT'))
+            console.log(web3Context.currentChainId)
             if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
               return messageContext.addMessage(
                 changeChainPolygonMessage,
