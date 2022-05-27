@@ -64,7 +64,9 @@ const SugarPretzelProvider = ({ children }: { children: React.ReactNode }) => {
     console.log(contractStandardWrite)
     if (contractStandardWrite === undefined) return -1
 
-    return _mint(contractStandardWrite.mintStandard, {})
+    return _mint(contractStandardWrite.mintStandard, {
+      gasLimit: 300000,
+    })
   }
 
   const canMintGasless = async () => {
