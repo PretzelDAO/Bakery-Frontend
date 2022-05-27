@@ -1448,7 +1448,7 @@ export const recheckChainPolygonMessage: MessageContent = {
   content: ['I will check again if the chain is correct.'],
   actions: [
     {
-      content: 'OK!',
+      content: 'Okay, fingers crossed!',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
           content: 'Changing to Polygon',
