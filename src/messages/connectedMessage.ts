@@ -108,6 +108,7 @@ export const welcomeMessage: MessageContent = {
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
+          //canMintGasless can be checked directly, since in this case user is already connected to the right chain
           const _canMintGasless = await ISugarPretzelContext.canMintGasless()
           if (_canMintGasless) {
             return messageContext.addMessage(firstFreePretzelMessage, newHist)
@@ -233,6 +234,7 @@ export const mainMenuMessage: MessageContent = {
           if (!web3Context.isCorrectChain('SUGAR_PRETZEL_CONTRACT')) {
             return messageContext.addMessage(changeChainPolygonMessage, newHist)
           }
+          //canMintGasless can be checked directly, since in this case user is already connected to the right chain
           const canMintGasless = await ISugarPretzelContext.canMintGasless()
           if (canMintGasless) {
             return messageContext.addMessage(firstFreePretzelMessage, newHist)
@@ -464,12 +466,8 @@ export const connectWalletPolygonMessage: MessageContent = {
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
-        const canMintGasless = await sugarPretzelContext.canMintGasless()
-        if (canMintGasless) {
-          return messageContext.addMessage(firstFreePretzelMessage, newHist)
-        } else {
-          return messageContext.addMessage(freePretzelMessage, newHist)
-        }
+        // Wallet just got connected -> Context update. canMintGasless needs to be checked in another message
+        return messageContext.addMessage(checkCanMintGasless, newHist)
       },
     },
     {
@@ -555,12 +553,8 @@ export const connectWalletPolygonMessage2: MessageContent = {
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
-        const canMintGasless = await sugarPretzelContext.canMintGasless()
-        if (canMintGasless) {
-          return messageContext.addMessage(firstFreePretzelMessage, newHist)
-        } else {
-          return messageContext.addMessage(freePretzelMessage, newHist)
-        }
+        // Wallet just got connected -> Context update. canMintGasless needs to be checked in another message
+        return messageContext.addMessage(checkCanMintGasless, newHist)
       },
     },
     {
@@ -593,20 +587,12 @@ export const changeChainPolygonMessage: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        //TODO @Nick @Johannes fix because not reliable!
         const switchSuccess = await web3Context.switchToCorrectChain()
         if (!switchSuccess) {
-          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
-        } else {
-          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
+          return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
-        // TODO change back
-        const _canMintGasless = await ISugarPretzelContext.canMintGasless()
-        if (_canMintGasless) {
-          return messageContext.addMessage(firstFreePretzelMessage, newHist)
-        } else {
-          return messageContext.addMessage(freePretzelMessage, newHist)
-        }
+        // Chain just got changed to Polygon -> Context update. canMintGasless needs to be checked in another message
+        return messageContext.addMessage(checkCanMintGasless, newHist)
       },
     },
     {
@@ -647,20 +633,12 @@ export const changeChainPolygonMessage2: MessageContent = {
           type: MessageType.text,
           sendByUser: true,
         })
-        //TODO @Nick @Johannes fix because not reliable!
         const switchSuccess = await web3Context.switchToCorrectChain()
         if (!switchSuccess) {
-          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
-        } else {
-          return messageContext.addMessage(recheckChainPolygonMessage, newHist)
+          return messageContext.addMessage(changeChainPolygonMessage, newHist)
         }
-        // todo fix back
-        const _canMintGasless = await ISugarPretzelContext.canMintGasless()
-        if (_canMintGasless) {
-          return messageContext.addMessage(firstFreePretzelMessage, newHist)
-        } else {
-          return messageContext.addMessage(freePretzelMessage, newHist)
-        }
+        // Chain just got changed to Polygon -> Context update. canMintGasless needs to be checked in another message
+        return messageContext.addMessage(checkCanMintGasless, newHist)
       },
     },
     {
@@ -1091,12 +1069,7 @@ export const connectWalletEthereumMessage2: MessageContent = {
         if (!web3Context?.isCorrectChain()) {
           return messageContext.addMessage(changeChainEthereumMessage, newHist)
         }
-        const _canMintGasless = await ISugarPretzelContext.canMintGasless()
-        if (_canMintGasless) {
-          return messageContext.addMessage(firstFreePretzelMessage, newHist)
-        } else {
-          return messageContext.addMessage(freePretzelMessage, newHist)
-        }
+        return messageContext.addMessage(checkSoldOutMessage, newHist)
       },
     },
     {
@@ -1444,23 +1417,18 @@ export const somethingWentWrongWhileMintingMessage: MessageContent = {
 }
 
 // ==========================================
-export const recheckChainPolygonMessage: MessageContent = {
-  content: ['I will check again if the chain is correct.'],
+export const checkCanMintGasless: MessageContent = {
+  content: ['Let me have a look, whether you already got your free Pretzel.'],
   actions: [
     {
-      content: 'Okay, fingers crossed!',
+      content: 'Ok',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'Changing to Polygon',
+          content: 'Let me show you.',
           type: MessageType.text,
           sendByUser: true,
         })
-        //TODO @Nick @Johannes fix because not reliable!
-        //always introduce the second message fro context updates
-        const rightChain = web3Context.isCorrectChain()
-        if (!rightChain) {
-          return messageContext.addMessage(changeChainPolygonMessage, newHist)
-        }
+        //always introduce the second message for context updates
         const _canMintGasless = await ISugarPretzelContext.canMintGasless()
         if (_canMintGasless) {
           return messageContext.addMessage(firstFreePretzelMessage, newHist)
