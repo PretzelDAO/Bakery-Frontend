@@ -54,7 +54,7 @@ export const AppFooter: React.FC = () => {
               <svg
                 className="w-6 h-6"
                 fill="white"
-                viewBox="0 100 1000 800"
+                viewBox="0 160 1000 700"
                 xmlns="http://www.w3.org/2000/svg"
                 fillRule="evenodd"
                 strokeMiterlimit="2"

@@ -6,7 +6,7 @@ export const AppHeader: React.FC = ({ children }) => {
   return (
     <>
       <header className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-transparent ">
-        <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
+        <div className="container px-4 mx-auto flex flex-row items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <button
               className="leading-relaxed inline-block mr-4 py-2 whitespace-nowrap"
@@ -76,6 +76,15 @@ export const AppHeader: React.FC = ({ children }) => {
                 </g>
               </svg>
             </button>
+          </div>
+          <div className="flex flex-row justify-end">
+            <span className="text-lg sm:text-center text-white">
+              <a
+                href="https://www.notion.so/pretzeldao/The-Bakery-FAQ-9324e4ace9a948b681ec994b50d133a4"
+              >
+                FAQ
+              </a>
+            </span>
           </div>
         </div>
       </header>

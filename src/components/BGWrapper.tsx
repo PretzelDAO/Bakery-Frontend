@@ -40,7 +40,8 @@ export const BGWrapper: React.FC = ({ children }) => {
                   autoPlay
                   loop
                   muted
-                  className="absolute object-fit h-screen w-screen"
+                  className="absolute object-cover content-center w-screen h-screen"
+                  poster="/scenes/outside_bakery.png"
                 >
                   <source
                     src="/scenes/outside_bakery_scene.webm"
@@ -65,7 +66,8 @@ export const BGWrapper: React.FC = ({ children }) => {
                   autoPlay
                   loop
                   muted
-                  className="absolute object-fit w-3/5 z-0"
+                  className="absolute object-fit w-3/5 z-0 overflow-hidden"
+                  poster="/scenes/inside_bakery.png"
                 >
                   <source
                     src="/scenes/inside_bakery_scene.webm"
@@ -93,6 +95,7 @@ export const BGWrapper: React.FC = ({ children }) => {
                   loop
                   muted
                   className="absolute object-fit w-3/5 z-0"
+                  poster="/scenes/secret_bakery.png"
                 >
                   <source
                     src="/scenes/secret_bakery_scene.webm"
