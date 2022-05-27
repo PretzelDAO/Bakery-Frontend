@@ -50,7 +50,7 @@ async function mintGenesisPretzel(
   //TODO @Nick what network is wallet on?
   const walletNetwork = 'Ethereum'
   newHist = await messageContext.addMessage({
-    content: 'Minting Pretzel(s) now ...',
+    content: 'Minting pretzel(s) now ...',
     type: MessageType.text,
   })
   if (walletNetwork == 'Ethereum') {
@@ -80,7 +80,7 @@ async function mintGenesisPretzel(
 export const welcomeMessage: MessageContent = {
   content: [
     'Beep Boop!',
-    'Welcome to the PretzelDAO NFT Bakery!',
+    'Welcome to the Sugar Pretzels NFT Bakery!',
     'If it is your first time here, you can get a free Sugar Pretzel.\nYou can also have a look at our special Genesis Pretzels.',
   ],
   actions: [
@@ -88,7 +88,7 @@ export const welcomeMessage: MessageContent = {
       content: 'Free Pretzel',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'Free Pretzels sounds great!',
+          content: 'Free Sugar Pretzels sounds great!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -221,7 +221,7 @@ export const mainMenuMessage: MessageContent = {
       content: 'Free Pretzels',
       onClick: async (messageContext, web3Context, ISugarPretzelContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'Free Pretzels sounds great!',
+          content: 'Free Sugar Pretzels sounds great!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -309,7 +309,7 @@ export const mainMenuMessage: MessageContent = {
 
 export const whatIsAWalletMessage: MessageContent = {
   content: [
-    'A Wallet is your account on the blockchain. \nIf you have not used one before, check out this lesson on Wallets:',
+    'A wallet is your account on the blockchain. \nIf you have not used one before, check out this lesson on wallets:',
   ],
   actions: [
     {
@@ -378,7 +378,7 @@ export const whatIsAWalletMessage: MessageContent = {
 
 export const whatIsAChainMessage: MessageContent = {
   content: [
-    'A blockchain is a decentralized ledger that lets you store data.\nFor example it stores which NFT belongs to which Wallet.',
+    'A blockchain is a decentralized ledger that lets you store data.\nFor example it stores which NFT belongs to which wallet.',
     'At the moment, the most common chain for NFTs is Ethereum.\nHowever, it is also quite expensive.',
     'For our Sugar Pretzels we therefore use Polygon.\nAnd our Genesis Pretzels are on Ethereum',
   ],
@@ -409,7 +409,7 @@ export const whatIsAChainMessage: MessageContent = {
 
 export const connectWalletPolygonMessage: MessageContent = {
   content: [
-    'Free Pretzels are stored on the Polygon blockchain.',
+    'Sugar Pretzels are stored on the Polygon blockchain.',
     'In order to mint them, you need to connect your wallet.',
   ],
   actions: [
@@ -430,7 +430,7 @@ export const connectWalletPolygonMessage: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
+                'Metamask is not installed, please install it!\nYou are wondering what a wallet is?',
               type: MessageType.text,
             },
             newHist
@@ -471,10 +471,10 @@ export const connectWalletPolygonMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a Wallet?',
+      content: 'What is a wallet?',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a Wallet?',
+          content: 'What is a wallet?',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -485,7 +485,7 @@ export const connectWalletPolygonMessage: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -517,7 +517,7 @@ export const connectWalletPolygonMessage2: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
+                'Metamask is not installed, please install it!\nYou are wondering what a wallet is?',
               type: MessageType.text,
             },
             newHist
@@ -561,7 +561,7 @@ export const connectWalletPolygonMessage2: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -575,8 +575,8 @@ export const connectWalletPolygonMessage2: MessageContent = {
 
 export const changeChainPolygonMessage: MessageContent = {
   content: [
-    'Your Wallet is connected to the wrong Network.',
-    'Please change Chain to Polygon.',
+    'Your wallet is connected to the wrong Network.',
+    'Please change chain to Polygon.',
   ],
   actions: [
     {
@@ -610,7 +610,7 @@ export const changeChainPolygonMessage: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -623,7 +623,7 @@ export const changeChainPolygonMessage: MessageContent = {
 }
 
 export const changeChainPolygonMessage2: MessageContent = {
-  content: ['Great, now let us switch Chain.'],
+  content: ['Great, now let us switch chain.'],
   actions: [
     {
       content: 'Change to Polygon!',
@@ -645,7 +645,7 @@ export const changeChainPolygonMessage2: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -667,7 +667,7 @@ export const firstFreePretzelMessage: MessageContent = {
       content: 'Yes',
       onClick: async (messageContext, web3Context, contractContext) => {
         let newHist = await messageContext.addMessage({
-          content: 'Yes, give Pretzel!',
+          content: 'Yes, give pretzel!',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -683,7 +683,7 @@ export const firstFreePretzelMessage: MessageContent = {
                 'While we are baking, let me tell you a bit about Sugar Pretzels.',
                 'Which pretzel and topping you get is completely randomized.\nHowever, some traits are less common.\nIf you get toppings in the PretzelDAO CI colors, you were especially lucky!',
                 'As for the background color, we are looking at the weather data in Munich in the last day.\nThe background will depend on the temperature and the amount of rain.',
-                'Now let us wait for the Pretzel...',
+                'Now let us wait for the pretzel...',
               ],
               delay: 2000,
               type: MessageType.text,
@@ -706,7 +706,7 @@ export const firstFreePretzelMessage: MessageContent = {
             const datajson = await data.json()
             newHist = await messageContext.addMessage(
               {
-                content: 'Look at this fantastic Pretzel:',
+                content: 'Look at this fantastic pretzel:',
                 type: MessageType.text,
               },
               newHist
@@ -768,8 +768,8 @@ export const firstFreePretzelMessage: MessageContent = {
 
 export const freePretzelMessage: MessageContent = {
   content: [
-    'Since you already have your first Pretzel,\nyou will now have to pay gas yourself.',
-    'Do you still want your Pretzel?',
+    'Since you already have your first pretzel,\nyou will now have to pay gas yourself.',
+    'Do you still want your pretzel?',
   ],
   actions: [
     {
@@ -793,7 +793,7 @@ export const freePretzelMessage: MessageContent = {
                 'While we are baking, let me tell you a bit about Sugar Pretzels.',
                 'Which pretzel and topping you get is completely randomized.\nHowever, some traits are less common.\nIf you get toppings in the PretzelDAO CI colors, you were especially lucky!',
                 'As for the background color, we are looking at the weather data in Munich in the last day.\nThe background will depend on the temperature and the amount of rain.',
-                'Now let us wait for the Pretzel...',
+                'Now let us wait for the pretzel...',
               ],
               delay: 2000,
               type: MessageType.text,
@@ -822,7 +822,7 @@ export const freePretzelMessage: MessageContent = {
             console.log('adding image for ', datajson)
             newHist = await messageContext.addMessage(
               {
-                content: 'Look at this fantastic Pretzel:',
+                content: 'Look at this fantastic pretzel:',
                 type: MessageType.text,
               },
               newHist
@@ -883,7 +883,7 @@ export const freePretzelMessage: MessageContent = {
 }
 
 export const freePretzelMessage2: MessageContent = {
-  content: ['Do you also want to look at your Pretzel on Opensea?'],
+  content: ['Do you also want to look at your pretzel on Opensea?'],
   actions: [
     {
       content: 'Yes',
@@ -947,7 +947,7 @@ export const connectWalletEthereumMessage: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
+                'Metamask is not installed, please install it!\nYou are wondering what a wallet is?',
               type: MessageType.text,
             },
             newHist
@@ -988,10 +988,10 @@ export const connectWalletEthereumMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a Wallet?',
+      content: 'What is a wallet?',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a Wallet?',
+          content: 'What is a wallet?',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1002,7 +1002,7 @@ export const connectWalletEthereumMessage: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1035,7 +1035,7 @@ export const connectWalletEthereumMessage2: MessageContent = {
           newHist = await messageContext.addMessage(
             {
               content:
-                'Metamask is not installed, please install it!\nYou are wondering what a Wallet is?',
+                'Metamask is not installed, please install it!\nYou are wondering what a wallet is?',
               type: MessageType.text,
             },
             newHist
@@ -1078,7 +1078,7 @@ export const connectWalletEthereumMessage2: MessageContent = {
       content: 'Go Back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1092,8 +1092,8 @@ export const connectWalletEthereumMessage2: MessageContent = {
 
 export const changeChainEthereumMessage: MessageContent = {
   content: [
-    'Your Wallet is connected to the wrong Network.',
-    'Please change Chain to Ethereum.',
+    'Your wallet is connected to the wrong Network.',
+    'Please change chain to Ethereum.',
   ],
   actions: [
     {
@@ -1132,7 +1132,7 @@ export const changeChainEthereumMessage: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1146,7 +1146,7 @@ export const changeChainEthereumMessage: MessageContent = {
 }
 
 export const changeChainEthereumMessage2: MessageContent = {
-  content: ['Great, now let us switch Chain.'],
+  content: ['Great, now let us switch chain.'],
   actions: [
     {
       content: 'Change to Ethereum!',
@@ -1173,7 +1173,7 @@ export const changeChainEthereumMessage2: MessageContent = {
       content: 'Go back',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'I do not want a Pretzel.',
+          content: 'I do not want a pretzel.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -1226,7 +1226,7 @@ export const genesisPretzelsSoldOutMessage: MessageContent = {
 
 export const genesisPretzelMessage1: MessageContent = {
   content: [
-    'Genesis Pretzels were created by our DAO Members to collect funds \n for making more cool stuff.',
+    'Genesis Pretzels were created by us and our friends at PretzelDAO\n to collect funds for making more cool stuff.',
     'They are all unique and will be revealed on Friday 3rd of June.',
     'You can mint as many as you want. They are 0.1 eth each.',
     'If you want several, minting in bulk is cheaper. How many do you want?',
@@ -1337,7 +1337,7 @@ export const genesisPretzelMessage1: MessageContent = {
 
 export const genesisPretzelMessage2: MessageContent = {
   content: [
-    'I put your pretzel(s) in your Wallet!',
+    'I put your pretzel(s) in your wallet!',
     'You can have a look at the preview on Opensea. \nBut they will only be revealed on Friday 3rd of June.',
   ],
   actions: [
@@ -1379,7 +1379,7 @@ export const genesisPretzelMessage2: MessageContent = {
 // ******************** Error Handling *******************
 
 export const somethingWentWrongWhileMintingMessage: MessageContent = {
-  content: ['Uh oh, seams like something went wrong.'],
+  content: ['Uh oh, seems like something went wrong.'],
   actions: [
     {
       content: 'Try again',
