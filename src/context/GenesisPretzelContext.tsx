@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { CONFIG } from '../config'
 import contract from './GenesisPretzel.json'
 import { useWeb3 } from './Web3Context'
+import { BigNumber } from 'ethers'
 
 export interface IGenesisPretzelContext {
   contractRead: ethers.Contract | undefined
@@ -58,11 +59,10 @@ const GenesisPretzelProvider = ({
     console.log(contractRead)
 
     try {
-      const totalSupply = await contractRead.totalSupply()
-      const maxSupply = await contractRead.MAX_SUPPLY()
-      console.log('max sup', maxSupply)
+      const totalSupply = (await contractRead.totalSupply()) as BigNumber
+      const maxSupply = (await contractRead.MAX_SUPPLY()) as BigNumber
 
-      return totalSupply === maxSupply
+      return totalSupply.toNumber() === maxSupply.toNumber()
     } catch (error) {
       console.log(error)
       return true
