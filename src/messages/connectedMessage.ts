@@ -19,6 +19,8 @@ function buildURL(tokenId: number, collection: string) {
   return url_built
 }
 
+let TOKENID = 0
+
 function changeToInside(messageContext: any) {
   messageContext.setBackgroundColor('#ffd4a4')
   messageContext.setBackgroundColor2('#ffd4a4')
@@ -307,16 +309,18 @@ export const mainMenuMessage: MessageContent = {
 
 // ******************* Content Helper *******************
 
-export const whatIsAWalletMessage: MessageContent = {
+export const setUpMetamaskMessage: MessageContent = {
   content: [
-    'A wallet is your account on the blockchain. \nIf you have not used one before, check out this lesson on wallets:',
+    "So you don't have a wallet, yet?",
+    "No worries! If you don't know what a wallet is checkout the course by Bankless Academy.",
+    'If you just need to set up Metamask, go straight to the installation page.',
   ],
   actions: [
     {
-      content: 'Show me!',
+      content: 'Bankless Academy',
       onClick: async (messageContext, web3Context) => {
         let newHist = await messageContext.addMessage({
-          content: 'Doing the lesson now.',
+          content: 'Let me do the lesson.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -344,10 +348,42 @@ export const whatIsAWalletMessage: MessageContent = {
       },
     },
     {
-      content: 'I know everything!',
+      content: 'Metamask Chrome extension',
       onClick: async (messageContext, web3Context) => {
         let newHist = await messageContext.addMessage({
-          content: 'I know everything.',
+          content: 'Let me set up Metamask',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Great, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        if (web3Context.targetContract == 'GENESIS_PRETZEL_CONTRACT') {
+          return messageContext.addMessage(
+            connectWalletEthereumMessage2,
+            newHist
+          )
+        } else {
+          return messageContext.addMessage(
+            connectWalletPolygonMessage2,
+            newHist
+          )
+        }
+      },
+    },
+    {
+      content: 'I got everything.',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I got everything.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -436,7 +472,7 @@ export const connectWalletPolygonMessage: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -471,14 +507,14 @@ export const connectWalletPolygonMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a wallet?',
+      content: 'Set up Metamask',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a wallet?',
+          content: 'Help me set up Metamask.',
           type: MessageType.text,
           sendByUser: true,
         })
-        return messageContext.addMessage(whatIsAWalletMessage, newHist)
+        return messageContext.addMessage(setUpMetamaskMessage, newHist)
       },
     },
     {
@@ -523,7 +559,7 @@ export const connectWalletPolygonMessage2: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -691,6 +727,7 @@ export const firstFreePretzelMessage: MessageContent = {
             newHist
           )
           const tokenId = await tokenIdPromise
+          TOKENID = tokenId
           //TODO @Johannes spinning wheel?
           const mintSuccessful = tokenId >= 0
           if (!mintSuccessful) {
@@ -802,6 +839,7 @@ export const freePretzelMessage: MessageContent = {
           )
           console.log('awaiting id')
           const tokenId = await tokenIdPromise
+          TOKENID = tokenId
           console.log('got id', tokenId)
 
           //TODO @Johannes spinning wheel?
@@ -883,6 +921,43 @@ export const freePretzelMessage: MessageContent = {
 }
 
 export const freePretzelMessage2: MessageContent = {
+  content: ['Do you like your Pretzel?', 'Then spread the word on witter!'],
+  actions: [
+    {
+      content: 'Of course!',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: 'Of course!',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        // TODO @Nick think about way to store last token mint
+
+        const pretzel_id = TOKENID
+        const twitterMessage = `Look%20at%20my%20awesome%20Pretzel%20fresh%20from%20the%20bakery%21%0Ahttps%3A%2F%2Fopensea.io%2Fassets%2Fmatic%2F0xbb542c33014ea667166361213e94135dab695d9c%2F${pretzel_id}%0AThe%20first%20one%20is%20100%25%20free%2C%20and%20by%20that%20I%20mean%20even%20gasless.%0A%40PretzelDAO%20%23sugarpretzels%20%0A`
+        const url = `https://twitter.com/intent/tweet?text=${twitterMessage}`
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+    {
+      content: 'No',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: "No, I'm good.",
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+  ],
+  delay: 1000,
+  type: [MessageType.text, MessageType.text],
+}
+
+export const freePretzelMessage3: MessageContent = {
   content: ['Do you also want to look at your pretzel on Opensea?'],
   actions: [
     {
@@ -953,7 +1028,7 @@ export const connectWalletEthereumMessage: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -988,14 +1063,14 @@ export const connectWalletEthereumMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a wallet?',
+      content: 'Set up Metamask',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a wallet?',
+          content: 'Help me set up Metamask.',
           type: MessageType.text,
           sendByUser: true,
         })
-        return messageContext.addMessage(whatIsAWalletMessage, newHist)
+        return messageContext.addMessage(setUpMetamaskMessage, newHist)
       },
     },
     {
@@ -1041,7 +1116,7 @@ export const connectWalletEthereumMessage2: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
