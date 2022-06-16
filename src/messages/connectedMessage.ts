@@ -934,7 +934,7 @@ export const freePretzelMessage2: MessageContent = {
         // TODO @Nick think about way to store last token mint
 
         const pretzel_id = TOKENID
-        const twitterMessage = `Look%20at%20my%20awesome%20Pretzel%20fresh%20from%20the%20bakery%20-%20%20bakery.pretzeldao.com.%0Ahttps%3A%2F%2Fopensea.io%2Fassets%2Fmatic%2F0xbb542c33014ea667166361213e94135dab695d9c%2F${pretzel_id}%0AThe%20first%20one%20is%20100%25%20free%2C%20and%20by%20that%20I%20mean%20even%20gasless.%0A%40PretzelDAO%20%23sugarpretzels%20%0A`
+        const twitterMessage = `Look%20at%20my%20awesome%20Pretzel%20fresh%20from%20the%20bakery%21%0Ahttps%3A%2F%2Fopensea.io%2Fassets%2Fmatic%2F0xbb542c33014ea667166361213e94135dab695d9c%2F${pretzel_id}%0AThe%20first%20one%20is%20100%25%20free%2C%20and%20by%20that%20I%20mean%20even%20gasless.%0A%40PretzelDAO%20%23sugarpretzels%20%0A`
         const url = `https://twitter.com/intent/tweet?text=${twitterMessage}`
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
