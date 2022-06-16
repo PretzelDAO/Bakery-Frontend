@@ -307,16 +307,18 @@ export const mainMenuMessage: MessageContent = {
 
 // ******************* Content Helper *******************
 
-export const whatIsAWalletMessage: MessageContent = {
+export const setUpMetamaskMessage: MessageContent = {
   content: [
-    'A wallet is your account on the blockchain. \nIf you have not used one before, check out this lesson on wallets:',
+    "So you don't have a wallet, yet?",
+    "No worries! If you don't know what a wallet is checkout the course by Bankless Academy.",
+    'If you just need to set up Metamask, go straight to the installation page.',
   ],
   actions: [
     {
-      content: 'Show me!',
+      content: 'Bankless Academy',
       onClick: async (messageContext, web3Context) => {
         let newHist = await messageContext.addMessage({
-          content: 'Doing the lesson now.',
+          content: 'Let me do the lesson.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -344,10 +346,42 @@ export const whatIsAWalletMessage: MessageContent = {
       },
     },
     {
-      content: 'I know everything!',
+      content: 'Metamask Chrome extension',
       onClick: async (messageContext, web3Context) => {
         let newHist = await messageContext.addMessage({
-          content: 'I know everything.',
+          content: 'Let me set up Metamask',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        const url =
+          'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        newHist = await messageContext.addMessage(
+          {
+            content: 'Great, let me know when you are ready!',
+            type: MessageType.text,
+          },
+          newHist
+        )
+        if (web3Context.targetContract == 'GENESIS_PRETZEL_CONTRACT') {
+          return messageContext.addMessage(
+            connectWalletEthereumMessage2,
+            newHist
+          )
+        } else {
+          return messageContext.addMessage(
+            connectWalletPolygonMessage2,
+            newHist
+          )
+        }
+      },
+    },
+    {
+      content: 'I got everything.',
+      onClick: async (messageContext, web3Context) => {
+        let newHist = await messageContext.addMessage({
+          content: 'I got everything.',
           type: MessageType.text,
           sendByUser: true,
         })
@@ -436,7 +470,7 @@ export const connectWalletPolygonMessage: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -471,14 +505,14 @@ export const connectWalletPolygonMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a wallet?',
+      content: 'Set up Metamask',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a wallet?',
+          content: 'Help me set up Metamask.',
           type: MessageType.text,
           sendByUser: true,
         })
-        return messageContext.addMessage(whatIsAWalletMessage, newHist)
+        return messageContext.addMessage(setUpMetamaskMessage, newHist)
       },
     },
     {
@@ -523,7 +557,7 @@ export const connectWalletPolygonMessage2: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -953,7 +987,7 @@ export const connectWalletEthereumMessage: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
@@ -988,14 +1022,14 @@ export const connectWalletEthereumMessage: MessageContent = {
       },
     },
     {
-      content: 'What is a wallet?',
+      content: 'Set up Metamask',
       onClick: async (messageContext) => {
         const newHist = await messageContext.addMessage({
-          content: 'What is a wallet?',
+          content: 'Help me set up Metamask.',
           type: MessageType.text,
           sendByUser: true,
         })
-        return messageContext.addMessage(whatIsAWalletMessage, newHist)
+        return messageContext.addMessage(setUpMetamaskMessage, newHist)
       },
     },
     {
@@ -1041,7 +1075,7 @@ export const connectWalletEthereumMessage2: MessageContent = {
             newHist
           )
           newHist = await messageContext.addMessage(
-            whatIsAWalletMessage,
+            setUpMetamaskMessage,
             newHist
           )
 
