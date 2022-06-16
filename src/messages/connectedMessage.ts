@@ -19,6 +19,8 @@ function buildURL(tokenId: number, collection: string) {
   return url_built
 }
 
+let TOKENID = 0
+
 function changeToInside(messageContext: any) {
   messageContext.setBackgroundColor('#ffd4a4')
   messageContext.setBackgroundColor2('#ffd4a4')
@@ -725,6 +727,7 @@ export const firstFreePretzelMessage: MessageContent = {
             newHist
           )
           const tokenId = await tokenIdPromise
+          TOKENID = tokenId
           //TODO @Johannes spinning wheel?
           const mintSuccessful = tokenId >= 0
           if (!mintSuccessful) {
@@ -836,6 +839,7 @@ export const freePretzelMessage: MessageContent = {
           )
           console.log('awaiting id')
           const tokenId = await tokenIdPromise
+          TOKENID = tokenId
           console.log('got id', tokenId)
 
           //TODO @Johannes spinning wheel?
@@ -917,6 +921,43 @@ export const freePretzelMessage: MessageContent = {
 }
 
 export const freePretzelMessage2: MessageContent = {
+  content: ['Do you like your Pretzel?', 'Then spread the word on witter!'],
+  actions: [
+    {
+      content: 'Of course!',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: 'Of course!',
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        // TODO @Nick think about way to store last token mint
+
+        const pretzel_id = TOKENID
+        const twitterMessage = `Look%20at%20my%20awesome%20Pretzel%20fresh%20from%20the%20bakery%20-%20%20bakery.pretzeldao.com.%0Ahttps%3A%2F%2Fopensea.io%2Fassets%2Fmatic%2F0xbb542c33014ea667166361213e94135dab695d9c%2F${pretzel_id}%0AThe%20first%20one%20is%20100%25%20free%2C%20and%20by%20that%20I%20mean%20even%20gasless.%0A%40PretzelDAO%20%23sugarpretzels%20%0A`
+        const url = `https://twitter.com/intent/tweet?text=${twitterMessage}`
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+    {
+      content: 'No',
+      onClick: async (messageContext) => {
+        const newHist = await messageContext.addMessage({
+          content: "No, I'm good.",
+          type: MessageType.text,
+          sendByUser: true,
+        })
+        return messageContext.addMessage(freePretzelMessage3, newHist)
+      },
+    },
+  ],
+  delay: 1000,
+  type: [MessageType.text, MessageType.text],
+}
+
+export const freePretzelMessage3: MessageContent = {
   content: ['Do you also want to look at your pretzel on Opensea?'],
   actions: [
     {
