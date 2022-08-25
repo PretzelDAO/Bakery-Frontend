@@ -15,13 +15,13 @@
 
 ## Why Sugar Pretzels?
 
-NFTs have, without a doubt, taken the world by storm in 2021. Whilst the UX/UI has taken major steps to making it as easy as possible for newcomers to join the NFT-craze, the overall experience can still feel disconnected.
+NFTs have, without a doubt, taking the world by storm in 2021. While the UX/UI has taken significant steps to make it easy for newcomers to join the NFT-craze, the overall experience can still feel disconnected.
 
-First, the **transaction experience (TX)** is still rough. Especially for newcomers, gas fees are difficult to comprehend and an easy barrier for onboarding. After all, in the real-world there is no such thing as a visible gas fee.
+First, the transaction experience (TX) is still rough. Especially for newcomers, gas fees are challenging to comprehend and an easy barrier for onboarding. After all, in the real world, there is no such thing as a visible gas fee.
 
-Second, we associate exciting moments with emotional memory markers - such as the weather at the time of an event, the people we are with, and on a higher level the state of the world. Right now, the NFT minting experience is disconnected from the real-world - it lacks the **emotional experience (EX)**.
+Second, we associate exciting moments with emotional memory markers - such as the weather at the time of an event, the people we are with, and on a higher level, the state of the world. Right now, the NFT minting experience is disconnected from the real world - lacking emotional experience (EX).
 
-At Sugar Pretzels, we are building an **NFT collection without the gas fee barrier that interacts with the real world**. A NFT collection with a seamless transaction experience. A NFT collection that is coupled with the real-world. A NFT collection that is more than just art - it's a memory.
+At Sugar Pretzels, we are building an NFT collection without the gas fee barrier interacting with the real world. An NFT collection with a seamless transaction experience. An NFT collection that is coupled with the real world. An NFT collection is more than just art - it's a memory.
 
 ## How are Sugar Pretzels baked?
 
@@ -29,7 +29,7 @@ Sugar pretzels are baked with two main ingredients.
 
 ### Emotional Experience
 
-To connect the NFT experience with the real-world we rely on Chainlink Oracles to supply external data. We are using the AccuWeather Oracle for the weather data. Specifically, our background traits are linked, via a matrix, to the temperature and precipitation in Munich (near the Schlossgarden). We are starting with weather because, as any experienced baker will tell you, weather plays an important role in how the dough reacts during baking.
+We rely on Chainlink Oracles to supply external data to connect the NFT experience with the natural world. We are using AccuWeather Oracle for the weather data. Specifically, our background traits are linked, via a matrix, to the temperature and precipitation in Munich (near the Schlossgarden). We are starting with the weather because, as any experienced baker will tell you, weather plays a vital role in how the dough reacts during baking.
 
 ### Transaction Experience
 
